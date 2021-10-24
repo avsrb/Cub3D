@@ -37,6 +37,7 @@ clean:
 fclean:			clean
 				$(MAKE) fclean -C ./src/libft/
 				$(MAKE) clean -C ./src/minilibx_mms/
+				$(RM) libmlx.dylib
 				$(RM) $(NAME)
 				@echo "\033[32;1m\nAll created files were deleted\n\033[0m"
 
