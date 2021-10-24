@@ -6,7 +6,7 @@ SRCS			=	./src/main.c \
 
 OBJS			=	$(SRCS:.c=.o)
 
-HEADERS			=	-I./inc/ -I.src/minilibx_opengl/ -I.src/libft/inc/
+HEADERS			=	-I./inc/ -I.src/minilibx_mms/ -I.src/libft/inc/
 
 CC				=	gcc
 
@@ -16,16 +16,17 @@ CFLAGS			=	-Wall -Wextra -Werror
 
 LXFLAGS			=	-lmlx -framework OpenGL -framework AppKit
 
-LIBS			=	./src/minilibx_opengl/libmlx.a ./src/libft/libft.a
+LIBS			=	./libmlx.dylib ./src/libft/libft.a
 
 all:			$(NAME)
 
 %.o:			%.c
 				$(CC) $(CFLAGS) -c -g $< -o $@ $(HEADERS)
 
-$(NAME):		$(OBJS) ./inc/cub3d.h ./src/minilibx_opengl/mlx.h ./src/libft/inc/libft.h
-				cd ./src/libft/ && $(MAKE)
-				cd ./src/minilibx_opengl/ && $(MAKE)
+$(NAME):		$(OBJS) ./inc/cub3d.h
+				$(MAKE) -C src/libft/
+				$(MAKE) -C src/minilibx_mms/
+				cp src/minilibx_mms/libmlx.dylib .
 				$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS) $(LXFLAGS) $(HEADERS)
 
 clean:
@@ -35,7 +36,7 @@ clean:
 
 fclean:			clean
 				$(MAKE) fclean -C ./src/libft/
-				$(MAKE) clean -C ./src/minilibx_opengl/
+				$(MAKE) clean -C ./src/minilibx_mms/
 				$(RM) $(NAME)
 				@echo "\033[32;1m\nAll created files were deleted\n\033[0m"
 
