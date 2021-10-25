@@ -12,7 +12,6 @@
 
 //utils
 
-
 //parser
 char	*gnl(int fd);
 

@@ -13,6 +13,10 @@
 #ifndef MACOS_KEYBOARD_H
 # define MACOS_KEYBOARD_H
 
+# define STDIN 0
+# define STDOUT 1
+# define STDERR 1
+
 # define MOUSE_LEFT_BUTTON		1
 # define MOUSE_RIGHT_BUTTON		2
 # define MOUSE_SCROLL_BUTTON	3
