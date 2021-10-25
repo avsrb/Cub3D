@@ -2,6 +2,7 @@
 # define CUB3D_H
 
 # include <math.h>
+# include <stdio.h>
 # include <unistd.h>
 # include <string.h>
 # include <sys/errno.h>
@@ -22,13 +23,13 @@ typedef struct	s_win //структура для окна
 	int			line_l;
 	int			bpp;
 	int			en;
-}				  t_win;
+}	t_win;
 
 typedef struct	s_point // структура для точки
 {
 	int			x;
 	int			y;
-}				  t_point;
+}	t_point;
 
 typedef struct	s_plr //структура для игрока и луча
 {
@@ -37,17 +38,20 @@ typedef struct	s_plr //структура для игрока и луча
 	float		dir;
 	float		start;
 	float		end;
-}				  t_plr;
+}	t_plr;
 
 typedef struct	s_main // структура для всего вместе
 {
 	t_win		*win;
 	t_plr		*plr;
 	char		**map;
-}				  t_main;
+}	t_main;
 
 //utils
-
+void	*cb_malloc_x(size_t size);
+int		cb_return_nbr(int return_value, char *message);
+void	*cb_return_null(char *message);
+t_main	*cb_init_main_struct(t_main *data);
 
 //parser
 
