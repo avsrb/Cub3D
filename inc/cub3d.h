@@ -3,6 +3,7 @@
 
 # include <mlx.h>
 # include <math.h>
+# include <stdio.h>
 # include <unistd.h>
 # include <string.h>
 # include <sys/errno.h>
@@ -13,6 +14,6 @@
 
 
 //parser
-
+char	*gnl(int fd);
 
 #endif
