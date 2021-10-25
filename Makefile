@@ -2,7 +2,8 @@ NAME			= 	cub3D
 
 SRCS			=	./src/main.c \
 					$(wildcard ./src/parser/*.c) \
-					$(wildcard ./src/utils/*.c)
+					$(wildcard ./src/utils/*.c) \
+					$(wildcard ./src/events/*.c)
 
 OBJS			=	$(SRCS:.c=.o)
 
