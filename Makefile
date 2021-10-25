@@ -14,8 +14,6 @@ RM				=	rm -rfv
 
 CFLAGS			=	-Wall -Wextra -Werror
 
-LXFLAGS			=	-lmlx -framework OpenGL -framework AppKit
-
 LIBS			=	./libmlx.dylib ./src/libft/libft.a
 
 all:			$(NAME)
@@ -27,7 +25,7 @@ $(NAME):		$(OBJS) ./inc/cub3d.h
 				$(MAKE) -C src/libft/
 				$(MAKE) -C src/minilibx_mms/
 				cp src/minilibx_mms/libmlx.dylib .
-				$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS) $(LXFLAGS) $(HEADERS)
+				$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS) $(HEADERS)
 
 clean:
 				$(MAKE) clean -C ./src/libft/
