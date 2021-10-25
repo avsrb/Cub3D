@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   macos_keyboard.h                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: acaren <acaren@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/29 16:39:58 by acaren            #+#    #+#             */
-/*   Updated: 2021/10/23 17:45:04 by acaren           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MACOS_KEYBOARD_H
 # define MACOS_KEYBOARD_H
 
@@ -57,9 +45,9 @@
 # define MAIN_PAD_7				26
 # define MAIN_PAD_8				28
 # define MAIN_PAD_9				25
+# define MAIN_PAD_ESC			53
 # define MAIN_PAD_PLUS			24
 # define MAIN_PAD_MINUS			27
-# define MAIN_PAD_ESC			53
 # define MAIN_PAD_SPACE			49
 # define MAIN_PAD_LESS			43
 # define MAIN_PAD_MORE			47
