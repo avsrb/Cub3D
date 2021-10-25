@@ -11,8 +11,8 @@
 # include "../src/libft/inc/libft.h"
 # include "../src/minilibx_mms/mlx.h"
 
-# define WIN_WIDTH 800
-# define WIN_HEIGHT 600
+# define WIN_WIDTH 1152
+# define WIN_HEIGHT 864
 
 typedef struct	s_win //структура для окна
 {
@@ -52,6 +52,7 @@ void	*cb_malloc_x(size_t size);
 int		cb_return_nbr(int return_value, char *message);
 void	*cb_return_null(char *message);
 t_main	*cb_init_main_struct(t_main *data);
+int		cb_handle_events(t_win *win);
 
 //parser
 

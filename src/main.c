@@ -10,9 +10,7 @@ int	main(int argc, char **argv)
 	data = (t_main *)malloc(sizeof(t_main));
 	if (!data)
 		return(cb_return_nbr(1, strerror(errno)));
-	data = cb_init_main_struct(data);
-
-	printf("LET THE GAME BEGIN!!!\n"); // todo
-
-	return (0);
+	data = cb_init_main_struct(data); // инит структур win и plr в data + запуск окна 
+	cb_handle_events(data->win); // ловит нажатие X
+	mlx_loop(data->win->mlx);
 }
