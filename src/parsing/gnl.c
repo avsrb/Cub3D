@@ -1,23 +1,22 @@
 #include "../../inc/cub3d.h"
 
-char	*gnl(int fd)
+int	gnl(int fd, char **line)
 {
 	int		res;
 	int		i;
-	char	*line;
 
 	i = 0;
-	line = malloc(sizeof(*line) * 1024);
-	if (!line)
+	*line = malloc(sizeof(*line) * 1024);
+	if (!(*line))
 		return (NULL);
-	while ((res = read(fd, line + i, 1)))
+	while ((res = read(fd, *line + i, 1)))
 	{
 		if (res < 0)
 			return(NULL);
-		if (line[i] == '\n')
+		if (*line[i] == '\n')
 			break ;
 		i++;
 	}
-	line[i] = '\0';
-	return (line);
+	*line[i] = '\0';
+	return (res);
 }
