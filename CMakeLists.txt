@@ -11,7 +11,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/minilibx_mms/)
 
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -Wall")
-add_executable(Cub3D src/parsing/ft_error.c src/parsing/parsing.c src/parsing/lst.c)
+add_executable(Cub3D src/parsing/ft_error.c src/parsing/parsing.c)
 
 target_link_libraries (Cub3D ${CMAKE_CURRENT_SOURCE_DIR}/src/libft/libft.a)
 

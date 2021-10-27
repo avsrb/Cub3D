@@ -6,6 +6,7 @@
 # include <unistd.h>
 # include <string.h>
 # include <sys/errno.h>
+#include <stdbool.h>
 # include "../inc/colors.h"
 # include "../inc/macos_keyboard.h"
 # include "../src/libft/inc/libft.h"
@@ -40,12 +41,31 @@ typedef struct	s_plr //структура для игрока и луча
 	float		end;
 }	t_plr;
 
+typedef struct	s_lst
+{
+	char			*val;
+	struct s_lst	*next;
+}			t_lst;
+
+typedef struct	s_map
+{
+	char		**map;
+	char		**xpm;
+	int			floor;
+	int			cilling;
+	int			width;
+	int			height;
+	bool		param_done;
+	t_lst		*map_l;
+}		t_map;
+
 typedef struct	s_main // структура для всего вместе
 {
 	t_win		*win;
 	t_plr		*plr;
-	char		**map;
+	t_map		*map;
 }	t_main;
+
 
 //utils
 void	*cb_malloc_x(size_t size);
@@ -58,17 +78,5 @@ int		cb_handle_events(t_win *win);
 int		gnl(int fd, char **line);
 void	ft_error(char *str);
 
-//lst
-void	ft_lstadd_front(t_list **lst, t_list *new);
-void	ft_lstadd_back(t_list **lst, t_list *new);
-int		ft_lstsize(t_list *lst);
-t_list	*ft_lstnew(char *val);
-int		ft_lstmed(t_list *lst);
-t_list	*ft_lstlast(t_list *lst);
-int		ft_lstfindmin(t_list *lst);
-int		ft_lstfindmax(t_list *lst);
-void	ft_lstclear(t_list **lst);
-void	ft_lstdelone(t_list *lst);
-int	ft_lstfindindex(t_list *lst, int f);
 
 #endif
