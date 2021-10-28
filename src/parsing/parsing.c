@@ -1,82 +1,88 @@
 #include "../../inc/cub3d.h"
 
-//int	ft_wdcounter(char *str, char c)
-//{
-//	int	i;
-//	int	newstr;
-//
-//	i = 0;
-//	newstr = 0;
-//	while (str[i])
-//	{
-//		while (str[i] && str[i] == c)
-//			i++;
-//		if (str[i] && str[i] != c)
-//			newstr++;
-//		while (str[i] && str[i] != c)
-//			i++;
-//	}
-//	return (newstr);
-//}
-//
-//int	get_height(char *file_name)
-//{
-//	char	*line;
-//	int		fd;
-//	int		height;
-//
-//	fd = open(file_name, O_RDONLY);
-//	height = 0;
-//	while (get_next_line(fd, &line))
-//	{
-//		height++;
-//		free(line);
-//	}
-//	free(line);
-//	close(fd);
-//	return (height);
-//}
-//
-//int	get_width(char *file_name)
-//{
-//	char	*line;
-//	int		fd;
-//	int		width;
-//
-//	fd = open(file_name, O_RDONLY);
-//	get_next_line(fd, &line);
-//	width = ft_wdcounter(line, ' ');
-//	free(line);
-//	close(fd);
-//	return (width);
-//}
-//
-//void	fill_matrix(int *z_line, char *line)
-//{
-//	char	**nums;
-//	int		i;
-//
-//	nums = ft_split(line, ' ');
-//	i = 0;
-//	while (nums[i])
-//	{
-//		z_line[i] = ft_atoi(nums[i]);
-//		free(nums[i]);
-//		i++;
-//	}
-//	free(nums);
-//}
-//
-//void	make_map(char *file_name, t_map *data)
-//{
-//	int		fd;
-//	int		i;
-//	char	*line;
-//
-//	data->height = get_height(file_name);
-//	data->width = get_width(file_name);
+int	ft_wdcounter(char *str, char c)
+{
+	int	i;
+	int	newstr;
+
+	i = 0;
+	newstr = 0;
+	while (str[i])
+	{
+		while (str[i] && str[i] == c)
+			i++;
+		if (str[i] && str[i] != c)
+			newstr++;
+		while (str[i] && str[i] != c)
+			i++;
+	}
+	return (newstr);
+}
+
+int	get_height(t_lst *map_l)
+{
+	int		height;
+
+	height = 0;
+	while (map_l)
+	{
+		height++;
+//		if (ft_strlen(map_l->val) != ft_strlen(prev))
+//			ft_error("different height in map\n");
+		map_l = map_l->next;
+	}
+	return (height);
+}
+
+int	get_width(t_lst *map_l)
+{
+	int	width;
+	int	prev_width;
+
+	width = 0;
+	prev_width = ft_strlen(map_l->val);
+	while (map_l)
+	{
+		width = 0;
+		while (map_l->val[width])
+		{
+			width++;
+		}
+		if (width != prev_width)
+			ft_error("different width in map\n");
+		prev_width = width;
+		map_l = map_l->next;
+	}
+	return (width);
+}
+
+void	fill_matrix(int *z_line, char *line)
+{
+	char	**nums;
+	int		i;
+
+	nums = ft_split(line, ' ');
+	i = 0;
+	while (nums[i])
+	{
+		z_line[i] = ft_atoi(nums[i]);
+		free(nums[i]);
+		i++;
+	}
+	free(nums);
+}
+
+void	make_map(t_map *data)
+{
+	int	i;
+
+	i = 0;
+	data->height = get_height(data->map_l);
+	printf("%d\n", data->height);
+	data->width = get_width(data->map_l);
+	printf("%d\n", data->width);
 //	data->map = (int **)malloc(sizeof(int *) * (data->height + 1));
-//	i = 0;
+	i = 0;
 //	while (i <= data->height)
 //		data->xpm[i++] = (int *)malloc(sizeof(int) * (data->width + 1));
 //	fd = open(file_name, O_RDONLY);
@@ -92,7 +98,7 @@
 //	close(fd);
 //	free (data->xpm[i]);
 //	data->xpm[i] = NULL;
-//}
+}
 
 int	check_file(int ac, char *file, t_map *m)
 {
@@ -245,11 +251,42 @@ void	parsing_param(int fd, t_map *m)
 	while (get_next_line(fd, &line))
 	{
 		get_tex_and_color(line, m);
-		if (m->param_done == true)
+		if (m->param_done == true && *line == '1')
 			ft_lstadd_back(&m->map_l, ft_lstnew(ft_strdup(line)));
 		free(line);
 	}
 	free(line);
+}
+
+static int	cb_strchr(const char *str, int c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	check_map(t_lst *map_l)
+{
+	int	i;
+
+	while (map_l)
+	{
+		i = 0;
+		while (map_l->val[i])
+		{
+			if (!cb_strchr(" 012NEWS", map_l->val[i]))
+				ft_error("Bad symbols in map\n");
+			i++;
+		}
+		map_l = map_l->next;
+	}
 }
 
 int	parsing(int ac, char *file, t_map *m)
@@ -259,6 +296,8 @@ int	parsing(int ac, char *file, t_map *m)
 	fd = check_file(ac, file, m);
 	init(m);
 	parsing_param(fd, m);
+	check_map(m->map_l);
+	make_map(m);
 	close(fd);
 	return 0;
 }
@@ -267,19 +306,20 @@ int	parsing(int ac, char *file, t_map *m)
 int	main(int argc, char **argv)
 {
 	t_map	m;
-	int i = 0;
-	int j = 0;
-
 
 	parsing(argc, argv[1], &m);
-//	while (1)
-//		;
+
 	printf("%d\n", m.floor);
 	printf("%d\n", m.cilling);
 	printf("%s\n", m.xpm[0]);
 	printf("%s\n", m.xpm[1]);
 	printf("%s\n", m.xpm[2]);
 	printf("%s\n", m.xpm[3]);
+	while (m.map_l)
+	{
+		printf("%s\n", m.map_l->val);
+		m.map_l = m.map_l->next;
+	}
 //	while(i < m.height)
 //	{
 //		j = 0;
