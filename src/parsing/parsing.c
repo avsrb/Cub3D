@@ -1,24 +1,5 @@
 #include "../../inc/cub3d.h"
 
-int	ft_wdcounter(char *str, char c)
-{
-	int	i;
-	int	newstr;
-
-	i = 0;
-	newstr = 0;
-	while (str[i])
-	{
-		while (str[i] && str[i] == c)
-			i++;
-		if (str[i] && str[i] != c)
-			newstr++;
-		while (str[i] && str[i] != c)
-			i++;
-	}
-	return (newstr);
-}
-
 int	get_height(t_lst *map_l)
 {
 	int		height;
@@ -27,8 +8,6 @@ int	get_height(t_lst *map_l)
 	while (map_l)
 	{
 		height++;
-//		if (ft_strlen(map_l->val) != ft_strlen(prev))
-//			ft_error("different height in map\n");
 		map_l = map_l->next;
 	}
 	return (height);
@@ -56,48 +35,50 @@ int	get_width(t_lst *map_l)
 	return (width);
 }
 
-void	fill_matrix(int *z_line, char *line)
+char	*spacecutter(char *str)
 {
-	char	**nums;
-	int		i;
+	char	*pStr = str;
+	int		i = 0;
 
-	nums = ft_split(line, ' ');
-	i = 0;
-	while (nums[i])
+	while (*str != '\0')
 	{
-		z_line[i] = ft_atoi(nums[i]);
-		free(nums[i]);
+		if (*str != ' ')
+		{
+			pStr[i] = *str;
+			i++;
+		}
+		str++;
+	}
+	pStr[i] = '\0';
+	return(pStr);
+}
+
+void	fill_matrix(t_map *map, t_lst **map_l)
+{
+	int		i;
+	t_lst	*lst;
+
+	lst = *map_l;
+	i = 0;
+	while (lst)
+	{
+//		if (i == 0 || i == map->height) дописать проверку на стену сверху и внизу
+//				ft_error("Not wall in map1\n");
+		if (lst->val[0] != '1' ||  lst->val[ft_strlen(lst->val) - 1] != '1')
+			ft_error("Not wall in map\n");
+		map->map[i] = ft_strdup(spacecutter(lst->val));
+		lst = lst->next;
 		i++;
 	}
-	free(nums);
 }
 
 void	make_map(t_map *data)
 {
-	int	i;
-
-	i = 0;
 	data->height = get_height(data->map_l);
-	printf("%d\n", data->height);
 	data->width = get_width(data->map_l);
-	printf("%d\n", data->width);
-//	data->map = (int **)malloc(sizeof(int *) * (data->height + 1));
-	i = 0;
-//	while (i <= data->height)
-//		data->xpm[i++] = (int *)malloc(sizeof(int) * (data->width + 1));
-//	fd = open(file_name, O_RDONLY);
-//	i = 0;
-//	while (get_next_line(fd, &line))
-//	{
-//		if (line[0] == '1')
-//			fill_matrix(data->xpm[i], line);
-//		free(line);
-//		i++;
-//	}
-//	free(line);
-//	close(fd);
-//	free (data->xpm[i]);
-//	data->xpm[i] = NULL;
+	data->map = malloc(sizeof(char *) * (data->height + 1));
+	fill_matrix(data, &data->map_l);
+	data->map[data->height] = NULL;
 }
 
 int	check_file(int ac, char *file, t_map *m)
@@ -289,6 +270,35 @@ void	check_map(t_lst *map_l)
 	}
 }
 
+int	find_player(t_map *m)
+{
+	int	i;
+	int	i1;
+	int player;
+
+	i = 0;
+	i1 = 0;
+	player = 0;
+	while (m->map[i])
+	{
+		i1 = 0;
+		while (m->map[i][i1])
+		{
+			if (m->map[i][i1] == 'N')
+				player++;
+			if (m->map[i][i1] == 'S')
+				player++;
+			if (m->map[i][i1] == 'W')
+				player++;
+			if (m->map[i][i1] == 'E')
+				player++;
+			i1++;
+		}
+		i++;
+	}
+	return (player != 1);
+}
+
 int	parsing(int ac, char *file, t_map *m)
 {
 	int		fd;
@@ -298,6 +308,8 @@ int	parsing(int ac, char *file, t_map *m)
 	parsing_param(fd, m);
 	check_map(m->map_l);
 	make_map(m);
+	if (find_player(m))
+		ft_error("More players\n");
 	close(fd);
 	return 0;
 }
@@ -306,6 +318,7 @@ int	parsing(int ac, char *file, t_map *m)
 int	main(int argc, char **argv)
 {
 	t_map	m;
+	int i = 0;
 
 	parsing(argc, argv[1], &m);
 
@@ -315,22 +328,11 @@ int	main(int argc, char **argv)
 	printf("%s\n", m.xpm[1]);
 	printf("%s\n", m.xpm[2]);
 	printf("%s\n", m.xpm[3]);
-	while (m.map_l)
+	while (m.map[i])
 	{
-		printf("%s\n", m.map_l->val);
-		m.map_l = m.map_l->next;
+		printf("%s\n", m.map[i]);
+		i++;
 	}
-//	while(i < m.height)
-//	{
-//		j = 0;
-//		while(j < m.width)
-//		{
-//			printf("%3d", m.map[i][j]);
-//			j++;
-//		}
-//		printf("\n");
-//		i++;
-//	}
 	return (0);
 }
 
