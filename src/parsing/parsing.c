@@ -27,6 +27,7 @@ void	init(t_map *m)
 	m->cilling = 0;
 	m->width = 0;
 	m->height = 0;
+	m->map_l = NULL;
 	m->xpm = malloc(sizeof(char *) * 4);
 	if (!m->xpm)
 		ft_error(NULL);
@@ -46,9 +47,12 @@ void	parsing_param(int fd, t_map *m)
 		get_tex_and_color(line, m);
 		if (m->param_done == true)
 		{
-			scrubbed_str = spacecutter(line);
-			if (scrubbed_str != NULL)
-				ft_lstadd_back(&m->map_l, ft_lstnew(ft_strdup(scrubbed_str)));
+			if (ft_strlen(line) == 0 && !m->map_l)
+			{
+				free(line);
+				continue;
+			}
+			ft_lstadd_back(&m->map_l, ft_lstnew(ft_strdup(line)));
 		}
 		free(line);
 	}
@@ -78,7 +82,7 @@ void	check_map(t_lst *map_l)
 		i = 0;
 		while (map_l->val[i])
 		{
-			if (!cb_strchr(" 012NEWS", map_l->val[i]))
+			if (!cb_strchr(" 01NEWS", map_l->val[i]))
 				ft_error("bad symbols in map\n");
 			i++;
 		}
@@ -127,6 +131,8 @@ int	parsing(int ac, char *file, t_map *m)
 	make_map(m);
 	if (double_player(m))
 		ft_error("the player must be alone\n");
+	if (m->param_done = false)
+		ft_error("map not valid\n");
 	return (0);
 }
 

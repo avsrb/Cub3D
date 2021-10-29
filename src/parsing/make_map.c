@@ -70,23 +70,28 @@ int	is_one(char *str)
 void	fill_matrix(t_map *map, t_lst **map_l)
 {
 	int		i;
+	int		start;
 	t_lst	*lst;
 
 	lst = *map_l;
 	i = 0;
+	start = 0;
 	while (lst)
 	{
-		if (lst->val[0] != '1' || lst->val[ft_strlen(lst->val) - 1] != '1')
-			ft_error("not wall in map NO or SO\n");
-		map->map[i] = ft_strdup(spacecutter(lst->val));
-		if (i == 0)
-			if (is_one(map->map[i]))
-				ft_error("not wall in map WE or EA\n");
+		start = 0;
+		while (lst->val[start] == ' ' || lst->val[start] == '\t')
+			start++;
+//		if (lst->val[start] != '1' || (lst->val[ft_strlen(lst->val) - 1] != '1'))
+//			ft_error("not wall in map NO or SO\n");
+		map->map[i] = ft_strdup(lst->val);
+//		if (i == 0)
+//			if (is_one(map->map[i]))
+//				ft_error("not wall in map WE or EA\n");
 		lst = lst->next;
 		i++;
 	}
-	if (is_one(map->map[i - 1]))
-		ft_error("not wall in map WE or EA\n");
+//	if (is_one(map->map[i - 1]))
+//		ft_error("not wall in map WE or EA\n");
 	ft_lstclear(map_l);
 }
 
