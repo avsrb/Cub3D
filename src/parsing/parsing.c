@@ -85,6 +85,7 @@ int	check_file(int ac, char *file, t_map *m)
 {
 	int	fd = 0;
 
+	(void)m;
 	if (ac != 2)
 		ft_error(NULL);
 	if (ft_strncmp(file + (ft_strlen(file) - 4), ".cub", 4) || ft_strlen(file) < 4)
@@ -137,6 +138,7 @@ int	get_color(char *str, t_map *m)
 	char	*not_space;
 	int		i;
 
+	(void)m;
 	i = -1;
 	not_space = ft_strtrim(str, " ");
 	if (counter_comas(str) != 2)
@@ -185,6 +187,11 @@ void	init(t_map *m)
 
 	i = 0;
 	m->param_done = false;
+	m->map = NULL;
+	m->floor = 0;
+	m->cilling = 0;
+	m->width = 0;
+	m->height = 0;
 	m->xpm = malloc(sizeof(char *) * 4);
 	if (!m->xpm)
 		ft_error(NULL);
@@ -315,24 +322,24 @@ int	parsing(int ac, char *file, t_map *m)
 }
 
 
-int	main(int argc, char **argv)
-{
-	t_map	m;
-	int i = 0;
+//int	main(int argc, char **argv)
+//{
+//	t_map	m;
+//	int i = 0;
 
-	parsing(argc, argv[1], &m);
+//	parsing(argc, argv[1], &m);
 
-	printf("%d\n", m.floor);
-	printf("%d\n", m.cilling);
-	printf("%s\n", m.xpm[0]);
-	printf("%s\n", m.xpm[1]);
-	printf("%s\n", m.xpm[2]);
-	printf("%s\n", m.xpm[3]);
-	while (m.map[i])
-	{
-		printf("%s\n", m.map[i]);
-		i++;
-	}
-	return (0);
-}
+//	printf("%d\n", m.floor);
+//	printf("%d\n", m.cilling);
+//	printf("%s\n", m.xpm[0]);
+//	printf("%s\n", m.xpm[1]);
+//	printf("%s\n", m.xpm[2]);
+//	printf("%s\n", m.xpm[3]);
+//	while (m.map[i])
+//	{
+//		printf("%s\n", m.map[i]);
+//		i++;
+//	}
+//	return (0);
+//}
 

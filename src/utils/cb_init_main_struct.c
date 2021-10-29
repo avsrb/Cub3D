@@ -2,17 +2,20 @@
 
 static void	init_mlx(t_win *win)
 {
-	win->mlx = mlx_init();
-	if (win->mlx == NULL)
+	win->win_width = WIN_WIDTH;
+	win->win_height = WIN_HEIGHT;
+	win->mlx_ptr = mlx_init();
+	if (win->mlx_ptr == NULL)
 	{
-		free(win->mlx);
+		free(win->mlx_ptr);
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
-	win->win = mlx_new_window(win->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
-	if (win->win == NULL)
+	win->win_ptr = mlx_new_window(win->mlx_ptr, win->win_width,
+			win->win_height, "cub3D");
+	if (win->win_ptr == NULL)
 	{
-		free(win->win);
+		free(win->win_ptr);
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}

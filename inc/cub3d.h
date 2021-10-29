@@ -6,7 +6,7 @@
 # include <unistd.h>
 # include <string.h>
 # include <sys/errno.h>
-#include <stdbool.h>
+# include <stdbool.h>
 # include "../inc/colors.h"
 # include "../inc/macos_keyboard.h"
 # include "../src/libft/inc/libft.h"
@@ -17,10 +17,12 @@
 
 typedef struct	s_win //структура для окна
 {
-	void		*mlx;
-	void		*win;
-	void		*img;
+	void		*mlx_ptr;
+	void		*win_ptr;
+	void		*img_ptr;
 	void		*addr;
+	int			win_width;
+	int			win_height;
 	int			line_l;
 	int			bpp;
 	int			en;
@@ -66,17 +68,21 @@ typedef struct	s_main // структура для всего вместе
 	t_map		*map;
 }	t_main;
 
-
 //utils
 void	*cb_malloc_x(size_t size);
 int		cb_return_nbr(int return_value, char *message);
 void	*cb_return_null(char *message);
 t_main	*cb_init_main_struct(t_main *data);
+
+//events & keys
 int		cb_handle_events(t_win *win);
+int		cb_terminate(t_win *win);
+int		cb_handle_keyboard(int key, t_main *data);
 
 //parser
 int		gnl(int fd, char **line);
 void	ft_error(char *str);
+int		parsing(int ac, char *file, t_map *m);
 
 
 #endif

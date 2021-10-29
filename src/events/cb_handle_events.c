@@ -1,15 +1,15 @@
 #include "../../inc/cub3d.h"
 
-int	terminate(t_win *win)
+int	cb_terminate(t_win *win)
 {
-	mlx_destroy_window(win->mlx, win->win);
-	win->win = NULL;
+	mlx_destroy_window(win->mlx_ptr, win->win_ptr);
+	win->win_ptr = NULL;
 	ft_putendl_fd("Adios, amigo!", STDOUT_FILENO);
 	exit (0);
 }
 
 int	cb_handle_events(t_win *win)
 {
-	mlx_hook(win->win, 17, 0, &terminate, win);
+	mlx_hook(win->win_ptr, 17, 0, &cb_terminate, win);
 	return (0);
 }
