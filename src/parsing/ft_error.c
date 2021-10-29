@@ -2,7 +2,7 @@
 
 void	ft_error(char *str)
 {
-//	ft_putendl_fd("Error", STDERR);
+	ft_putstr_fd("Error: ", STDERR);
 	if (str)
 	{
 		ft_putendl_fd(str, STDERR);

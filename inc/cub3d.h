@@ -75,8 +75,18 @@ t_main	*cb_init_main_struct(t_main *data);
 int		cb_handle_events(t_win *win);
 
 //parser
-int		gnl(int fd, char **line);
+void	ft_lstdelone(t_lst *lst);
+void	ft_lstclear(t_lst **lst);
+void	ft_lstadd_back(t_lst **head, t_lst *new);
+t_lst	*ft_lstnew(char *content);
 void	ft_error(char *str);
+
+//get_tex_and_color
+void	get_tex_and_color(char *str, t_map *m);
+
+// make_map
+void	make_map(t_map *data);
+char	*spacecutter(char *str);
 
 
 #endif
