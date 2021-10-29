@@ -1,6 +1,6 @@
 #include "../../inc/cub3d.h"
 
-int	check_file(int ac, char *file, t_map *m)
+int	check_file(int ac, char *file)
 {
 	int	fd;
 
@@ -119,7 +119,7 @@ int	parsing(int ac, char *file, t_map *m)
 {
 	int	fd;
 
-	fd = check_file(ac, file, m);
+	fd = check_file(ac, file);
 	init(m);
 	parsing_param(fd, m);
 	close(fd);

@@ -86,6 +86,10 @@ void	ft_lstadd_back(t_lst **head, t_lst *new);
 t_lst	*ft_lstnew(char *content);
 void	ft_error(char *str);
 int		parsing(int ac, char *file, t_map *m);
+char	*spacecutter(char *str);
+void	parsing_param(int fd, t_map *m);
+void	get_tex_and_color(char *str, t_map *m);
+void	make_map(t_map *data);
 
 //get_tex_and_color
 void	get_tex_and_color(char *str, t_map *m);
