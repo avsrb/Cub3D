@@ -86,31 +86,31 @@ void	check_map(t_lst *map_l)
 	}
 }
 
-int	find_player(t_map *m)
+int	double_player(t_map *m)
 {
-	int	i;
-	int	i1;
+	int	y;
+	int	x;
 	int	player;
 
-	i = 0;
-	i1 = 0;
+	y = 0;
+	x = 0;
 	player = 0;
-	while (m->map[i])
+	while (m->map[y])
 	{
-		i1 = 0;
-		while (m->map[i][i1])
+		x = 0;
+		while (m->map[y][x])
 		{
-			if (m->map[i][i1] == 'N')
+			if (m->map[y][x] == 'N')
 				player++;
-			if (m->map[i][i1] == 'S')
+			if (m->map[y][x] == 'S')
 				player++;
-			if (m->map[i][i1] == 'W')
+			if (m->map[y][x] == 'W')
 				player++;
-			if (m->map[i][i1] == 'E')
+			if (m->map[y][x] == 'E')
 				player++;
-			i1++;
+			x++;
 		}
-		i++;
+		y++;
 	}
 	return (player != 1);
 }
@@ -125,7 +125,7 @@ int	parsing(int ac, char *file, t_map *m)
 	close(fd);
 	check_map(m->map_l);
 	make_map(m);
-	if (find_player(m))
+	if (double_player(m))
 		ft_error("the player must be alone\n");
 	return (0);
 }

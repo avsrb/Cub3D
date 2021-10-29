@@ -35,7 +35,7 @@ static int	create_trgb(int t, int r, int g, int b)
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
-int	get_color(char *str, t_map *m)
+int	get_color(char *str)
 {
 	char	**arr;
 	int		color[3];
@@ -62,9 +62,9 @@ void	get_tex_and_color(char *str, t_map *m)
 	while (*str == ' ' || *str == '\t')
 		str++;
 	if (!ft_strncmp(str, "F ", 2))
-		m->floor = get_color(spacecutter(str + 2), m);
+		m->floor = get_color(spacecutter(str + 2));
 	else if (!ft_strncmp(str, "C ", 2))
-		m->cilling = get_color(spacecutter(str + 2), m);
+		m->cilling = get_color(spacecutter(str + 2));
 	else if (!(ft_strncmp(str, "NO ", 3)))
 		m->xpm[0] = ft_strdup(spacecutter(str + 3));
 	else if (!(ft_strncmp(str, "SO ", 3)))

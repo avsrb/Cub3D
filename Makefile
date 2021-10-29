@@ -1,7 +1,7 @@
 NAME			= 	cub3D
 
 SRCS			=	./src/main.c \
-					$(wildcard ./src/parsing/*.c) \
+					$(wildcard ./src/parsing/*.c)\
 					$(wildcard ./src/utils/*.c) \
 					$(wildcard ./src/events/*.c)
 
