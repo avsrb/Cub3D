@@ -92,7 +92,45 @@ void	fill_matrix(t_map *map, t_lst **map_l)
 	}
 //	if (is_one(map->map[i - 1]))
 //		ft_error("not wall in map WE or EA\n");
+	map->map[i] = NULL;
 	ft_lstclear(map_l);
+}
+
+int		check_wall(char **map, int x, int y)
+{
+//	while (map[y][x])
+//	{
+//		x = 0;
+//		while(map[y][x] == ' ')
+//		{
+//			x++;
+//		}
+//		if (map[y][x] != '1')
+//				return (1);
+//		y++;
+//	}
+	return (0);
+}
+
+void	check_map(char **map)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	x = 0;
+//	while (map[y][x])
+//	{
+//		while(map[y][x])
+//		{
+//			x = 0;
+//			if (map[y][x] == ' ')
+//				if (check_wall(map, x, y))
+//					ft_error(NULL);
+//			x++;
+//		}
+//		y++;
+//	}
 }
 
 void	make_map(t_map *data)
@@ -100,6 +138,7 @@ void	make_map(t_map *data)
 	data->height = get_height(data->map_l);
 	data->map = malloc(sizeof(char *) * (data->height + 1));
 	fill_matrix(data, &data->map_l);
+	check_map(data->map);
 	//	data->width = get_width(data->map);
-	data->map[data->height] = NULL;
+
 }

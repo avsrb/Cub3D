@@ -38,11 +38,9 @@ void	init(t_map *m)
 void	parsing_param(int fd, t_map *m)
 {
 	char	*line;
-	char	*scrubbed_str;
 
 	line = NULL;
-	scrubbed_str = NULL;
-	while (get_next_line(fd, &line))
+	while (gnl(fd, &line))
 	{
 		get_tex_and_color(line, m);
 		if (m->param_done == true)
@@ -73,7 +71,7 @@ static int	cb_strchr(const char *str, int c)
 	return (0);
 }
 
-void	check_map(t_lst *map_l)
+void	check_simbol(t_lst *map_l)
 {
 	int	i;
 
@@ -127,32 +125,32 @@ int	parsing(int ac, char *file, t_map *m)
 	init(m);
 	parsing_param(fd, m);
 	close(fd);
-	check_map(m->map_l);
+	check_simbol(m->map_l);
 	make_map(m);
 	if (double_player(m))
 		ft_error("the player must be alone\n");
-	if (m->param_done = false)
+	if (m->param_done == false)
 		ft_error("map not valid\n");
 	return (0);
 }
 
-//int	main(int argc, char **argv)
-//{
-//	t_map	m;
-//	int		i;
-//
-//	i = 0;
-//	parsing(argc, argv[1], &m);
-//	printf("%d\n", m.floor);
-//	printf("%d\n", m.cilling);
-//	printf("%s\n", m.xpm[0]);
-//	printf("%s\n", m.xpm[1]);
-//	printf("%s\n", m.xpm[2]);
-//	printf("%s\n", m.xpm[3]);
-//	while (m.map[i])
-//	{
-//		printf("%s\n", m.map[i]);
-//		i++;
-//	}
-//	return (0);
-//}
+int	main(int argc, char **argv)
+{
+	t_map	m;
+	int		i;
+
+	i = 0;
+	parsing(argc, argv[1], &m);
+	printf("%d\n", m.floor);
+	printf("%d\n", m.cilling);
+	printf("%s\n", m.xpm[0]);
+	printf("%s\n", m.xpm[1]);
+	printf("%s\n", m.xpm[2]);
+	printf("%s\n", m.xpm[3]);
+	while (m.map[i])
+	{
+		printf("%s\n", m.map[i]);
+		i++;
+	}
+	return (0);
+}

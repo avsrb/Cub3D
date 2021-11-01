@@ -80,6 +80,7 @@ int		cb_terminate(t_win *win);
 int		cb_handle_keyboard(int key, t_main *data);
 
 //parser
+int		gnl(int fd, char **line);
 void	ft_lstdelone(t_lst *lst);
 void	ft_lstclear(t_lst **lst);
 void	ft_lstadd_back(t_lst **head, t_lst *new);
