@@ -6,13 +6,16 @@ int	check_file(int ac, char *file)
 
 	fd = -1;
 	if (ac != 2)
-		ft_error(NULL);
+		ft_error("use './cub maps/org.cud'");
 	if (ft_strncmp(file + (ft_strlen(file) - 4), ".cub", 4) \
 		|| ft_strlen(file) < 4)
 		ft_error("use map with '.cub'");
 	fd = open(file, O_RDONLY);
-	if (fd < 0)
+	if (fd < 0 || read(fd, NULL, 0) < 0)
+	{
 		ft_error(NULL);
+		close(fd);
+	}
 	return (fd);
 }
 
@@ -21,6 +24,7 @@ void	init(t_map *m)
 	int	i;
 
 	i = 0;
+	m->param_done = 0;
 	m->param_done = false;
 	m->map = NULL;
 	m->floor = 0;
@@ -38,10 +42,16 @@ void	init(t_map *m)
 void	parsing_param(int fd, t_map *m)
 {
 	char	*line;
+	int		res;
 
 	line = NULL;
-	while (gnl(fd, &line))
+	while (true)
 	{
+		res = gnl(fd, &line);
+		if (res < 0)
+			ft_error(NULL);
+		if (!res)
+			break ;
 		get_tex_and_color(line, m);
 		if (m->param_done == true)
 		{
@@ -95,7 +105,6 @@ int	double_player(t_map *m)
 	int	player;
 
 	y = 0;
-	x = 0;
 	player = 0;
 	while (m->map[y])
 	{
@@ -117,40 +126,55 @@ int	double_player(t_map *m)
 	return (player != 1);
 }
 
-int	parsing(int ac, char *file, t_map *m)
+//void	check_open_texture(t_main *all)
+//{
+//	if (!mlx_xpm_file_to_image(all->win->win_ptr, all->map->xpm[0], 600, 600))
+//		ft_error("can`t open texture\n");
+//	if (!mlx_xpm_file_to_image(all->win->win_ptr, all->map->xpm[1], 600, 600))
+//		ft_error("can`t open texture\n");
+//	if (!mlx_xpm_file_to_image(all->win->win_ptr, all->map->xpm[2], 600, 600))
+//		ft_error("can`t open texture\n");
+//	if (!mlx_xpm_file_to_image(all->win->win_ptr, all->map->xpm[3], 600, 600))
+//		ft_error("can`t open texture\n");
+//}
+
+int	parsing(int ac, char *file, t_main *all)
 {
 	int	fd;
 
 	fd = check_file(ac, file);
-	init(m);
-	parsing_param(fd, m);
+	init(all->map);
+	parsing_param(fd, all->map);
 	close(fd);
-	check_simbol(m->map_l);
-	make_map(m);
-	if (double_player(m))
+	check_simbol(all->map->map_l);
+	make_map(all->map);
+	if (double_player(all->map))
 		ft_error("the player must be alone\n");
-	if (m->param_done == false)
+	if (all->map->param_done == false)
 		ft_error("map not valid\n");
+//	check_open_texture(all);
 	return (0);
 }
 
-int	main(int argc, char **argv)
-{
-	t_map	m;
-	int		i;
-
-	i = 0;
-	parsing(argc, argv[1], &m);
-	printf("%d\n", m.floor);
-	printf("%d\n", m.cilling);
-	printf("%s\n", m.xpm[0]);
-	printf("%s\n", m.xpm[1]);
-	printf("%s\n", m.xpm[2]);
-	printf("%s\n", m.xpm[3]);
-	while (m.map[i])
-	{
-		printf("%s\n", m.map[i]);
-		i++;
-	}
-	return (0);
-}
+//int	main(int argc, char **argv)
+//{
+//	t_main	*m = malloc(sizeof(t_main));
+//	t_map	map;
+//	m->map = &map;
+//	int		i;
+//
+//	i = 0;
+//	parsing(argc, argv[1], m);
+//	printf("%d\n", m->map->floor);
+//	printf("%d\n", m->map->cilling);
+//	printf("%s\n", m->map->xpm[0]);
+//	printf("%s\n", m->map->xpm[1]);
+//	printf("%s\n", m->map->xpm[2]);
+//	printf("%s\n", m->map->xpm[3]);
+//	while (m->map->map[i])
+//	{
+//		printf("%s\n", m->map->map[i]);
+//		i++;
+//	}
+//	return (0);
+//}

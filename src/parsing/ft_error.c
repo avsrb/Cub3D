@@ -2,9 +2,9 @@
 
 void	ft_error(char *str)
 {
-	ft_putstr_fd("Error: ", STDERR);
 	if (str)
 	{
+		ft_putstr_fd("Error: ", STDERR);
 		ft_putendl_fd(str, STDERR);
 	}
 	else

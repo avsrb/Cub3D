@@ -86,7 +86,7 @@ void	ft_lstclear(t_lst **lst);
 void	ft_lstadd_back(t_lst **head, t_lst *new);
 t_lst	*ft_lstnew(char *content);
 void	ft_error(char *str);
-int		parsing(int ac, char *file, t_map *m);
+int	parsing(int ac, char *file, t_main *all);
 
 //get_tex_and_color
 void	get_tex_and_color(char *str, t_map *m);

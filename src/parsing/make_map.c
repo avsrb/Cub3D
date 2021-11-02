@@ -98,6 +98,9 @@ void	fill_matrix(t_map *map, t_lst **map_l)
 
 int		check_wall(char **map, int x, int y)
 {
+	(void)map;
+	(void)x;
+	(void)y;
 //	while (map[y][x])
 //	{
 //		x = 0;
@@ -114,11 +117,12 @@ int		check_wall(char **map, int x, int y)
 
 void	check_map(char **map)
 {
-	int	y;
-	int	x;
-
-	y = 0;
-	x = 0;
+	(void)map;
+//	int	y;
+//	int	x;
+//
+//	y = 0;
+//	x = 0;
 //	while (map[y][x])
 //	{
 //		while(map[y][x])
@@ -140,5 +144,4 @@ void	make_map(t_map *data)
 	fill_matrix(data, &data->map_l);
 	check_map(data->map);
 	//	data->width = get_width(data->map);
-
 }
