@@ -50,8 +50,6 @@ void	parsing_param(int fd, t_map *m)
 		res = gnl(fd, &line);
 		if (res < 0)
 			ft_error(NULL);
-		if (!res)
-			break ;
 		get_tex_and_color(line, m);
 		if (m->param_done == true)
 		{
@@ -62,6 +60,8 @@ void	parsing_param(int fd, t_map *m)
 			}
 			ft_lstadd_back(&m->map_l, ft_lstnew(ft_strdup(line)));
 		}
+		if (!res)
+			break ;
 		free(line);
 	}
 	free(line);
@@ -123,7 +123,9 @@ int	double_player(t_map *m)
 		}
 		y++;
 	}
-	return (player != 1);
+	if (player > 1)
+		return (1);
+	return (0);
 }
 
 //void	check_open_texture(t_main *all)
@@ -165,16 +167,16 @@ int	parsing(int ac, char *file, t_main *all)
 //
 //	i = 0;
 //	parsing(argc, argv[1], m);
-//	printf("%d\n", m->map->floor);
-//	printf("%d\n", m->map->cilling);
-//	printf("%s\n", m->map->xpm[0]);
-//	printf("%s\n", m->map->xpm[1]);
-//	printf("%s\n", m->map->xpm[2]);
-//	printf("%s\n", m->map->xpm[3]);
-//	while (m->map->map[i])
-//	{
-//		printf("%s\n", m->map->map[i]);
-//		i++;
-//	}
+////	printf("%d\n", m->map->floor);
+////	printf("%d\n", m->map->cilling);
+////	printf("%s\n", m->map->xpm[0]);
+////	printf("%s\n", m->map->xpm[1]);
+////	printf("%s\n", m->map->xpm[2]);
+////	printf("%s\n", m->map->xpm[3]);
+////	while (m->map->map[i])
+////	{
+////		printf("%s\n", m->map->map[i]);
+////		i++;
+////	}
 //	return (0);
 //}

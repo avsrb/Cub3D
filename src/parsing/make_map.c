@@ -1,5 +1,5 @@
 #include "../../inc/cub3d.h"
-
+#define DEBUG
 int	get_height(t_lst *map_l)
 {
 	int		height;
@@ -13,23 +13,20 @@ int	get_height(t_lst *map_l)
 	return (height);
 }
 
-int	get_width(char **map)
+int	get_width(t_lst *map_l)
 {
-	int	i;
 	int	width;
-	int	prev_width;
+	int	max;
 
-	i = 0;
-	width = 0;
-	prev_width = ft_strlen(map[i]);
-	while (map[i])
+	max = 0;
+	while (map_l)
 	{
-		width = ft_strlen(map[i]);
-		if (width != prev_width)
-			ft_error("different width in map\n");
-		prev_width = width;
-		i++;
+		width = ft_strlen(map_l->val);
+		if (width > max)
+			max = width;
+		map_l = map_l->next;
 	}
+	width = max;
 	return (width);
 }
 
@@ -70,28 +67,33 @@ int	is_one(char *str)
 void	fill_matrix(t_map *map, t_lst **map_l)
 {
 	int		i;
-	int		start;
+	int 	j;
 	t_lst	*lst;
 
 	lst = *map_l;
 	i = 0;
-	start = 0;
+	map->map = calloc(map->height + 2, sizeof(char *));
+	map->map[i] = calloc(map->width + 2, sizeof(char));
+	ft_memset(map->map[0], '.', map->width + 2);
+	i = 1;
 	while (lst)
 	{
-		start = 0;
-		while (lst->val[start] == ' ' || lst->val[start] == '\t')
-			start++;
-//		if (lst->val[start] != '1' || (lst->val[ft_strlen(lst->val) - 1] != '1'))
-//			ft_error("not wall in map NO or SO\n");
-		map->map[i] = ft_strdup(lst->val);
-//		if (i == 0)
-//			if (is_one(map->map[i]))
-//				ft_error("not wall in map WE or EA\n");
+		map->map[i] = calloc(map->width + 2, sizeof(char));
+		ft_memset(map->map[i], '.', map->width + 2);
+		j = 0;
+		while (lst->val[j] != '\0' && j < map->width + 2)
+		{
+			if (lst->val[j] == ' ')
+				map->map[i][j+1] = '.';
+			else
+				map->map[i][j+1] = lst->val[j];
+			j++;
+		}
 		lst = lst->next;
 		i++;
 	}
-//	if (is_one(map->map[i - 1]))
-//		ft_error("not wall in map WE or EA\n");
+//	map->map[i] = calloc(map->width + 2, sizeof (char));
+//	ft_memset(map->map[i], '.', map->width + 2);
 	map->map[i] = NULL;
 	ft_lstclear(map_l);
 }
@@ -115,9 +117,10 @@ int		check_wall(char **map, int x, int y)
 	return (0);
 }
 
-void	check_map(char **map)
-{
-	(void)map;
+
+//void	check_map(char **map)
+//{
+
 //	int	y;
 //	int	x;
 //
@@ -135,13 +138,28 @@ void	check_map(char **map)
 //		}
 //		y++;
 //	}
-}
+//}
 
 void	make_map(t_map *data)
 {
 	data->height = get_height(data->map_l);
-	data->map = malloc(sizeof(char *) * (data->height + 1));
+	data->width = get_width(data->map_l);
 	fill_matrix(data, &data->map_l);
-	check_map(data->map);
+
+	#ifdef DEBUG
+	{
+		printf("DEBUG\n");
+		printf("################# MAP START #################\n");
+		for (int i = 0; data->map[i]; i++)
+		{
+			printf("#");
+			printf("%s", data->map[i]);
+			printf("#\n");
+		}
+		printf("################# MAP FINISH ################\n");
+	}
+	#endif
+
+//	check_map(data->map);
 	//	data->width = get_width(data->map);
 }

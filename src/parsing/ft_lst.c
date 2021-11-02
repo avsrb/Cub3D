@@ -23,7 +23,7 @@ void	ft_lstclear(t_lst **lst)
 	t_lst	*tmp;
 
 	if (lst)
-	{	
+	{
 		while (*lst)
 		{
 			tmp = (*lst)->next;
