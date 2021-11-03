@@ -36,6 +36,6 @@ t_main	*cb_init_main_struct(t_main *data)
 	init_mlx(data->win);
 	data->plr = cb_malloc_x(sizeof(t_plr));
 	init_player(data->plr);
-	data->map = cb_malloc_x(sizeof(t_map)); // todo этот момент еще нужно обдумать
+//	data->map = cb_malloc_x(sizeof(t_map)); // todo этот момент еще нужно обдумать
 	return (data);
 }

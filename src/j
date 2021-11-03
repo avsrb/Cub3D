@@ -1,7 +1,3 @@
-#include "./../inc/cub3d.h"
-
-//char worldMap[24][24]=
-//{
 //  {'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'},
 //  {'1','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','1'},
 //  {'1','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','1'},
@@ -26,63 +22,3 @@
 //  {'1','1','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','1'},
 //  {'1','1','1','1','1','1','1','1','1','0','0','0','0','0','0','0','0','0','0','0','0','0','0','1'},
 //  {'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
-//};
-
-void	cb_print_rectangle(t_main	data, int color)
-{
-	while (y < 50)
-	{
-		x = 15;
-		while (x < 50)
-		{
-			mlx_pixel_put(data->win->mlx_ptr, data->win->win_ptr, x, y, DISCO);
-			x++;
-		}
-		y++;
-	}
-}
-
-void	cb_put_map(char **map)
-{
-	int	x;
-	int	y;
-
-	int map_h = 24;//todo
-	int map_w = 24;//todo
-	y = 0;
-	while (y < map_h)
-	{
-		x = 0;
-		while (x < map_w)
-		{
-			if (x != map_w - 1)
-				fdf_put_line(data, x, y, x + 1, y);
-			if (y != map_h - 1)
-				fdf_put_line(data, x, y, x, y + 1);
-			x++;
-		}
-		y++;
-	}
-}
-
-int	main(int argc, char **argv)
-{
-	t_main	*data;
-	int x = 10;
-	int y = 15;
-	//int zoom = 21;
-	
-	(void)argc;
-	(void)argv;
-	//if (argc != 1)
-	//	return(cb_return_nbr(1, "Error: Invalid arguments"));
-	data = (t_main *)malloc(sizeof(t_main));
-	if (!data || !data->map)
-		return(cb_return_nbr(1, strerror(errno)));
-	data = cb_init_main_struct(data); // инит структур win и plr в data + запуск окна 
-//	parsing(argc, argv[1], data->map);
-	
-	cb_handle_events(data->win); // ловит нажатие X-окна
-	mlx_key_hook(data->win->win_ptr, &cb_handle_keyboard, data); // ловит ESC & NUM±
-	mlx_loop(data->win->mlx_ptr);
-}
