@@ -11,7 +11,7 @@ void	parsing_param(int fd, t_map *m)
 		res = gnl(fd, &line);
 		if (res < 0)
 			ft_error(NULL);
-		if (!ft_strlen(line) && m->height && !m->map_done)
+		if (!ft_strlen(line) && m->map_l && !m->map_done)
 			m->map_done = true;
 		if (ft_strlen(line))
 		{
