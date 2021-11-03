@@ -92,8 +92,14 @@ void	ft_error(char *str);
 int		cb_strchr(const char *str, int c);
 int		parsing(int ac, char *file, t_main *all);
 void	init(t_map *m);
+char	*spacecutter(char *str);
 
-//get_tex_and_color
+int		check_wall(char **map, int y, int x);
+int		check_double_player(t_map *m);
+void	check_map(t_map *m);
+void	check_simbol(t_lst *map_l);
+int		check_file(int ac, char *file);
+
 void	get_tex_and_color(char *str, t_map *m);
 
 // make_map

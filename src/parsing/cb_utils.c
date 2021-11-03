@@ -33,3 +33,25 @@ void	init(t_map *m)
 	while (++i < 5)
 		m->xpm[i] = NULL;
 }
+
+char	*spacecutter(char *str)
+{
+	char	*pstr;
+	int		i;
+
+	pstr = str;
+	i = 0;
+	if (*str == '\0')
+		return (NULL);
+	while (*str != '\0')
+	{
+		if (*str != ' ')
+		{
+			pstr[i] = *str;
+			i++;
+		}
+		str++;
+	}
+	pstr[i] = '\0';
+	return (pstr);
+}

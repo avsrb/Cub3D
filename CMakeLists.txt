@@ -20,7 +20,7 @@ FILE(GLOB SRC
 
 
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -Wall")
-add_executable(Cub3D ${SRC} src/parsing/cb_utils.c)
+add_executable(Cub3D ${SRC} src/parsing/cb_utils.c src/parsing/cb_check.c)
 
 target_link_libraries (Cub3D ${CMAKE_CURRENT_SOURCE_DIR}/src/libft/libft.a)
 target_link_libraries (Cub3D ${CMAKE_CURRENT_SOURCE_DIR}/src/minilibx_mms/libmlx.dylib)
