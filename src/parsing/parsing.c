@@ -16,7 +16,7 @@ void	parsing_param(int fd, t_map *m)
 		if (ft_strlen(line))
 		{
 			if (m->map_done)
-				ft_error("line empty in the map\n");
+				ft_error("invalid map\n");
 			if (m->param_done == true)
 				ft_lstadd_back(&m->map_l, ft_lstnew(ft_strdup(line)));
 			else

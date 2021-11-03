@@ -34,8 +34,6 @@ void	check_map(t_map *m)
 		{
 			if (cb_strchr("0NEWS", map[y][x]) && check_wall(map, y, x))
 				ft_error("there is a door to a parallel universe\n");
-			if (ft_strlen(map[y]))
-				ft_error("line empty in the map\n");
 		}
 	}
 }
