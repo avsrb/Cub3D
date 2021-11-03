@@ -64,7 +64,7 @@ void	get_tex_and_color(char *str, t_map *m)
 	if (!ft_strncmp(str, "F ", 2))
 		m->floor = get_color(spacecutter(str + 2));
 	else if (!ft_strncmp(str, "C ", 2))
-		m->cilling = get_color(spacecutter(str + 2));
+		m->ceiling = get_color(spacecutter(str + 2));
 	else if (!(ft_strncmp(str, "NO ", 3)))
 		m->xpm[0] = ft_strdup(spacecutter(str + 3));
 	else if (!(ft_strncmp(str, "SO ", 3)))
@@ -75,6 +75,6 @@ void	get_tex_and_color(char *str, t_map *m)
 		m->xpm[3] = ft_strdup(spacecutter(str + 3));
 	else
 		ft_error("not enough parameters\n");
-	m->param_done = (m->floor >= 0 && m->cilling >= 0 && m->xpm[0]
+	m->param_done = (m->floor >= 0 && m->ceiling >= 0 && m->xpm[0]
 			&& m->xpm[1] && m->xpm[2] && m->xpm[2]);
 }

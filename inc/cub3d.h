@@ -56,7 +56,7 @@ typedef struct	s_map
 	char		**map;
 	char		**xpm;
 	int			floor;
-	int			cilling;
+	int			ceiling;
 	int			width;
 	int			height;
 	bool		param_done;
@@ -69,6 +69,7 @@ typedef struct	s_main // структура для всего вместе
 	t_win		*win;
 	t_plr		*plr;
 	t_map		*map;
+	int			zoom;
 }	t_main;
 
 //utils
@@ -76,10 +77,11 @@ void	*cb_malloc_x(size_t size);
 int		cb_return_nbr(int return_value, char *message);
 void	*cb_return_null(char *message);
 t_main	*cb_init_main_struct(t_main *data);
+void	cb_put_flat_map(t_main *data);
 
 //events & keys
-int		cb_handle_events(t_win *win);
-int		cb_terminate(t_win *win);
+int		cb_handle_events(t_main *data);
+int		cb_terminate(t_main *data);
 int		cb_handle_keyboard(int key, t_main *data);
 
 //parser

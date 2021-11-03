@@ -30,12 +30,34 @@ static void	init_player(t_plr *plr)
 	plr->end = 0.0F;
 }
 
+static void	init_map(t_map *m)
+{
+	int	i;
+
+	i = -1;
+	m->param_done = false;
+	m->map_done = false;
+	m->map = NULL;
+	m->floor = -1;
+	m->ceiling = -1;
+	m->width = 0;
+	m->height = 0;
+	m->map_l = NULL;
+	m->xpm = malloc(sizeof(char *) * 4);
+	if (!m->xpm)
+		ft_error(NULL);
+	while (++i < 5)
+		m->xpm[i] = NULL;
+}
+
 t_main	*cb_init_main_struct(t_main *data)
 {
+	data->zoom = 21;
 	data->win = cb_malloc_x(sizeof(t_win));
 	init_mlx(data->win);
 	data->plr = cb_malloc_x(sizeof(t_plr));
 	init_player(data->plr);
-//	data->map = cb_malloc_x(sizeof(t_map)); // todo этот момент еще нужно обдумать
+	data->map = cb_malloc_x(sizeof(t_map));
+	init_map(data->map);
 	return (data);
 }

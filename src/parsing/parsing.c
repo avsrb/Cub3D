@@ -46,7 +46,7 @@ int	parsing(int ac, char *file, t_main *all)
 	int	fd;
 
 	fd = check_file(ac, file);
-	init(all->map);
+	//init(all->map);// todo перенес в cb_init_main_struct.c для единообразия
 	parsing_param(fd, all->map);
 	close(fd);
 	check_simbol(all->map->map_l);
@@ -56,5 +56,7 @@ int	parsing(int ac, char *file, t_main *all)
 		ft_error("the player must be alone\n");
 	if (all->map->param_done == false)
 		ft_error("map not valid\n");
+	all->map->width -= 2;
+	all->map->height -= 2;
 	return (0);
 }
