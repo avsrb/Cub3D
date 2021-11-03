@@ -14,6 +14,8 @@
 
 # define WIN_WIDTH 1152
 # define WIN_HEIGHT 864
+# define DEBUG
+
 
 typedef struct	s_win //структура для окна
 {
@@ -58,6 +60,7 @@ typedef struct	s_map
 	int			width;
 	int			height;
 	bool		param_done;
+	bool		map_done;
 	t_lst		*map_l;
 }		t_map;
 
@@ -86,7 +89,9 @@ void	ft_lstclear(t_lst **lst);
 void	ft_lstadd_back(t_lst **head, t_lst *new);
 t_lst	*ft_lstnew(char *content);
 void	ft_error(char *str);
-int	parsing(int ac, char *file, t_main *all);
+int		cb_strchr(const char *str, int c);
+int		parsing(int ac, char *file, t_main *all);
+void	init(t_map *m);
 
 //get_tex_and_color
 void	get_tex_and_color(char *str, t_map *m);

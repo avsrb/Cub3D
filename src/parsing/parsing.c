@@ -19,26 +19,6 @@ int	check_file(int ac, char *file)
 	return (fd);
 }
 
-void	init(t_map *m)
-{
-	int	i;
-
-	i = 0;
-	m->param_done = 0;
-	m->param_done = false;
-	m->map = NULL;
-	m->floor = 0;
-	m->cilling = 0;
-	m->width = 0;
-	m->height = 0;
-	m->map_l = NULL;
-	m->xpm = malloc(sizeof(char *) * 4);
-	if (!m->xpm)
-		ft_error(NULL);
-	while (m->xpm[i])
-		m->xpm[i] = NULL;
-}
-
 void	parsing_param(int fd, t_map *m)
 {
 	char	*line;
@@ -50,35 +30,21 @@ void	parsing_param(int fd, t_map *m)
 		res = gnl(fd, &line);
 		if (res < 0)
 			ft_error(NULL);
-		get_tex_and_color(line, m);
-		if (m->param_done == true)
+		if (!ft_strlen(line) && m->height && !m->map_done)
+			m->map_done = true;
+		if (ft_strlen(line))
 		{
-			if (ft_strlen(line) == 0 && !m->map_l)
-			{
-				free(line);
-				continue;
-			}
-			ft_lstadd_back(&m->map_l, ft_lstnew(ft_strdup(line)));
+			if (m->map_done)
+				ft_error("line empty in the map\n");
+			if (m->param_done == true)
+				ft_lstadd_back(&m->map_l, ft_lstnew(ft_strdup(line)));
+			else
+				get_tex_and_color(line, m);
 		}
+		free(line);
 		if (!res)
 			break ;
-		free(line);
 	}
-	free(line);
-}
-
-static int	cb_strchr(const char *str, int c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 void	check_simbol(t_lst *map_l)
@@ -111,13 +77,8 @@ int	double_player(t_map *m)
 		x = 0;
 		while (m->map[y][x])
 		{
-			if (m->map[y][x] == 'N')
-				player++;
-			if (m->map[y][x] == 'S')
-				player++;
-			if (m->map[y][x] == 'W')
-				player++;
-			if (m->map[y][x] == 'E')
+			if (m->map[y][x] == 'N' || m->map[y][x] == 'S'
+				|| m->map[y][x] == 'W' || m->map[y][x] == 'E')
 				player++;
 			x++;
 		}
@@ -138,7 +99,39 @@ int	double_player(t_map *m)
 //		ft_error("can`t open texture\n");
 //	if (!mlx_xpm_file_to_image(all->win->win_ptr, all->map->xpm[3], 600, 600))
 //		ft_error("can`t open texture\n");
+//
 //}
+
+int	check_wall(char **map, int y, int x)
+{
+	return ((!map[y + 1][x]||map[y + 1][x] == ' '
+			|| !map[y - 1][x]||map[y - 1][x] == ' '
+			|| !map[y][x + 1]||map[y][x + 1] == ' '
+			|| !map[y][x - 1]||map[y][x - 1] == ' '
+			|| !map[y + 1][x + 1]||map[y + 1][x + 1] == ' '
+			|| !map[y + 1][x - 1]||map[y + 1][x - 1] == ' '
+			|| !map[y - 1][x + 1]||map[y - 1][x + 1] == ' '
+			|| !map[y - 1][x - 1]||map[y - 1][x - 1] == ' '));
+}
+
+void	final_check_map(t_map *m)
+{
+	char **map;
+	int	y;
+	int	x;
+
+	map = m->map;
+	y = 0;
+	while (++y < m->height - 1)
+	{
+		x = 0;
+		while(++x < m->width - 1)
+		{
+			if (cb_strchr("0NEWS", map[y][x]) && check_wall(map, y, x))
+				ft_error("there is a door to a parallel universe\n");
+		}
+	}
+}
 
 int	parsing(int ac, char *file, t_main *all)
 {
@@ -150,33 +143,11 @@ int	parsing(int ac, char *file, t_main *all)
 	close(fd);
 	check_simbol(all->map->map_l);
 	make_map(all->map);
+
+	final_check_map(all->map);
 	if (double_player(all->map))
 		ft_error("the player must be alone\n");
-	if (all->map->param_done == false)
-		ft_error("map not valid\n");
-//	check_open_texture(all);
+	if (all->map->param_done == false)//Del
+		ft_error("map not valid\n");//Del
 	return (0);
 }
-
-//int	main(int argc, char **argv)
-//{
-//	t_main	*m = malloc(sizeof(t_main));
-//	t_map	map;
-//	m->map = &map;
-//	int		i;
-//
-//	i = 0;
-//	parsing(argc, argv[1], m);
-////	printf("%d\n", m->map->floor);
-////	printf("%d\n", m->map->cilling);
-////	printf("%s\n", m->map->xpm[0]);
-////	printf("%s\n", m->map->xpm[1]);
-////	printf("%s\n", m->map->xpm[2]);
-////	printf("%s\n", m->map->xpm[3]);
-////	while (m->map->map[i])
-////	{
-////		printf("%s\n", m->map->map[i]);
-////		i++;
-////	}
-//	return (0);
-//}

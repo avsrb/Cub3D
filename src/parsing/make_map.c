@@ -1,5 +1,5 @@
 #include "../../inc/cub3d.h"
-#define DEBUG
+
 int	get_height(t_lst *map_l)
 {
 	int		height;
@@ -66,79 +66,41 @@ int	is_one(char *str)
 
 void	fill_matrix(t_map *map, t_lst **map_l)
 {
-	int		i;
-	int 	j;
+	int		y;
+	int 	x;
 	t_lst	*lst;
 
 	lst = *map_l;
-	i = 0;
-	map->map = calloc(map->height + 2, sizeof(char *));
-	map->map[i] = calloc(map->width + 2, sizeof(char));
-	ft_memset(map->map[0], '.', map->width + 2);
-	i = 1;
-	while (lst)
+	map->width += 2;
+	map->height += 2;
+	map->map = cb_malloc_x(sizeof(char *) * map->height);
+//	map->map[0] = ft_calloc(map->width + 2, sizeof(char));
+//	ft_memset(map->map[0], ' ', map->width + 2);
+	y = 0;
+	while (y < map->height)
 	{
-		map->map[i] = calloc(map->width + 2, sizeof(char));
-		ft_memset(map->map[i], '.', map->width + 2);
-		j = 0;
-		while (lst->val[j] != '\0' && j < map->width + 2)
+		map->map[y] = calloc(map->width, sizeof(char));
+		if (y != 0 && y != (map->height - 1))
 		{
-			if (lst->val[j] == ' ')
-				map->map[i][j+1] = '.';
-			else
-				map->map[i][j+1] = lst->val[j];
-			j++;
+			ft_strlcpy(map->map[y] + 1, lst->val, map->width);
+			lst = lst->next;
 		}
-		lst = lst->next;
-		i++;
+//		ft_memset(map->map[y], '.', map->width + 2);
+//		x = 0;
+//		while (lst->val[x] != '\0'&&x < map->width + 2)
+//		{
+//			if (lst->val[x] == ' ')
+//				map->map[y][x + 1] = ' ';
+//			else
+//				map->map[y][x + 1] = lst->val[x];
+//			x++;
+//		}
+		y++;
 	}
-//	map->map[i] = calloc(map->width + 2, sizeof (char));
-//	ft_memset(map->map[i], '.', map->width + 2);
-	map->map[i] = NULL;
+	map->map[y++] = NULL;
 	ft_lstclear(map_l);
 }
 
-int		check_wall(char **map, int x, int y)
-{
-	(void)map;
-	(void)x;
-	(void)y;
-//	while (map[y][x])
-//	{
-//		x = 0;
-//		while(map[y][x] == ' ')
-//		{
-//			x++;
-//		}
-//		if (map[y][x] != '1')
-//				return (1);
-//		y++;
-//	}
-	return (0);
-}
-
-
-//void	check_map(char **map)
-//{
-
-//	int	y;
-//	int	x;
-//
-//	y = 0;
-//	x = 0;
-//	while (map[y][x])
-//	{
-//		while(map[y][x])
-//		{
-//			x = 0;
-//			if (map[y][x] == ' ')
-//				if (check_wall(map, x, y))
-//					ft_error(NULL);
-//			x++;
-//		}
-//		y++;
-//	}
-//}
 
 void	make_map(t_map *data)
 {
@@ -146,20 +108,5 @@ void	make_map(t_map *data)
 	data->width = get_width(data->map_l);
 	fill_matrix(data, &data->map_l);
 
-	#ifdef DEBUG
-	{
-		printf("DEBUG\n");
-		printf("################# MAP START #################\n");
-		for (int i = 0; data->map[i]; i++)
-		{
-			printf("#");
-			printf("%s", data->map[i]);
-			printf("#\n");
-		}
-		printf("################# MAP FINISH ################\n");
-	}
-	#endif
 
-//	check_map(data->map);
-	//	data->width = get_width(data->map);
 }
