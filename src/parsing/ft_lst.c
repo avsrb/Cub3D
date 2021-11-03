@@ -1,5 +1,14 @@
 #include "../../inc/cub3d.h"
 
+t_lst	*ft_lstlast(t_lst *lst)
+{
+	if (!lst)
+		return (lst);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
+
 void	ft_lstdelone(t_lst *lst)
 {
 	if (lst->val)
@@ -14,7 +23,7 @@ void	ft_lstclear(t_lst **lst)
 	t_lst	*tmp;
 
 	if (lst)
-	{	
+	{
 		while (*lst)
 		{
 			tmp = (*lst)->next;
@@ -24,24 +33,12 @@ void	ft_lstclear(t_lst **lst)
 	}
 }
 
-void	ft_lstadd_back(t_lst **head, t_lst *new)
+void	ft_lstadd_back(t_lst **lst, t_lst *new)
 {
-	t_lst	*last;
-
-	if (head && (*head) && new)
-	{
-		last = *head;
-		if (*head == NULL)
-			*head = new;
-		else
-		{
-			while (last->next)
-				last = last->next;
-			last->next = new;
-		}
-	}
-	else if (*head == NULL)
-		*head = new;
+	if (*lst)
+		ft_lstlast(*lst)->next = new;
+	else
+		*lst = new;
 }
 
 t_lst	*ft_lstnew(char *content)

@@ -13,88 +13,50 @@ int	get_height(t_lst *map_l)
 	return (height);
 }
 
-int	get_width(char **map)
+int	get_width(t_lst *map_l)
 {
-	int	i;
 	int	width;
-	int	prev_width;
+	int	max;
 
-	i = 0;
-	width = 0;
-	prev_width = ft_strlen(map[i]);
-	while (map[i])
+	max = 0;
+	while (map_l)
 	{
-		width = ft_strlen(map[i]);
-		if (width != prev_width)
-			ft_error("different width in map\n");
-		prev_width = width;
-		i++;
+		width = ft_strlen(map_l->val);
+		if (width > max)
+			max = width;
+		map_l = map_l->next;
 	}
+	width = max;
 	return (width);
-}
-
-char	*spacecutter(char *str)
-{
-	char	*pstr;
-	int		i;
-
-	pstr = str;
-	i = 0;
-	if (*str == '\0')
-		return (NULL);
-	while (*str != '\0')
-	{
-		if (*str != ' ')
-		{
-			pstr[i] = *str;
-			i++;
-		}
-		str++;
-	}
-	pstr[i] = '\0';
-	return (pstr);
-}
-
-int	is_one(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] == '1')
-		i++;
-	if (str[i] == '\0')
-		return (0);
-	return (1);
 }
 
 void	fill_matrix(t_map *map, t_lst **map_l)
 {
-	int		i;
+	int		y;
 	t_lst	*lst;
 
 	lst = *map_l;
-	i = 0;
-	while (lst)
+	map->width += 2;
+	map->height += 2;
+	map->map = cb_malloc_x(sizeof(char *) * map->height);
+	y = 0;
+	while (y < map->height)
 	{
-		if (lst->val[0] != '1' || lst->val[ft_strlen(lst->val) - 1] != '1')
-			ft_error("not wall in map NO or SO\n");
-		map->map[i] = ft_strdup(spacecutter(lst->val));
-		if (i == 0)
-			if (is_one(map->map[i]))
-				ft_error("not wall in map WE or EA\n");
-		lst = lst->next;
-		i++;
+		map->map[y] = calloc(map->width, sizeof(char));
+		if (y != 0 && y != (map->height - 1))
+		{
+			ft_strlcpy(map->map[y] + 1, lst->val, map->width);
+			lst = lst->next;
+		}
+		y++;
 	}
-	if (is_one(map->map[i - 1]))
-		ft_error("not wall in map WE or EA\n");
+	map->map[y++] = NULL;
 	ft_lstclear(map_l);
 }
 
 void	make_map(t_map *data)
 {
 	data->height = get_height(data->map_l);
-	data->map = malloc(sizeof(char *) * (data->height + 1));
+	data->width = get_width(data->map_l);
 	fill_matrix(data, &data->map_l);
-	//	data->width = get_width(data->map);
-	data->map[data->height] = NULL;
 }

@@ -73,10 +73,8 @@ void	get_tex_and_color(char *str, t_map *m)
 		m->xpm[2] = ft_strdup(spacecutter(str + 3));
 	else if (!(ft_strncmp(str, "EA ", 3)))
 		m->xpm[3] = ft_strdup(spacecutter(str + 3));
-	else if (m->floor && m->cilling && m->xpm[0] \
-			&& m->xpm[1] && m->xpm[2] && m->xpm[2])
-	{
-		m->param_done = true;
-		return ;
-	}
+	else
+		ft_error("not enough parameters\n");
+	m->param_done = (m->floor >= 0 && m->cilling >= 0 && m->xpm[0]
+			&& m->xpm[1] && m->xpm[2] && m->xpm[2]);
 }
