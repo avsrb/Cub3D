@@ -59,7 +59,7 @@ void	clean_map(t_map *m)
 			map_clean[i++] = ft_strdup(m->map[y] + 1);
 		free(m->map[y]);
 	}
-	map_clean[i++] = NULL;
+	map_clean[i] = NULL;
 	free(m->map);
 	m->map = map_clean;
 }
