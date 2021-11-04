@@ -24,13 +24,14 @@ static void	init_mlx(t_win *win)
 								&win->endian);
 }
 
-static void	init_player(t_plr *plr)
+static void	init_player(t_main *data)
 {
-	plr->x = 0.0F;
-	plr->y = 0.0F;
-	plr->dir = 0.0F;
-	plr->start = 0.0F;
-	plr->end = 0.0F;
+	data->plr->x = 0.0F;
+	data->plr->y = 0.0F;
+	data->plr->player_size = data->zoom / 3;
+	data->plr->dir = 0.0F;
+	data->plr->start = 0.0F;
+	data->plr->end = 0.0F;
 }
 
 static void	init_map(t_map *m)
@@ -59,7 +60,7 @@ t_main	*cb_init_main_struct(t_main *data)
 	data->win = cb_malloc_x(sizeof(t_win));
 	init_mlx(data->win);
 	data->plr = cb_malloc_x(sizeof(t_plr));
-	init_player(data->plr);
+	init_player(data);
 	data->map = cb_malloc_x(sizeof(t_map));
 	init_map(data->map);
 	return (data);

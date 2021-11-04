@@ -26,34 +26,33 @@ static int	handle_window_resize(int key, t_main *data)
 	return (0);
 }
 
-static	int	handle_arrows(int key, t_main *data)
+static void	handle_arrows(int key, t_main *data)
 {
 	if (key == ARROW_UP)
 	{
 		mlx_clear_window(data->win->mlx_ptr, data->win->win_ptr);
-		data->plr->y -= 1;
+		data->plr->y -= (1 / data->plr->player_size);
 		cb_put_flat_map(data);
 	}
 	if (key == ARROW_DOWN)
 	{
 		mlx_clear_window(data->win->mlx_ptr, data->win->win_ptr);
-		data->plr->y += 1;
+		data->plr->y += (1 / data->plr->player_size);
 		cb_put_flat_map(data);
 	}
 	if (key == ARROW_LEFT)
 	{
 		mlx_clear_window(data->win->mlx_ptr, data->win->win_ptr);
-		data->plr->x -= 1;
+		data->plr->x -= (1 / data->plr->player_size);
 		cb_put_flat_map(data);
 	}
 	if (key == ARROW_RIGHT)
 	{
 		mlx_clear_window(data->win->mlx_ptr, data->win->win_ptr);
-		data->plr->x += 1;
+		data->plr->x += (1 / data->plr->player_size);
 		cb_put_flat_map(data);
 	}
 	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr, data->win->img_ptr, 0, 0);
-	return (0);
 }
 
 int	cb_handle_keyboard(int key, t_main *data)
