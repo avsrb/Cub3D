@@ -55,7 +55,7 @@ void	clean_map(t_map *m)
 	map_clean = cb_malloc_x(sizeof(char *) * m->height);
 	while (++y < m->height + 2)
 	{
-		if (y != 0 && y != (m->height - 1))
+		if (y != 0 && y != (m->height + 1))
 			map_clean[i++] = ft_strdup(m->map[y] + 1);
 		free(m->map[y]);
 	}
