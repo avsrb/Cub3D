@@ -6,7 +6,7 @@ int	check_file(int ac, char *file)
 
 	fd = -1;
 	if (ac != 2)
-		ft_error("use './cub maps/org.cud'");
+		ft_error("use './cub maps/org.cub'");
 	if (ft_strncmp(file + (ft_strlen(file) - 4), ".cub", 4) \
 	|| ft_strlen(file) < 4)
 	ft_error("use map with '.cub'");
