@@ -38,6 +38,8 @@
 *.so
 *.so.*
 *.dylib
+*.swiftmodule
+ladev/*
 
 # Executables
 *.exe
