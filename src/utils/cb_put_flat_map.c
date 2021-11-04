@@ -8,16 +8,34 @@ static void	my_mlx_pixel_put(t_win *win, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
+static void	print_player(t_main *data, int start_x, int start_y, int color)
+{
+	int	y;
+	int	x;
+
+	y = start_y;
+	while (y < data->plr->player_size + start_y)
+	{
+		x = start_x;
+		while (x < data->plr->player_size + start_x)
+		{
+			my_mlx_pixel_put(data->win, x, y, color);
+			x++;
+		}
+		y++;
+	}
+}
+
 static void	print_rectangle(t_main *data, int start_x, int start_y, int color)
 {
 	int	y;
 	int	x;
 
 	y = start_y;
-	while (y < 21 + start_y)
+	while (y < data->zoom + start_y)
 	{
 		x = start_x;
-		while (x < 21 + start_x)
+		while (x < data->zoom + start_x)
 		{
 			my_mlx_pixel_put(data->win, x, y, color);
 			x++;
@@ -47,5 +65,5 @@ void	cb_put_flat_map(t_main *data)
 		}
 		y++;
 	}
-	print_rectangle(data, data->plr->x * data->zoom, data->plr->y * data->zoom, BLUE);
+	print_player(data, data->plr->x * data->zoom, data->plr->y * data->zoom, BLUE);
 }
