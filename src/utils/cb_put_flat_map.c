@@ -33,10 +33,10 @@ void	cb_put_flat_map(t_main *data)
 	int	y;
 
 	y = 0;
-	while (data->map->map[y])
+	while (y < data->map->height)
 	{
 		x = 0;
-		while (data->map->map[y][x])//&& data->map->map[y][x] != '\0')
+		while (x < data->map->width)//&& data->map->map[y][x] != '\0')
 		{
 			if (data->map->map[y][x] == '1')
 				print_rectangle(data, x * data->zoom, y * data->zoom, MAROON);
