@@ -1,5 +1,13 @@
 #include "../../inc/cub3d.h"
 
+static void	my_mlx_pixel_put(t_win *win, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = win->addr + (y * win->line_length + x * (win->bpp / 8));
+	*(unsigned int*)dst = color;
+}
+
 static void	print_rectangle(t_main *data, int start_x, int start_y, int color)
 {
 	int	y;
@@ -11,7 +19,8 @@ static void	print_rectangle(t_main *data, int start_x, int start_y, int color)
 		x = start_x;
 		while (x < 21 + start_x)
 		{
-			mlx_pixel_put(data->win->mlx_ptr, data->win->win_ptr, x, y, color);
+			my_mlx_pixel_put(data->win, x, y, color);
+			//mlx_pixel_put(data->win->mlx_ptr, data->win->win_ptr, x, y, color);
 			x++;
 		}
 		y++;
@@ -27,10 +36,8 @@ void	cb_put_flat_map(t_main *data)
 	while (data->map->map[y])
 	{
 		x = 0;
-		//while (x < data->map->width && worldMap[y][x] != '\0')
 		while (data->map->map[y][x])//&& data->map->map[y][x] != '\0')
 		{
-			//if (worldMap[y][x] == '1')
 			if (data->map->map[y][x] == '1')
 				print_rectangle(data, x * data->zoom, y * data->zoom, MAROON);
 			else if (data->map->map[y][x] == '0')
@@ -41,5 +48,5 @@ void	cb_put_flat_map(t_main *data)
 		}
 		y++;
 	}
-	print_rectangle(data, data->plr->x * data->zoom, data->plr->y * data->zoom, BLUE);;
+	print_rectangle(data, data->plr->x * data->zoom, data->plr->y * data->zoom, BLUE);
 }

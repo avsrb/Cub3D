@@ -20,8 +20,8 @@ static int	handle_window_resize(int key, t_main *data)
 	data->win->win_ptr = mlx_new_window(data->win->mlx_ptr, data->win->win_width,
 			data->win->win_height, "cub3D");
 	cb_put_flat_map(data);
+	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr, data->win->img_ptr, 0, 0);
 	cb_handle_events(data);
-	mlx_key_hook(data->win->win_ptr, &cb_handle_keyboard, data);
 	mlx_loop(data->win->mlx_ptr);
 	return (0);
 }
@@ -52,6 +52,7 @@ static	int	handle_arrows(int key, t_main *data)
 		data->plr->x += 1;
 		cb_put_flat_map(data);
 	}
+	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr, data->win->img_ptr, 0, 0);
 	return (0);
 }
 

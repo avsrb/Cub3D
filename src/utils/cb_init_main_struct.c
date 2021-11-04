@@ -19,6 +19,9 @@ static void	init_mlx(t_win *win)
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
+	win->img_ptr = mlx_new_image(win->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
+	win->addr = mlx_get_data_addr(win->img_ptr, &win->bpp, &win->line_length,
+								&win->endian);
 }
 
 static void	init_player(t_plr *plr)
