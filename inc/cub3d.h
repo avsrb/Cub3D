@@ -81,8 +81,8 @@ void	cb_put_flat_map(t_main *data);
 
 //events & keys
 int		cb_handle_events(t_main *data);
-int		cb_terminate(t_main *data);
 int		cb_handle_keyboard(int key, t_main *data);
+int		cb_terminate(t_main *data);
 
 //parser
 int		gnl(int fd, char **line);
