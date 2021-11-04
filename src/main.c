@@ -27,10 +27,9 @@ int	main(int argc, char **argv)
 //  printf("################# MAP FINISH ################\n");
 //}
 
-data.plr->x = 3;//todo убрать после того, как допишется парсинг координат игрока
-data.plr->y = 3;//todo убрать после того, как допишется парсинг координат игрока
 	cb_put_flat_map(&data);
 	cb_handle_events(&data); // ловит нажатие X-окна
-	mlx_key_hook(data.win->win_ptr, cb_handle_keyboard, &data); // ловит ESC & NUM±
-	mlx_loop(data.win->mlx_ptr);
+//	mlx_key_hook(data.win->win_ptr, cb_handle_keyboard, &data); // ловит ESC & NUM± // TODO я убрал это гавно
+
+mlx_loop(data.win->mlx_ptr);
 }

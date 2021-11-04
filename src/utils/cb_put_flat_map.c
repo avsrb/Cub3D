@@ -23,12 +23,12 @@ void	cb_put_flat_map(t_main *data)
 	int	x;
 	int	y;
 
-	y = 1;
-	while (y < data->map->height+1)
+	y = 0;
+	while (data->map->map[y])
 	{
-		x = 1;
+		x = 0;
 		//while (x < data->map->width && worldMap[y][x] != '\0')
-		while (x < data->map->width +1)//&& data->map->map[y][x] != '\0')
+		while (data->map->map[y][x])//&& data->map->map[y][x] != '\0')
 		{
 			//if (worldMap[y][x] == '1')
 			if (data->map->map[y][x] == '1')
@@ -41,5 +41,5 @@ void	cb_put_flat_map(t_main *data)
 		}
 		y++;
 	}
-	print_rectangle(data, data->plr->x * data->zoom, data->plr->x * data->zoom, BLUE);;
+	print_rectangle(data, data->plr->x * data->zoom, data->plr->y * data->zoom, BLUE);;
 }

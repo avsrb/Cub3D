@@ -50,7 +50,6 @@ void	fill_matrix(t_map *map, t_lst **map_l)
 		}
 		y++;
 	}
-	map->map[y++] = NULL;
 	ft_lstclear(map_l);
 }
 
