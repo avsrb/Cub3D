@@ -70,9 +70,7 @@ int	check_double_player(t_map *m)
 		}
 		y++;
 	}
-	if (player > 1)
-		return (1);
-	return (0);
+	return (player != 1);
 }
 
 void	check_simbol(t_lst *map_l)
