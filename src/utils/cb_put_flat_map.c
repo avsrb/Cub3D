@@ -56,14 +56,14 @@ void	cb_put_flat_map(t_main *data)
 		while (x < data->map->width && data->map->map[y][x] != '\0')
 		{
 			if (data->map->map[y][x] == '1')
-				print_rectangle(data, x * data->zoom, y * data->zoom, MAROON);
+				print_rectangle(data, x * data->zoom, y * data->zoom, INDIGO);
 			else if (data->map->map[y][x] == '0')
-				print_rectangle(data, x * data->zoom, y * data->zoom, WHITE);
+				print_rectangle(data, x * data->zoom, y * data->zoom, data->map->ceiling);
 			else if (ft_isalpha(data->map->map[y][x]))
-				print_rectangle(data, x * data->zoom, y * data->zoom, WHITE);
+				print_rectangle(data, x * data->zoom, y * data->zoom, data->map->ceiling);
 			x++;
 		}
 		y++;
 	}
-	print_player(data, data->plr->x * data->zoom, data->plr->y * data->zoom, BLUE);
+	print_player(data, data->plr->x * data->zoom, data->plr->y * data->zoom, AQUA);
 }
