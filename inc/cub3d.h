@@ -16,8 +16,7 @@
 # define WIN_HEIGHT 864
 # define DEBUG
 
-
-typedef struct	s_win //структура для окна
+typedef struct	s_win
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
