@@ -57,11 +57,11 @@ static void	init_map(t_map *m)
 t_main	*cb_init_main_struct(t_main *data)
 {
 	data->zoom = 20;
-	data->win = cb_malloc_x(sizeof(t_win));
+//	data->win = cb_malloc_x(sizeof(t_win));
 	init_mlx(data->win);
-	data->plr = cb_malloc_x(sizeof(t_plr));
+//	data->plr = cb_malloc_x(sizeof(t_plr));
 	init_player(data);
-	data->map = cb_malloc_x(sizeof(t_map));
+//	data->map = cb_malloc_x(sizeof(t_map));
 	init_map(data->map);
 	return (data);
 }
