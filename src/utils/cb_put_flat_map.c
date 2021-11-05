@@ -78,7 +78,7 @@ static void	cast_rays(t_main *data)
 			ray.y += sin(ray.start);
 			my_mlx_pixel_put(data->win, ray.x, ray.y, WHITE);
 		}
-		ray.start += M_PI_2 / WIN_WIDTH // делю на количество лучей;
+		ray.start += M_PI_2 / WIN_WIDTH; // делю на количество лучей;
 	}
 }
 
