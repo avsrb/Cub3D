@@ -1,13 +1,5 @@
 #include "../../inc/cub3d.h"
 
-void	my_mlx_pixel_put(t_win *win, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = win->addr + (y * win->line_length + x * (win->bpp / 8));
-	*(unsigned int *)dst = color;
-}
-
 static void	print_player(t_main *data, int start_x, int start_y, int color)
 {
 	int	y;
@@ -72,13 +64,16 @@ static void	cast_rays(t_main *data)
 		{
 			ray.x += cos(ray.start);
 			ray.y += sin(ray.start);
-			my_mlx_pixel_put(data->win, ray.x, ray.y, WHITE);
+			if (data->map->map[(int)(ray.y / data->zoom)][(int)ray.x / data->zoom] != '1')
+				my_mlx_pixel_put(data->win, ray.x, ray.y, WHITE);
+			else
+				break ;
 		}
 		ray.start += M_PI_2 / WIN_WIDTH;
 	}
 }
 
-void	cb_put_flat_map(t_main *data)
+static void	print_flat_map(t_main *data)
 {
 	int	x;
 	int	y;
@@ -99,6 +94,11 @@ void	cb_put_flat_map(t_main *data)
 		}
 		y++;
 	}
+}
+
+void	cb_render_2d(t_main *data)
+{
+	print_flat_map(data);
 	print_player(data, data->plr->x * data->zoom, data->plr->y * data->zoom, AQUA);
 	cast_rays(data);
 }

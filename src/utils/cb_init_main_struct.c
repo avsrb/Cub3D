@@ -28,7 +28,7 @@ static void	init_player(t_main *data)
 {
 	data->plr->x = 0.0F;
 	data->plr->y = 0.0F;
-	data->plr->player_size = data->zoom / 4;
+	data->plr->player_size = data->zoom / 5;
 	data->plr->dir = 0.0F;
 	data->plr->start = 0.0F;
 	data->plr->end = 0.0F;
