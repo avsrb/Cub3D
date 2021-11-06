@@ -28,6 +28,18 @@ void	parsing_param(int fd, t_map *m)
 	}
 }
 
+void set_player_direction(float *dir, char c)
+{
+	if (c == 'N')
+		*dir = 1.5 * M_PI;
+	else if (c == 'E')
+		*dir = 0;
+	else if (c == 'S')
+		*dir = M_PI_2;
+	else if (c == 'W')
+		*dir = M_PI;
+}
+
 //void	check_open_texture(t_main *all)
 //{
 //	if (!mlx_xpm_file_to_image(all->win->win_ptr, all->map->xpm[0], 600, 600))
@@ -64,7 +76,7 @@ void	clean_map(t_map *m)
 	m->map = map_clean;
 }
 
-void	find_player(t_map *m, t_plr *p)
+void	find_player(t_plr *plr, t_map *m, t_plr *p)
 {
 	int	y;
 	int	x;
@@ -80,6 +92,7 @@ void	find_player(t_map *m, t_plr *p)
 			{
 				p->y = y;
 				p->x = x;
+				set_player_direction(&plr->dir, m->map[y][x]);
 				return;
 			}
 			x++;
@@ -103,6 +116,6 @@ int	parsing(int ac, char *file, t_main *all)
 		ft_error("the player must be alone\n");
 	if (all->map->param_done == false)
 		ft_error("map not valid\n");
-	find_player(all->map, all->plr);
+	find_player(all->plr, all->map, all->plr);
 	return (0);
 }
