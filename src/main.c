@@ -1,13 +1,16 @@
 #include "./../inc/cub3d.h"
 
-//char worldMap[5][4]=
+//void	set_player_direction(float *dir, char c)
 //{
-//  {'1','1','1','1'},
-//  {'1','0','0','1'},
-//  {'1','0','N','1'},
-//  {'1','0','0','1'},
-//  {'1','1','1','1'}
-// };
+//	if (c == 'N')
+//		*dir = 0;
+//	else if (c == 'E')
+//		*dir = 0.25f;
+//	else if (c == 'S')
+//		*dir = 0.5f;
+//	else if (c == 'W')
+//		*dir = 0.75f;
+//}
 
 int	main(int argc, char **argv)
 {
@@ -15,18 +18,6 @@ int	main(int argc, char **argv)
 
 	cb_init_main_struct(&data); // инит структур win и plr в data + запуск окна 
 	parsing(argc, argv[1], &data);
-
-//{
-//t_map *tmp = data->map;
-//   printf("################# MAP START #################\n");
-//  for (int i = 0; tmp->map[i]; i++)
-//  {
-//   printf("%s", tmp->map[i]+1);
-//   printf("\n");
-//  }
-//  printf("################# MAP FINISH ################\n");
-//}
-
 	cb_put_flat_map(&data);
 	mlx_put_image_to_window(data.win->mlx_ptr, data.win->win_ptr, data.win->img_ptr, 0, 0);
 	cb_handle_events(&data); // ловит нажатие X-окна
