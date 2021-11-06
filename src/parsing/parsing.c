@@ -28,16 +28,18 @@ void	parsing_param(int fd, t_map *m)
 	}
 }
 
-void set_player_direction(float *dir, char c)
+void set_player_direction(t_plr *plr, char c)
 {
 	if (c == 'N')
-		*dir = 1.5 * M_PI;
+		plr->dir = 1.5 * M_PI;
 	else if (c == 'E')
-		*dir = 0;
+		plr->dir = 0;
 	else if (c == 'S')
-		*dir = M_PI_2;
+		plr->dir = M_PI_2;
 	else if (c == 'W')
-		*dir = M_PI;
+		plr->dir = M_PI;
+	plr->start = plr->dir - M_PI_4;
+	plr->end = plr->dir + M_PI_4;
 }
 
 //void	check_open_texture(t_main *all)
@@ -92,7 +94,7 @@ void	find_player(t_plr *plr, t_map *m, t_plr *p)
 			{
 				p->y = y;
 				p->x = x;
-				set_player_direction(&plr->dir, m->map[y][x]);
+				set_player_direction(plr, m->map[y][x]);
 				return;
 			}
 			x++;
