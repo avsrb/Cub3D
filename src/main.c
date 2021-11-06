@@ -12,13 +12,6 @@
 int	main(int argc, char **argv)
 {
 	t_main	data;
-	t_map	map;
-	t_win	win;
-	t_plr	plr;
-
-	data.map = &map;
-	data.win = &win;
-	data.plr = &plr;
 
 	cb_init_main_struct(&data); // инит структур win и plr в data + запуск окна 
 	parsing(argc, argv[1], &data);

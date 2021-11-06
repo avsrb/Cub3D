@@ -52,7 +52,7 @@ void	clean_map(t_map *m)
 	m->height -= 2;
 	y = -1;
 	i = 0;
-	map_clean = cb_malloc_x(sizeof(char *) * m->height);
+	map_clean = cb_malloc_x(sizeof(char *) * m->height + 1);
 	while (++y < m->height + 2)
 	{
 		if (y != 0 && y != (m->height + 1))

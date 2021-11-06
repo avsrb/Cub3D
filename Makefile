@@ -26,7 +26,7 @@ $(NAME):		$(OBJS) ./inc/cub3d.h
 				$(MAKE) -C src/libft/
 				$(MAKE) -C src/minilibx_mms/
 				cp src/minilibx_mms/libmlx.dylib .
-				$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS) $(HEADERS)
+				$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
 
 clean:
 				$(MAKE) clean -C ./src/libft/
