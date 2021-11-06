@@ -1,6 +1,6 @@
 #include "../../inc/cub3d.h"
 
-int	cb_terminate(t_main *data) //todo предлагаю сделать типа войд
+int	cb_terminate(t_main *data)
 {
 	(void)data;
 //	mlx_clear_window(data->win->mlx_ptr, data->win->win_ptr);//todo не знаю зачем это
