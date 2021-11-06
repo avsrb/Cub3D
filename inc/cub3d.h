@@ -76,7 +76,7 @@ typedef struct	s_main // структура для всего вместе
 void	*cb_malloc_x(size_t size);
 int		cb_return_nbr(int return_value, char *message);
 void	*cb_return_null(char *message);
-t_main	*cb_init_main_struct(t_main *data);
+void	cb_init_main_struct(t_main *data);
 void	cb_put_flat_map(t_main *data);
 
 //events & keys
