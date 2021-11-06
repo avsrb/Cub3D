@@ -73,6 +73,7 @@ typedef struct	s_main // структура для всего вместе
 }	t_main;
 
 //utils
+void	my_mlx_pixel_put(t_win *win, int x, int y, int color);
 void	*cb_malloc_x(size_t size);
 int		cb_return_nbr(int return_value, char *message);
 void	*cb_return_null(char *message);
