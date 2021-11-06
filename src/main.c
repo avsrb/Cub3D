@@ -1,5 +1,34 @@
 #include "./../inc/cub3d.h"
 
+//static void	cd_init_mlx(t_main *data) // учитывает размер карты
+//{
+//	if (WIN_WIDTH >= data->map->width * data->zoom)
+//		data->win->win_width = WIN_WIDTH;
+//	else
+//		data->win->win_width = data->map->width * data->zoom;
+//	if (WIN_HEIGHT >= data->map->height * data->zoom)
+//		data->win->win_height = WIN_HEIGHT;
+//	else
+//		data->win->win_height = data->map->height * data->zoom;
+//	data->win->mlx_ptr = mlx_init();
+//	if (data->win->mlx_ptr == NULL)
+//	{
+//		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+//		exit(EXIT_FAILURE);
+//	}
+//	data->win->win_ptr = mlx_new_window(data->win->mlx_ptr,
+//			data->win->win_width, data->win->win_height, "cub3D");
+//	if (data->win->win_ptr == NULL)
+//	{
+//		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+//		exit(EXIT_FAILURE);
+//	}
+//	data->win->img_ptr = mlx_new_image(data->win->mlx_ptr,
+//			WIN_WIDTH, WIN_HEIGHT);
+//	data->win->addr = mlx_get_data_addr(data->win->img_ptr, &data->win->bpp,
+//			&data->win->line_length, &data->win->endian);
+//}
+
 int	main(int argc, char **argv)
 {
 	t_main	data;
