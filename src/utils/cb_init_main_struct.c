@@ -57,6 +57,8 @@ static void	init_map(t_map *m)
 void	cb_init_main_struct(t_main *data)
 {
 	data->zoom = 20;
+	data->h_fow = FOW / 2;
+	data->focus = (WIN_WIDTH / 2) * tan(dtr(data->h_fow));
 //	data->win = cb_malloc_x(sizeof(t_win));
 	init_mlx(data->win);
 //	data->plr = cb_malloc_x(sizeof(t_plr));

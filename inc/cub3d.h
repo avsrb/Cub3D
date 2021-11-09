@@ -15,6 +15,8 @@
 # define WIN_WIDTH 1152
 # define WIN_HEIGHT 864
 # define DEBUG
+# define SIZE 128
+# define FOW 66.0
 
 typedef struct	s_win
 {
@@ -64,13 +66,54 @@ typedef struct	s_map
 	t_lst		*map_l;
 }		t_map;
 
+
+typedef struct s_texture
+{
+	void	*img;
+	int		width;
+	int		height;
+	char	*addr;
+	int		bpp;
+	int		ll;
+	int		end;
+}	t_texture;
+
+typedef struct s_ray
+{
+	double		x1;
+	double		y1;
+	double		x2;
+	double		y2;
+	double		dis;
+	double		angle;
+	int			nbr;
+	int			height;
+	int			start;
+	int			end;
+	double		scale;
+	t_texture	*texture;
+}	t_ray;
+
+typedef struct s_textures
+{
+	t_texture	*north;
+	t_texture	*south;
+	t_texture	*west;
+	t_texture	*east;
+}	t_textures;
+
 typedef struct	s_main // структура для всего вместе
 {
 	t_win		*win;
 	t_plr		*plr;
 	t_map		*map;
+	t_ray		*ray;
+	t_textures	*textures;
 	int			zoom;
+	double		focus;
+	double		h_fow;
 }	t_main;
+
 
 //utils
 void	my_mlx_pixel_put(t_win *win, int x, int y, int color);
@@ -108,6 +151,10 @@ void	get_tex_and_color(char *str, t_map *m);
 // make_map
 void	make_map(t_map *data);
 char	*spacecutter(char *str);
+
+//experiment
+double	dtr(double degree);
+
 
 
 #endif

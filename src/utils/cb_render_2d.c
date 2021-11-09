@@ -52,6 +52,112 @@ static void	print_rectangle(t_main *data, int start_x, int start_y, int color)
 //	}
 //}
 
+int	select_color(t_main *data, double tex_posy, char direct)
+{
+	int	tex_posx;
+
+	tex_posx = 0;
+	if (direct == 'h')
+		tex_posx = ((int)(data->ray->x2
+				- ((int)(data->ray->x2 / SIZE) *SIZE))) / 2;
+	else if (direct == 'v')
+		tex_posx = ((int)(data->ray->y2
+				- ((int)(data->ray->y2 / SIZE) *SIZE))) / 2;
+	return (*(int *)(data->ray->texture->addr
+	+ (int)tex_posy * data->ray->texture->ll
+	+ tex_posx * (data->ray->texture->bpp / 8)));
+}
+
+void	select_texture(t_main *data, char *direct)
+{
+	if ((int)(data->ray->y1 / SIZE) == (int)(data->ray->y2 / SIZE))
+	{
+		if ((int)(data->ray->x1 / SIZE) < (int)(data->ray->x2 / SIZE))
+			data->ray->texture = data->textures->west;
+		else
+			data->ray->texture = data->textures->east;
+		*direct = 'v';
+	}
+	else if ((int)(data->ray->y1 / SIZE) == (int)(data->ray->x2 / SIZE))
+	{
+		if ((int)(data->ray->y1 / SIZE) < (int)(data->ray->y2 / SIZE))
+			data->ray->texture = data->textures->north;
+		else
+			data->ray->texture = data->textures->south;
+		*direct = 'h';
+	}
+}
+
+double	dtr(double degree)
+{
+	return (degree * acos(-1.0) / 180);
+}
+
+void	calc_raypos(t_main *data)
+{
+	data->ray->x1 = data->plr->x + data->ray->dis * cos(data->ray->angle);
+	data->ray->y1 = data->plr->y + data->ray->dis * sin(data->ray->angle);
+}
+
+void	put_texture(t_main *data)
+{
+	double	tex_posy;
+	char	direct;
+
+	data->ray->dis *= cos(data->plr->dir - data->ray->angle);
+	data->ray->height = (int)(data->focus * SIZE / data->ray->dis);
+	data->ray->scale = 64 / (double)data->ray->height;
+	data->ray->start = (WIN_HEIGHT - data->ray->height) / 2;
+	data->ray->end = data->ray->start + data->ray->height;
+	tex_posy = 0;
+	direct = 'h';
+	select_texture(data, &direct);
+	while (data->ray->start < data->ray->end)
+	{
+		if (data->ray->start >= 0 && data->ray->start < WIN_HEIGHT
+		&& data->ray->nbr >= 0 && data->ray->nbr < WIN_WIDTH)
+			my_mlx_pixel_put(data->win->win_ptr, data->ray->nbr, data->ray->start,
+							 select_color(data, tex_posy, direct));
+		tex_posy += data->ray->scale;
+		data->ray->start++;
+	}
+}
+
+void	rays(t_main *data, int ray_len)
+{
+	(void)ray_len;
+	while (data->ray->nbr < WIN_WIDTH)
+	{
+		data->ray->dis = 0;
+		while (++data->ray->dis < 2048)
+		{
+			calc_raypos(data);
+			if (((int)data->ray->y1 / SIZE >= 0
+			&& (int)data->ray->y1 / SIZE < data->map->height)
+			&& ((int)data->ray->x1 / SIZE >= 0
+			&& (int)data->ray->x1 / SIZE < data->map->height)
+			&& data->map->map[(int)data->ray->y1 / SIZE][(int)data->ray->x1 / SIZE] == '1')
+			{
+				put_texture(data);
+				break ;
+			}
+			data->ray->x1 = data->ray->x2;
+			data->ray->y1 = data->ray->y2;
+		}
+		data->ray->nbr++;
+		data->ray->angle += dtr(FOW / WIN_WIDTH);
+	}
+}
+
+void	cb_make_3d(t_main *data, int ray_len)
+{
+	data->ray->angle = data->ray->angle - dtr(33.0);
+	data->ray->nbr = 0;
+	data->ray->x1 = 0;
+	data->ray->x1 = 0;
+	rays(data, ray_len);
+}
+
 static void	cast_rays(t_main *data)
 {
 	t_plr	ray;
@@ -71,7 +177,7 @@ static void	cast_rays(t_main *data)
 			if (data->map->map[(int)(ray.y / data->zoom)][(int)ray.x / data->zoom] != '1')
 				my_mlx_pixel_put(data->win, ray.x, ray.y, WHITE);
 		}
-//		cb_make_3d(data, ray_length); // todo должна нариосвать псевдо3D
+		cb_make_3d(data, ray_length); // todo должна нариосвать псевдо3D
 		ray.start += M_PI_2 / WIN_WIDTH;
 	}
 }
