@@ -7,7 +7,7 @@ static void	init_mlx(t_win *win)
 	win->mlx_ptr = mlx_init();
 	if (win->mlx_ptr == NULL)
 	{
-//		free(win->mlx_ptr); //todo зачем фришить если она не выделилась
+		free(win->mlx_ptr);
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
@@ -15,7 +15,7 @@ static void	init_mlx(t_win *win)
 			win->win_height, "cub3D");
 	if (win->win_ptr == NULL)
 	{
-//		free(win->win_ptr);//todo зачем фришить если она не выделилась
+		free(win->win_ptr);
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
@@ -28,7 +28,7 @@ static void	init_player(t_main *data)
 {
 	data->plr->x = 0.0F;
 	data->plr->y = 0.0F;
-	data->plr->player_size = data->zoom / 5;
+	data->plr->player_size = data->zoom / 4;
 	data->plr->dir = 0.0F;
 	data->plr->start = 0.0F;
 	data->plr->end = 0.0F;
@@ -54,15 +54,14 @@ static void	init_map(t_map *m)
 		m->xpm[i] = NULL;
 }
 
-void	cb_init_main_struct(t_main *data)
+t_main	*cb_init_main_struct(t_main *data)
 {
 	data->zoom = 20;
-	data->h_fow = FOW / 2;
-	data->focus = (WIN_WIDTH / 2) * tan(dtr(data->h_fow));
-//	data->win = cb_malloc_x(sizeof(t_win));
+	data->win = cb_malloc_x(sizeof(t_win));
 	init_mlx(data->win);
-//	data->plr = cb_malloc_x(sizeof(t_plr));
+	data->plr = cb_malloc_x(sizeof(t_plr));
 	init_player(data);
-//	data->map = cb_malloc_x(sizeof(t_map));
+	data->map = cb_malloc_x(sizeof(t_map));
 	init_map(data->map);
+	return (data);
 }

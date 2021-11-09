@@ -7,18 +7,19 @@
 # include <string.h>
 # include <sys/errno.h>
 # include <stdbool.h>
-# include "../inc/colors.h"
-# include "../inc/macos_keyboard.h"
+# include "colors.h"
+# include "macos_keyboard.h"
+//# include "../src/libft/inc/libft.h"
+//# include "../src/minilibx/mlx.h"
 # include "../src/libft/inc/libft.h"
-# include "../src/minilibx_mms/mlx.h"
+# include "../src/minilibx/mlx.h"
 
 # define WIN_WIDTH 1152
 # define WIN_HEIGHT 864
 # define DEBUG
-# define SIZE 128
-# define FOW 66.0
 
-typedef struct	s_win
+
+typedef struct	s_win //структура для окна
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
@@ -66,63 +67,20 @@ typedef struct	s_map
 	t_lst		*map_l;
 }		t_map;
 
-
-typedef struct s_texture
-{
-	void	*img;
-	int		width;
-	int		height;
-	char	*addr;
-	int		bpp;
-	int		ll;
-	int		end;
-}	t_texture;
-
-typedef struct s_ray
-{
-	double		x1;
-	double		y1;
-	double		x2;
-	double		y2;
-	double		dis;
-	double		angle;
-	int			nbr;
-	int			height;
-	int			start;
-	int			end;
-	double		scale;
-	t_texture	*texture;
-}	t_ray;
-
-typedef struct s_textures
-{
-	t_texture	*north;
-	t_texture	*south;
-	t_texture	*west;
-	t_texture	*east;
-}	t_textures;
-
 typedef struct	s_main // структура для всего вместе
 {
 	t_win		*win;
 	t_plr		*plr;
 	t_map		*map;
-	t_ray		*ray;
-	t_textures	*textures;
 	int			zoom;
-	double		focus;
-	double		h_fow;
 }	t_main;
 
-
 //utils
-void	my_mlx_pixel_put(t_win *win, int x, int y, int color);
 void	*cb_malloc_x(size_t size);
 int		cb_return_nbr(int return_value, char *message);
 void	*cb_return_null(char *message);
-void	cb_init_main_struct(t_main *data);
-void	cb_render_2d(t_main *data);
-void	open_texture(t_main *all);
+t_main	*cb_init_main_struct(t_main *data);
+void	cb_put_flat_map(t_main *data);
 
 //events & keys
 int		cb_handle_events(t_main *data);
@@ -152,10 +110,6 @@ void	get_tex_and_color(char *str, t_map *m);
 // make_map
 void	make_map(t_map *data);
 char	*spacecutter(char *str);
-
-//experiment
-double	dtr(double degree);
-
 
 
 #endif

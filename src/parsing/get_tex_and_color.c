@@ -62,17 +62,17 @@ void	get_tex_and_color(char *str, t_map *m)
 	while (*str == ' ' || *str == '\t')
 		str++;
 	if (!ft_strncmp(str, "F ", 2) && m->floor == -1)
-		m->floor = get_color(str + 2);
+		m->floor = get_color(spacecutter(str + 2));
 	else if (!ft_strncmp(str, "C ", 2) && m->ceiling == -1)
-		m->ceiling = get_color(str + 2);
+		m->ceiling = get_color(spacecutter(str + 2));
 	else if (!(ft_strncmp(str, "NO ", 3)) && !m->xpm[0])
-		m->xpm[0] = ft_strdup(spacecutter(str + 3));//todo  Тарас говорит что нужно пофиксить
-	else if (!(ft_strncmp(str, "SO ", 3)) && !m->xpm[1])//todo  Тарас говорит что нужно пофиксить
-		m->xpm[1] = ft_strdup(spacecutter(str + 3));//todo  Тарас говорит что нужно пофиксить
-	else if (!(ft_strncmp(str, "WE ", 3)) && !m->xpm[2])//todo  Тарас говорит что нужно пофиксить
-		m->xpm[2] = ft_strdup(spacecutter(str + 3));//todo  Тарас говорит что нужно пофиксить
-	else if (!(ft_strncmp(str, "EA ", 3)) && !m->xpm[3])//todo  Тарас говорит что нужно пофиксить
-		m->xpm[3] = ft_strdup(spacecutter(str + 3));//todo  Тарас говорит что нужно пофиксить
+		m->xpm[0] = ft_strdup(spacecutter(str + 3));
+	else if (!(ft_strncmp(str, "SO ", 3)) && !m->xpm[1])
+		m->xpm[1] = ft_strdup(spacecutter(str + 3));
+	else if (!(ft_strncmp(str, "WE ", 3)) && !m->xpm[2])
+		m->xpm[2] = ft_strdup(spacecutter(str + 3));
+	else if (!(ft_strncmp(str, "EA ", 3)) && !m->xpm[3])
+		m->xpm[3] = ft_strdup(spacecutter(str + 3));
 	else
 		ft_error("double parameters\n");
 	m->param_done = (m->floor >= 0 && m->ceiling >= 0 && m->xpm[0]

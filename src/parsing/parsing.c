@@ -28,59 +28,18 @@ void	parsing_param(int fd, t_map *m)
 	}
 }
 
-void set_player_direction(t_plr *plr, char c)
-{
-	if (c == 'N')
-		plr->dir = 1.5 * M_PI;
-	else if (c == 'E')
-		plr->dir = 0;
-	else if (c == 'S')
-		plr->dir = M_PI_2;
-	else if (c == 'W')
-		plr->dir = M_PI;
-	plr->start = plr->dir - M_PI_4;
-	plr->end = plr->dir + M_PI_4;
-}
-
-void	open_texture(t_main *all)
-{
-
-	t_texture	**texture = malloc(sizeof(*texture) * 4 + 1);
-	texture[0] = malloc(sizeof(texture));
-	texture[1] = malloc(sizeof(texture));
-	texture[2] = malloc(sizeof(texture));
-	texture[3] = malloc(sizeof(texture));
-
-
-//	texture[0] = all->textures->north;
-//	texture[1] = all->textures->south;
-//	texture[2] = all->textures->west;
-//	texture[3] = all->textures->east;
-
-//	all->textures = *texture;
-
-
-	texture[0]->width = 64;
-	texture[0]->height = 64;
-	texture[1]->width = 64;
-	texture[1]->height = 64;
-	texture[2]->width = 64;
-	texture[2]->height = 64;
-	texture[3]->width = 64;
-	texture[3]->height = 64;
-
-	texture[0]->img = mlx_xpm_file_to_image(all->win->win_ptr, "./textures/NO.xpm", &texture[0]->width, &texture[0]->height);
-	texture[0]->addr = mlx_get_data_addr(texture[0]->img, &texture[0]->bpp, &texture[0]->ll, &texture[0]->end);
-	texture[1]->img = mlx_xpm_file_to_image(all->win->win_ptr, "./textures/NO.xpm", &texture[1]->width, &texture[1]->height);
-	texture[1]->addr = mlx_get_data_addr(texture[1]->img, &texture[1]->bpp, &texture[1]->ll, &texture[1]->end);
-	texture[2]->img = mlx_xpm_file_to_image(all->win->win_ptr, all->map->xpm[2], &texture[2]->width, &texture[2]->height);
-	texture[2]->addr = mlx_get_data_addr(texture[2]->img, &texture[2]->bpp, &texture[2]->ll, &texture[2]->end);
-	texture[3]->img = mlx_xpm_file_to_image(all->win->win_ptr, all->map->xpm[3], &texture[3]->width, &texture[3]->height);
-	texture[3]->addr = mlx_get_data_addr(texture[3]->img, &texture[3]->bpp, &texture[3]->ll, &texture[0]->end);
+//void	check_open_texture(t_main *all)
+//{
+//	if (!mlx_xpm_file_to_image(all->win->win_ptr, all->map->xpm[0], 600, 600))
 //		ft_error("can`t open texture\n");
-
-}
-
+//	if (!mlx_xpm_file_to_image(all->win->win_ptr, all->map->xpm[1], 600, 600))
+//		ft_error("can`t open texture\n");
+//	if (!mlx_xpm_file_to_image(all->win->win_ptr, all->map->xpm[2], 600, 600))
+//		ft_error("can`t open texture\n");
+//	if (!mlx_xpm_file_to_image(all->win->win_ptr, all->map->xpm[3], 600, 600))
+//		ft_error("can`t open texture\n");
+//
+//}
 
 
 void	clean_map(t_map *m)
@@ -93,7 +52,7 @@ void	clean_map(t_map *m)
 	m->height -= 2;
 	y = -1;
 	i = 0;
-	map_clean = cb_malloc_x(sizeof(char *) * m->height + 1);
+	map_clean = cb_malloc_x(sizeof(char *) * m->height);
 	while (++y < m->height + 2)
 	{
 		if (y != 0 && y != (m->height + 1))
@@ -105,7 +64,7 @@ void	clean_map(t_map *m)
 	m->map = map_clean;
 }
 
-void	find_player(t_plr *plr, t_map *m, t_plr *p)
+void	find_player(t_map *m, t_plr *p)
 {
 	int	y;
 	int	x;
@@ -121,7 +80,6 @@ void	find_player(t_plr *plr, t_map *m, t_plr *p)
 			{
 				p->y = y;
 				p->x = x;
-				set_player_direction(plr, m->map[y][x]);
 				return;
 			}
 			x++;
@@ -145,6 +103,6 @@ int	parsing(int ac, char *file, t_main *all)
 		ft_error("the player must be alone\n");
 	if (all->map->param_done == false)
 		ft_error("map not valid\n");
-	find_player(all->plr, all->map, all->plr);
+	find_player(all->map, all->plr);
 	return (0);
 }
