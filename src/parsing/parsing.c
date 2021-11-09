@@ -44,15 +44,18 @@ void set_player_direction(t_plr *plr, char c)
 
 void	open_texture(t_main *all)
 {
-//	t_texture	*texture[] = {
-//			&all->textures->north, &all->textures->south,
-//			&all->textures->west, &all->textures->east};
 
 	t_texture	**texture = malloc(sizeof(*texture) * 4 + 1);
 	texture[0] = malloc(sizeof(texture));
 	texture[1] = malloc(sizeof(texture));
 	texture[2] = malloc(sizeof(texture));
 	texture[3] = malloc(sizeof(texture));
+
+
+//	texture[0] = all->textures->north;
+//	texture[1] = all->textures->south;
+//	texture[2] = all->textures->west;
+//	texture[3] = all->textures->east;
 
 //	all->textures = *texture;
 
@@ -65,7 +68,6 @@ void	open_texture(t_main *all)
 	texture[2]->height = 64;
 	texture[3]->width = 64;
 	texture[3]->height = 64;
-	texture[0]->img = NULL;
 
 	texture[0]->img = mlx_xpm_file_to_image(all->win->win_ptr, "./textures/NO.xpm", &texture[0]->width, &texture[0]->height);
 	texture[0]->addr = mlx_get_data_addr(texture[0]->img, &texture[0]->bpp, &texture[0]->ll, &texture[0]->end);
@@ -78,6 +80,7 @@ void	open_texture(t_main *all)
 //		ft_error("can`t open texture\n");
 
 }
+
 
 
 void	clean_map(t_map *m)
@@ -143,6 +146,5 @@ int	parsing(int ac, char *file, t_main *all)
 	if (all->map->param_done == false)
 		ft_error("map not valid\n");
 	find_player(all->plr, all->map, all->plr);
-	open_texture(all);
 	return (0);
 }

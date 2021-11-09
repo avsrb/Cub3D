@@ -122,6 +122,7 @@ int		cb_return_nbr(int return_value, char *message);
 void	*cb_return_null(char *message);
 void	cb_init_main_struct(t_main *data);
 void	cb_render_2d(t_main *data);
+void	open_texture(t_main *all);
 
 //events & keys
 int		cb_handle_events(t_main *data);

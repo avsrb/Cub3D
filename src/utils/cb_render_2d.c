@@ -163,7 +163,7 @@ static void	cast_rays(t_main *data)
 	t_plr	ray;
 	int		ray_length;
 	
-	ray = *data->plr;
+	data->plr = &ray;
 	while (ray.start <= ray.end)
 	{
 		ray.x = data->plr->x * data->zoom;
