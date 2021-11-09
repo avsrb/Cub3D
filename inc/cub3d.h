@@ -39,7 +39,7 @@ typedef struct	s_plr //структура для игрока и луча
 {
 	float		x;
 	float		y;
-	float		player_size;
+	float		step_size;
 	float		dir;
 	float		start;
 	float		end;
@@ -78,7 +78,8 @@ void	*cb_malloc_x(size_t size);
 int		cb_return_nbr(int return_value, char *message);
 void	*cb_return_null(char *message);
 void	cb_init_main_struct(t_main *data);
-void	cb_render_2d(t_main *data);
+void	cb_render_mini_map(t_main *data);
+void	cb_render_floor_ceiling(t_main *data);
 
 //events & keys
 int		cb_handle_events(t_main *data);
