@@ -1,29 +1,16 @@
 #include "./../inc/cub3d.h"
 
-void draw_line(t_main *data, int x, int drawStart, int drawEnd, int color)
+void	lodev(t_opt *opt)
 {
-	while (drawStart < drawEnd)
-	{
-		my_mlx_pixel_put(data->win, x, drawStart, color);
-		drawStart++;
-	}
-}
-
-void	lodev(t_main *data)
-{
-	float posX = (float)data->plr->x;
-	float posY = (float)data->plr->y;
+	float posX = (float)opt->plr->pos_x, posY = (float)opt->plr->pos_y;
 	// printf("x: %f	y: %f\n",  posX, posY); exit(0);
 	// float posX = 22, posY = 12;
-	float	dirX = cos(data->plr->dir * 0.5);
-	float	dirY = sin(data->plr->dir * 0.5);
-//float dirX = -1, dirY = 0;
-	
-	float planeX = 0, planeY = 0.66;
-	//float planeX = data->plr->start;
-	//float planeY = data->plr->end;
-	float	w = WIN_WIDTH;
-	float	h = WIN_HEIGHT;
+	float	dirX = cos(opt->plr->angle * 0.5);
+	float	dirY = sin(opt->plr->angle * 0.5);
+	// float dirX = -1, dirY = 0;
+	float planeX = 0, planeY = ANGLE * 0.5;
+	float	w = RES_X;
+	float	h = RES_Y;
 	int x;
 
 	x = 0;
@@ -41,8 +28,8 @@ void	lodev(t_main *data)
 		//length of ray from current position to next x or y-side
 		float sideDistX;
 		float sideDistY;
-		float deltaDistX = (rayDirX == 0) ? 1e30 : fabsf(1 / rayDirX);
-		float deltaDistY = (rayDirY == 0) ? 1e30 : fabsf(1 / rayDirY);
+		float deltaDistX = (rayDirX == 0) ? 1e30 : ft_abs_f(1 / rayDirX);
+		float deltaDistY = (rayDirY == 0) ? 1e30 : ft_abs_f(1 / rayDirY);
 
 		float perpWallDist;
 
@@ -95,7 +82,7 @@ void	lodev(t_main *data)
 			//Check if ray has hit a wall
 			// if(worldMap[mapX][mapY] > 0)
 			// 	hit = 1;
-			if(data->map->map[mapX][mapY] == '1')
+			if(opt->map->canvas[mapX][mapY] == '1')
 				hit = 1;
 		}
 		if (side == 0)
@@ -117,37 +104,11 @@ void	lodev(t_main *data)
 			drawEnd = h - 1;
 
 		//choose wall color
-		int	color = MAROON;
+		int	color = COLOR_RED;
 		//give x and y sides different brightness
 		if (side == 1)
-			color = BLUE;
-		draw_line(data, x, drawStart, drawEnd, color);
+			color = color / 2;
+		draw_line(opt, x, drawStart, drawEnd, color);
 		x++;
 	}
 } 
-
-void	rendering(t_main *data)
-{
-	cb_render_floor_ceiling(data);
-	lodev(data);//todo сюда зафигачить наше супер 3D и все 
-	cb_render_mini_map(data);
-}
-
-int	main(int argc, char **argv)
-{
-	t_main	data;
-	t_map	map;
-	t_win	win;
-	t_plr	plr;
-
-	data.map = &map;//todo пусть память выделятся на стеке
-	data.win = &win;//todo пусть память выделятся на стеке
-	data.plr = &plr;//todo пусть память выделятся на стеке
-	cb_init_main_struct(&data);
-	parsing(argc, argv[1], &data);
-	rendering(&data);
-	mlx_put_image_to_window(data.win->mlx_ptr, data.win->win_ptr, data.win->img_ptr, 0, 0);
-	cb_handle_events(&data);
-//	mlx_key_hook(data.win->win_ptr, cb_handle_keyboard, &data); // ловит ESC & NUM± // TODO я убрал это гавно
-	mlx_loop(data.win->mlx_ptr);
-}

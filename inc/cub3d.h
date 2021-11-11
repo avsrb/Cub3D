@@ -43,6 +43,11 @@ typedef struct	s_plr //структура для игрока и луча
 	float		dir;
 	float		start;
 	float		end;
+
+	float		planeX;
+	float		planeY;
+	float		dirX;
+	float		dirY;
 }	t_plr;
 
 typedef struct	s_lst
@@ -72,6 +77,7 @@ typedef struct	s_main // структура для всего вместе
 	int			zoom;
 }	t_main;
 
+void	rendering(t_main *data);
 //utils
 void	my_mlx_pixel_put(t_win *win, int x, int y, int color);
 void	*cb_malloc_x(size_t size);
