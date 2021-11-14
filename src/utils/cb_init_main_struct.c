@@ -7,7 +7,6 @@ static void	init_mlx(t_win *win)
 	win->mlx_ptr = mlx_init();
 	if (win->mlx_ptr == NULL)
 	{
-//		free(win->mlx_ptr); //todo зачем фришить если она не выделилась
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
@@ -15,7 +14,6 @@ static void	init_mlx(t_win *win)
 			win->win_height, "cub3D");
 	if (win->win_ptr == NULL)
 	{
-//		free(win->win_ptr);//todo зачем фришить если она не выделилась
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}

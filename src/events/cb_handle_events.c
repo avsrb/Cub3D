@@ -15,10 +15,10 @@ int	cb_handle_keyboard(int key, t_main *data)
 
 int	cb_terminate(t_main *data)
 {
-//	mlx_clear_window(data->win->mlx_ptr, data->win->win_ptr);//todo не знаю зачем это
+	mlx_clear_window(data->win->mlx_ptr, data->win->win_ptr);
+	mlx_destroy_image(data->win->mlx_ptr, data->win->img_ptr);
+
 //	mlx_destroy_window(data->win->mlx_ptr, data->win->win_ptr);//todo не знаю зачем это
-	if (data->win->win_ptr)
-		mlx_destroy_window(data->win->mlx_ptr, data->win->win_ptr);//todo редакци Тараса
 	exit(0);
 }
 

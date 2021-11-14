@@ -61,6 +61,25 @@ typedef struct	s_map
 	bool		map_done;
 }		t_map;
 
+typedef struct	s_lodev
+{
+	int			step_x;
+	int			step_y;
+	int 		map_x;
+	int			map_y;
+	int			flag_hit; // луч попал в стену? Да = 1
+	int			side; // какая сторона (NS или EW) задета лучем? N/S = 1, E/W = 2
+	float		camera_x;
+	float		rayDirX;
+	float		rayDirY;
+	float		sideDist_x;
+	float 		sideDist_y;
+	float 		deltaDist_x;
+	float		deltaDist_y;
+	float		perpWallDist;
+
+
+}		t_lodev;
 
 typedef struct	s_main
 {
@@ -72,26 +91,25 @@ typedef struct	s_main
 
 //utils
 void	*cb_malloc_x(size_t size);
-int		cb_return_nbr(int return_value, char *message);
 void	*cb_return_null(char *message);
+float	ft_degree_to_ratio(float degree);
 void	cb_init_main_struct(t_main *data);
-
-float	degree_to_ratio(float degree);
+int		cb_return_nbr(int return_value, char *message);
 
 //rendering
-void	my_mlx_pixel_put(t_win *win, int x, int y, int color);
-void	rendering(t_main *data);
-void	cb_render_floor_ceiling(t_main *data);
+void	cb_rendering(t_main *data);
 void	cb_render_cub(t_main *data);
 void	cb_render_mini_map(t_main *data);
+void	cb_render_floor_ceiling(t_main *data);
+void	cb_mlx_pixel_put(t_win *win, int x, int y, int color);
 
 //events & keys
+int		cb_terminate(t_main *data);
 int		cb_handle_events(t_main *data);
 int		cb_handle_keyboard(int key, t_main *data);
 void	cb_handle_ad_keys(int key, t_main *data);
 void	cb_handle_ws_keys(int key, t_main *data);
 void	cb_handle_arrows(int key, t_main *data);
-int		cb_terminate(t_main *data);
 
 //parsing
 int		gnl(int fd, char **line);
@@ -116,6 +134,5 @@ void	get_tex_and_color(char *str, t_map *m);
 // make_map
 void	make_map(t_map *data);
 char	*spacecutter(char *str);
-
 
 #endif

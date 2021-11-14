@@ -3,8 +3,8 @@ SO ./textures/blue.xpm
 WE ./textures/wood.xpm
 EA ./textures/grey.xpm
 
-F 220,100,0
-C 225,30,0
+F 111,100,111
+C 22,22,11
 
 
 
@@ -26,5 +26,5 @@ C 225,30,0
 1111011111
 100000001
 1111011111
-   1E1
+   1N1
    111

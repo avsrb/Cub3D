@@ -40,12 +40,12 @@ void	cb_handle_arrows(int key, t_main *data)
 	if (key == ARROW_LEFT)
 	{
 		turn_left(data);
-		rendering(data);
+		cb_rendering(data);
 	}
 	if (key == ARROW_RIGHT)
 	{
 		turn_right(data);
-		rendering(data);
+		cb_rendering(data);
 	}
 	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr,
 		data->win->img_ptr, 0, 0);
@@ -61,7 +61,7 @@ void	cb_handle_ws_keys(int key, t_main *data)
 		if (data->map->map[(int)(data->plr->y + data->plr->dir_y * STEP)]
 			[(int)data->plr->x] != '1')
 			data->plr->y += data->plr->dir_y * STEP;
-		rendering(data);
+		cb_rendering(data);
 	}
 	if (key == MAIN_PAD_S)
 	{
@@ -71,7 +71,7 @@ void	cb_handle_ws_keys(int key, t_main *data)
 		if (data->map->map[(int)(data->plr->y - data->plr->dir_y * STEP)]
 			[(int)data->plr->x] != '1')
 			data->plr->y -= data->plr->dir_y * STEP;
-		rendering(data);
+		cb_rendering(data);
 	}
 	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr,
 		data->win->img_ptr, 0, 0);
@@ -87,7 +87,7 @@ void	cb_handle_ad_keys(int key, t_main *data)
 		if (data->map->map[(int)(data->plr->y - data->plr->dir_x * STEP)]
 			[(int)data->plr->x] != '1')	
 			data->plr->y -= data->plr->dir_x * STEP;
-		rendering(data);
+		cb_rendering(data);
 	}
 	if (key == MAIN_PAD_D)
 	{
@@ -97,7 +97,7 @@ void	cb_handle_ad_keys(int key, t_main *data)
 		if (data->map->map[(int)(data->plr->y + data->plr->dir_x * STEP)]
 			[(int)data->plr->x] != '1')
 			data->plr->y += data->plr->dir_x * STEP;
-		rendering(data);
+		cb_rendering(data);
 	}
 	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr,
 		data->win->img_ptr, 0, 0);

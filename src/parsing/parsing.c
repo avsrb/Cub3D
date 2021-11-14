@@ -36,7 +36,7 @@ void set_player_direction(t_plr *plr, char c)
 		plr->dir_y = -0.999923;
 		plr->plane_x = -0.659949;
 		plr->plane_y = -0.008177;
-		plr->angle = degree_to_ratio(270);
+		plr->angle = ft_degree_to_ratio(270);
 	}
 	else if (c == 'S')
 	{
@@ -45,7 +45,7 @@ void set_player_direction(t_plr *plr, char c)
 		
 		plr->plane_x = 0.659719;
 		plr->plane_y = -0.019272;
-		plr->angle = degree_to_ratio(90);
+		plr->angle = ft_degree_to_ratio(90);
 	}
 	else if (c == 'W')
 	{
@@ -53,7 +53,7 @@ void set_player_direction(t_plr *plr, char c)
 		plr->dir_y = 0;
 		plr->plane_x = 0;
 		plr->plane_y = 0.66;
-		plr->angle = degree_to_ratio(180);
+		plr->angle = ft_degree_to_ratio(180);
 	}
 	else if (c == 'E')
 	{
@@ -61,7 +61,7 @@ void set_player_direction(t_plr *plr, char c)
 		plr->dir_y = -0.058374;
 		plr->plane_x = -0.038527;
 		plr->plane_y = -0.658875;
-		plr->angle = degree_to_ratio(0);
+		plr->angle = ft_degree_to_ratio(0);
 	}
 }
 
