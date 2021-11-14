@@ -18,8 +18,8 @@ void	cb_render_cub(t_main *data)
 	{
 		//calculate ray position and direction
 		float cameraX = 2 * (float)x / data->win->win_width - 1; //x-coordinate in camera space
-		float rayDirX = data->plr->dir_x + data->plr->plane_x * cameraX;
-		float rayDirY = data->plr->dir_y + data->plr->plane_y * cameraX;
+		float rayDirX = data->plr->dir_x - data->plr->plane_x * cameraX;
+		float rayDirY = data->plr->dir_y - data->plr->plane_y * cameraX;
 
 		//which box of the map we're in
 		int mapX = (int)data->plr->x;

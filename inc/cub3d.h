@@ -14,7 +14,7 @@
 
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
-# define FOV 60
+# define FOV 66
 # define ROTATION_STEP 0.10F
 # define STEP 0.20F
 

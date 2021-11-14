@@ -39,15 +39,12 @@ static void	print_rectangle(t_main *data, int start_x, int start_y, int color)
 static void	cast_rays(t_main *data)
 {
 	t_plr	ray;
-	float	fov;
 	float	start;
 	float	end;
 	
 	ray = *data->plr;
-	fov = 0.66;
-	start = data->plr->angle - fov / 2;
-	end = data->plr->angle + fov / 2;
-
+	start = data->plr->angle - degree_to_ratio(FOV) / 2;
+	end = data->plr->angle + degree_to_ratio(FOV) / 2;
 	while (start <= end)
 	{
 		ray.x = data->plr->x * data->zoom;
