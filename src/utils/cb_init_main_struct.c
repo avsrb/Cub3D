@@ -28,10 +28,11 @@ static void	init_player(t_main *data)
 {
 	data->plr->x = 0.0F;
 	data->plr->y = 0.0F;
-	data->plr->step_size = data->zoom / 4;
-	data->plr->dir = 0.0F;
-	data->plr->start = 0.0F;
-	data->plr->end = 0.0F;
+	data->plr->plane_x = 0.0F;
+	data->plr->plane_y = 0.0F;
+	data->plr->dir_x = 0.0F;
+	data->plr->dir_y = 0.0F;
+	data->plr->angle = 0.0F;
 }
 
 static void	init_map(t_map *m)
@@ -56,7 +57,7 @@ static void	init_map(t_map *m)
 
 void	cb_init_main_struct(t_main *data)
 {
-	data->zoom = 12;
+	data->zoom = 8;
 //	data->win = cb_malloc_x(sizeof(t_win));
 	init_mlx(data->win);
 //	data->plr = cb_malloc_x(sizeof(t_plr));

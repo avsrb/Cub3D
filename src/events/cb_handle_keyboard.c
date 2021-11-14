@@ -1,96 +1,105 @@
 #include "../../inc/cub3d.h"
 
-//void    shift_plane(t_main *data) // меняет угол обзора
-//{
-//    double  tmp;
+static void	turn_left(t_main *data)
+{
+	float	prev_dir_x;
+	float	prev_plane_x;
 
-//    tmp = tan(90 * M_PI / 360);
-//    data->plr->planeX = -data->plr->dirY * tmp;
-//    data->plr->planeY = data->plr->dirX * tmp;
-//}
+	prev_dir_x = data->plr->dir_x;
+	prev_plane_x = data->plr->plane_x;
+	data->plr->dir_x = data->plr->dir_x * cos(ROTATION_STEP)
+		- data->plr->dir_y * sin(ROTATION_STEP);
+	data->plr->dir_y = prev_dir_x * sin(ROTATION_STEP)
+		+ data->plr->dir_y * cos(ROTATION_STEP);
+	data->plr->plane_x = data->plr->plane_x * cos(ROTATION_STEP)
+		- data->plr->plane_y * sin(ROTATION_STEP);
+	data->plr->plane_y = prev_plane_x * sin(ROTATION_STEP)
+		+ data->plr->plane_y * cos(ROTATION_STEP);
+}
 
-//void    shift_plane(t_main *data) // меняет угол обзора
-//{
-//    double  tmp;
+static void	turn_right(t_main *data)
+{
+	float	prev_dir_x;
+	float	prev_plane_x;
 
-//    tmp = tan(data->plr->dir * M_PI / 360);
-//    data->plr->start = -data->plr->end * tmp;
-//    data->plr->end = data->plr->start * tmp;
-//}
+	prev_dir_x = data->plr->dir_x;
+	prev_plane_x = data->plr->plane_x;
+	data->plr->dir_x = data->plr->dir_x * cos(-ROTATION_STEP)
+		- data->plr->dir_y * sin(-ROTATION_STEP);
+	data->plr->dir_y = prev_dir_x * sin(-ROTATION_STEP)
+		+ data->plr->dir_y * cos(-ROTATION_STEP);
+	data->plr->plane_x = data->plr->plane_x * cos(-ROTATION_STEP)
+		- data->plr->plane_y * sin(-ROTATION_STEP);
+	data->plr->plane_y = prev_plane_x * sin(-ROTATION_STEP)
+		+ data->plr->plane_y * cos(-ROTATION_STEP);
+}
 
-static void	handle_arrows(int key, t_main *data)
+void	cb_handle_arrows(int key, t_main *data)
 {
 	if (key == ARROW_LEFT)
 	{
-		//mlx_clear_window(data->win->mlx_ptr, data->win->win_ptr);
-		data->plr->dir -= 0.05;
-		data->plr->start = data->plr->dir - M_PI_4;
-		data->plr->end = data->plr->dir + M_PI_4;
-		//shift_plane(data);
+		turn_left(data);
 		rendering(data);
 	}
 	if (key == ARROW_RIGHT)
 	{
-		//mlx_clear_window(data->win->mlx_ptr, data->win->win_ptr);
-		data->plr->dir += 0.05;
-		data->plr->start = data->plr->dir - M_PI_4;
-		data->plr->end = data->plr->dir + M_PI_4;
-		//shift_plane(data);
+		turn_right(data);
 		rendering(data);
 	}
 	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr,
 		data->win->img_ptr, 0, 0);
 }
 
-static void	handle_ws_keys(int key, t_main *data)
+void	cb_handle_ws_keys(int key, t_main *data)
 {
-	if (key == MAIN_PAD_W && (data->map->map[(int)((data->plr->y)
-				- (1 / data->plr->step_size))][(int)data->plr->x] != '1'))
+	if (key == MAIN_PAD_W)
 	{
-		//mlx_clear_window(data->win->mlx_ptr, data->win->win_ptr);
-		data->plr->y -= (1 / data->plr->step_size);
+		if (data->map->map[(int)data->plr->y]
+			[(int)(data->plr->x + data->plr->dir_x * STEP)] != '1')
+			data->plr->x += data->plr->dir_x * STEP;
+		if (data->map->map[(int)(data->plr->y + data->plr->dir_y * STEP)]
+			[(int)data->plr->x] != '1')
+			data->plr->y += data->plr->dir_y * STEP;
 		rendering(data);
 	}
-	if (key == MAIN_PAD_S && (data->map->map[(int)(data->plr->y
-				+ (1 / data->plr->step_size))][(int)data->plr->x] != '1'))
+	if (key == MAIN_PAD_S)
 	{
-		//mlx_clear_window(data->win->mlx_ptr, data->win->win_ptr);
-		data->plr->y += (1 / data->plr->step_size);
+		if (data->map->map[(int)data->plr->y]
+			[(int)(data->plr->x - data->plr->dir_x * STEP)] != '1')
+			data->plr->x -= data->plr->dir_x * STEP;
+		if (data->map->map[(int)(data->plr->y - data->plr->dir_y * STEP)]
+			[(int)data->plr->x] != '1')
+			data->plr->y -= data->plr->dir_y * STEP;
 		rendering(data);
 	}
 	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr,
 		data->win->img_ptr, 0, 0);
 }
 
-static void	handle_ad_keys(int key, t_main *data)
+void	cb_handle_ad_keys(int key, t_main *data)
 {
-	if (key == MAIN_PAD_A && (data->map->map[(int)data->plr->y]
-			[(int)(data->plr->x - (1 / data->plr->step_size))] != '1'))
+	if (key == MAIN_PAD_A)
 	{
-		//mlx_clear_window(data->win->mlx_ptr, data->win->win_ptr);
-		data->plr->x -= (1 / data->plr->step_size);
+		if (data->map->map[(int)data->plr->y]
+			[(int)(data->plr->x - data->plr->dir_y * STEP)] != '1')
+			data->plr->x -= data->plr->dir_y * STEP;
+		if (data->map->map[(int)(data->plr->y + data->plr->dir_x * STEP)]
+			[(int)data->plr->x] != '1')
+			data->plr->y += data->plr->dir_x * STEP;
 		rendering(data);
 	}
-	if (key == MAIN_PAD_D && (data->map->map[(int)data->plr->y]
-			[(int)(data->plr->x + (1 / data->plr->step_size))] != '1'))
+	if (key == MAIN_PAD_D)
 	{
-		//mlx_clear_window(data->win->mlx_ptr, data->win->win_ptr);
-		data->plr->x += (1 / data->plr->step_size);
+		if (data->map->map[(int)data->plr->y]
+			[(int)(data->plr->x + data->plr->dir_y * STEP)] != '1')
+			data->plr->x += data->plr->dir_y * STEP;
+		if (data->map->map[(int)(data->plr->y - data->plr->dir_x * STEP)]
+			[(int)data->plr->x] != '1')	
+			data->plr->y -= data->plr->dir_x * STEP;
 		rendering(data);
 	}
 	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr,
 		data->win->img_ptr, 0, 0);
 }
 
-int	cb_handle_keyboard(int key, t_main *data)
-{
-	if (key == MAIN_PAD_ESC)
-		cb_terminate(data);
-	if (key == MAIN_PAD_W || key == MAIN_PAD_S)
-		handle_ws_keys(key, data);
-	if (key == MAIN_PAD_A || key == MAIN_PAD_D)
-		handle_ad_keys(key, data);
-	if (key == ARROW_RIGHT || key == ARROW_LEFT)
-		handle_arrows(key, data);
-	return (0);
-}
+
