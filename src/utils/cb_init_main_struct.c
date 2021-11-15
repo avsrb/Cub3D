@@ -19,7 +19,7 @@ static void	init_mlx(t_win *win)
 	}
 	win->img_ptr = mlx_new_image(win->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
 	win->addr = mlx_get_data_addr(win->img_ptr, &win->bpp, &win->line_length,
-								&win->endian);
+			&win->endian);
 }
 
 static void	init_player(t_main *data)
@@ -53,13 +53,33 @@ static void	init_map(t_map *m)
 		m->xpm[i] = NULL;
 }
 
+static void	init_lodev_stuct(t_lodev *lodev)
+{
+	lodev->step_x = 0;
+	lodev->step_y = 0;
+	lodev->camera_x = 0;
+	lodev->ray_dir_x = 0;
+	lodev->ray_dir_y = 0;
+	lodev->map_x = 0;
+	lodev->map_y = 0;
+	lodev->side_dist_x = 0;
+	lodev->side_dist_y = 0;
+	lodev->delta_dist_x = 0;
+	lodev->delta_dist_y = 0;
+	lodev->perp_wall_dist = 0;
+	lodev->flag_hit = 0;
+	lodev->side = '0';
+}
+
 void	cb_init_main_struct(t_main *data)
 {
 	data->zoom = 8;
-//	data->win = cb_malloc_x(sizeof(t_win));
+	data->win = cb_malloc_x(sizeof(t_win));
 	init_mlx(data->win);
-//	data->plr = cb_malloc_x(sizeof(t_plr));
+	data->plr = cb_malloc_x(sizeof(t_plr));
 	init_player(data);
-//	data->map = cb_malloc_x(sizeof(t_map));
+	data->map = cb_malloc_x(sizeof(t_map));
 	init_map(data->map);
+	data->lodev = cb_malloc_x(sizeof(t_lodev));
+	init_lodev_stuct(data->lodev);
 }

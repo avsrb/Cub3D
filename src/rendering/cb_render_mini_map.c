@@ -41,7 +41,7 @@ static void	cast_rays(t_main *data)
 	t_plr	ray;
 	float	start;
 	float	end;
-	
+
 	ray = *data->plr;
 	start = data->plr->angle - ft_degree_to_ratio(FOV) / 2;
 	end = data->plr->angle + ft_degree_to_ratio(FOV) / 2;
@@ -49,11 +49,13 @@ static void	cast_rays(t_main *data)
 	{
 		ray.x = data->plr->x * data->zoom;
 		ray.y = data->plr->y * data->zoom;
-		while (data->map->map[(int)(ray.y / data->zoom)][(int)ray.x / data->zoom] != '1')
+		while (data->map->map[(int)(ray.y / data->zoom)]
+			[(int)ray.x / data->zoom] != '1')
 		{
 			ray.x += cos(start);
 			ray.y += sin(start);
-			if (data->map->map[(int)(ray.y / data->zoom)][(int)ray.x / data->zoom] != '1')
+			if (data->map->map[(int)(ray.y / data->zoom)]
+				[(int)ray.x / data->zoom] != '1')
 				cb_mlx_pixel_put(data->win, ray.x, ray.y, TEAL);
 		}
 		start += M_PI_2 / data->win->win_width;
@@ -86,6 +88,7 @@ static void	print_flat_map(t_main *data)
 void	cb_render_mini_map(t_main *data)
 {
 	print_flat_map(data);
-	print_player(data, data->plr->x * data->zoom, data->plr->y * data->zoom, AQUA);
+	print_player(data, data->plr->x * data->zoom,
+		data->plr->y * data->zoom, AQUA);
 	cast_rays(data);
 }

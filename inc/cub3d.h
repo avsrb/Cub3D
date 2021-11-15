@@ -15,7 +15,7 @@
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
 # define FOV 66
-# define ROTATION_STEP 0.10F
+# define ROTATION_STEP 0.11F
 # define STEP 0.20F
 
 typedef struct	s_win
@@ -59,7 +59,7 @@ typedef struct	s_map
 	int			height;
 	bool		param_done;
 	bool		map_done;
-}		t_map;
+}	t_map;
 
 typedef struct	s_lodev
 {
@@ -67,25 +67,30 @@ typedef struct	s_lodev
 	int			step_y;
 	int 		map_x;
 	int			map_y;
-	int			flag_hit; // луч попал в стену? Да = 1
-	int			side; // какая сторона (NS или EW) задета лучем? N/S = 1, E/W = 2
+	int			flag_hit;
+	int			side;
 	float		camera_x;
-	float		rayDirX;
-	float		rayDirY;
-	float		sideDist_x;
-	float 		sideDist_y;
-	float 		deltaDist_x;
-	float		deltaDist_y;
-	float		perpWallDist;
+	float		ray_dir_x;
+	float		ray_dir_y;
+	float		side_dist_x;
+	float 		side_dist_y;
+	float 		delta_dist_x;
+	float		delta_dist_y;
+	float		perp_wall_dist;
+}	t_lodev;
 
-
-}		t_lodev;
+typedef struct	s_points
+{
+	int			draw_start;
+	int			draw_end;
+}	t_points;
 
 typedef struct	s_main
 {
 	t_win		*win;
 	t_plr		*plr;
 	t_map		*map;
+	t_lodev		*lodev;
 	int			zoom;
 }	t_main;
 
@@ -122,13 +127,11 @@ int		cb_strchr(const char *str, int c);
 int		parsing(int ac, char *file, t_main *all);
 void	init(t_map *m);
 char	*spacecutter(char *str);
-
 int		check_wall(char **map, int y, int x);
 int		check_double_player(t_map *m);
 void	check_map(t_map *m);
 void	check_simbol(t_lst *map_l);
 int		check_file(int ac, char *file);
-
 void	get_tex_and_color(char *str, t_map *m);
 
 // make_map

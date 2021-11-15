@@ -1,120 +1,126 @@
 #include "../../inc/cub3d.h"
 
-static void draw_line(t_main *data, int x, int drawStart, int drawEnd, int color)
+static void	draw_line(t_main *data, int x, t_points y_coordinates, int color)
 {
-	while (drawStart < drawEnd)
+	while (y_coordinates.draw_start < y_coordinates.draw_end)
 	{
-		cb_mlx_pixel_put(data->win, x, drawStart, color);
-		drawStart++;
+		cb_mlx_pixel_put(data->win, x, y_coordinates.draw_start, color);
+		y_coordinates.draw_start++;
 	}
 }
 
-void init_lodev_stuct(t_lodev *lodev)
+static void	calculate_ray_position_len_direction(t_main *data, int x_line)
 {
-	lodev->step_x = 0;
-	lodev->step_y = 0;
-	lodev->camera_x = 0;
-	lodev->rayDirX = 0;
-	lodev->rayDirY = 0;
-	lodev->map_x = 0;
-	lodev->map_y = 0;
-	lodev->sideDist_x = 0;
-	lodev->sideDist_y = 0;
-	lodev->deltaDist_x = 0;
-	lodev->deltaDist_y = 0;
-	lodev->perpWallDist = 0;
-	lodev->flag_hit = 0;
-	lodev->side = '0';
+	data->lodev->camera_x = 2 * (float)x_line / data->win->win_width - 1;//todo x-coordinate in camera space
+	data->lodev->ray_dir_x = data->plr->dir_x
+		- data->plr->plane_x * data->lodev->camera_x;
+	data->lodev->ray_dir_y = data->plr->dir_y
+		- data->plr->plane_y * data->lodev->camera_x;
+	data->lodev->map_x = (int)data->plr->x; // todo //which box of the map we're in
+	data->lodev->map_y = (int)data->plr->y;
+	data->lodev->delta_dist_x = fabsf(1 / data->lodev->ray_dir_x); //todo length of ray from current position to next x or y-side
+	data->lodev->delta_dist_y = fabsf(1 / data->lodev->ray_dir_y);
+}
+
+static void	calculate_step_and_side_dist(t_main *data)
+{
+	if (data->lodev->ray_dir_x < 0)
+	{
+		data->lodev->step_x = -1;
+		data->lodev->side_dist_x = (data->plr->x - data->lodev->map_x)
+			* data->lodev->delta_dist_x;
+	}
+	else
+	{
+		data->lodev->step_x = 1;
+		data->lodev->side_dist_x = (data->lodev->map_x + 1.0 - data->plr->x)
+			* data->lodev->delta_dist_x;
+	}
+	if (data->lodev->ray_dir_y < 0)
+	{
+		data->lodev->step_y = -1;
+		data->lodev->side_dist_y = (data->plr->y - data->lodev->map_y)
+			* data->lodev->delta_dist_y;
+	}
+	else
+	{
+		data->lodev->step_y = 1;
+		data->lodev->side_dist_y = (data->lodev->map_y + 1.0 - data->plr->y)
+			* data->lodev->delta_dist_y;
+	}
+}
+
+static void	check_which_wall_was_hitted(t_main *data)
+{
+	data->lodev->flag_hit = 0;
+	while (data->lodev->flag_hit == 0)
+	{
+		if (data->lodev->side_dist_x < data->lodev->side_dist_y)
+		{
+			data->lodev->side_dist_x += data->lodev->delta_dist_x;
+			data->lodev->map_x += data->lodev->step_x;
+			data->lodev->side = 'V';
+		}
+		else
+		{
+			data->lodev->side_dist_y += data->lodev->delta_dist_y;
+			data->lodev->map_y += data->lodev->step_y;
+			data->lodev->side = 'H';
+		}
+		if (data->map->map[data->lodev->map_y][data->lodev->map_x] == '1')
+			data->lodev->flag_hit = 1;
+	}
+	if (data->lodev->side == 'V')
+		data->lodev->perp_wall_dist = data->lodev->side_dist_x
+			- data->lodev->delta_dist_x;
+	if (data->lodev->side == 'H')
+		data->lodev->perp_wall_dist = data->lodev->side_dist_y
+			- data->lodev->delta_dist_y;
+}
+
+static int	get_wall_color(t_lodev *lodev) //todo в идеале вместо color должна встать текстура
+{
+	int	color;
+
+	color = 0;
+	if (lodev->side == 'V') // todo Vertical wall
+	{
+		if (lodev->step_x < 0) // todo West
+			color = GREEN;
+		if (lodev->step_x > 0) // todo East
+			color = MAROON;
+	}
+	else if (lodev->side == 'H') // todo Horizontal wall
+	{
+		if (lodev->step_y < 0) // todo North
+			color = NAVY;
+		if (lodev->step_y > 0) // todo South
+			color = JAFFA;
+	}
+	return (color);
 }
 
 void	cb_render_cub(t_main *data)
 {
-	int		x;
-	t_lodev	lodev;
+	int			x;
+	int			line_height;
+	t_points	y_coordinates;
 
-	init_lodev_stuct(&lodev);
 	x = 0;
 	while (x < data->win->win_width)
 	{
-		//calculate ray position and direction
-		lodev.camera_x = 2 * (float)x / data->win->win_width - 1; //x-coordinate in camera space
-		lodev.rayDirX = data->plr->dir_x - data->plr->plane_x * lodev.camera_x;
-		lodev.rayDirY = data->plr->dir_y - data->plr->plane_y * lodev.camera_x;
-
-		//which box of the map we're in
-		lodev.map_x = (int)data->plr->x;
-		lodev.map_y = (int)data->plr->y;
-
-		//length of ray from current position to next x or y-side
-		lodev.deltaDist_x = fabsf(1 / lodev.rayDirX);
-		lodev.deltaDist_y = fabsf(1 / lodev.rayDirY);
-
-
-		lodev.flag_hit = 0; //was there a wall hit?
-		//calculate step and initial sideDist
-		if (lodev.rayDirX < 0)
-		{
-			lodev.step_x = -1;
-			lodev.sideDist_x = (data->plr->x - lodev.map_x) * lodev.deltaDist_x;
-		}
-		else
-		{
-			lodev.step_x = 1;
-			lodev.sideDist_x = (lodev.map_x + 1.0 - data->plr->x) * lodev.deltaDist_x;
-		}
-		if (lodev.rayDirY < 0)
-		{
-			lodev.step_y = -1;
-			lodev.sideDist_y = (data->plr->y - lodev.map_y) * lodev.deltaDist_y;
-		}
-		else
-		{
-			lodev.step_y = 1;
-			lodev.sideDist_y = (lodev.map_y + 1.0 - data->plr->y) * lodev.deltaDist_y;
-		}
-		//perform dist
-//side - какая сторона (NS или EW) задета лучем? N/S (по у) = 'H', E/W  (по х) = 'V'
-		while (lodev.flag_hit == 0)
-		{
-			//jump to next map square, either in x-direction, or in y-direction
-			if(lodev.sideDist_x < lodev.sideDist_y)
-			{
-				lodev.sideDist_x += lodev.deltaDist_x;
-				lodev.map_x += lodev.step_x;
-				lodev.side = 'V';
-			}
-			else
-			{
-				lodev.sideDist_y += lodev.deltaDist_y;
-				lodev.map_y += lodev.step_y;
-				lodev.side = 'H';
-			}
-			if(data->map->map[lodev.map_y][lodev.map_x] == '1')
-				lodev.flag_hit = 1;
-		}
-		if (lodev.side == 'V')
-			lodev.perpWallDist = (lodev.sideDist_x - lodev.deltaDist_x);
-		if (lodev.side == 'H')
-			lodev.perpWallDist = (lodev.sideDist_y - lodev.deltaDist_y);
-
-		//Calculate height of line to draw on screen
-		// printf("lodev.perpWallDist: %f\n", lodev.perpWallDist), exit(0);
-		int lineHeight = (int)(data->win->win_height / lodev.perpWallDist);
-
-		//calculate lowest and higest pixel to fill in current stripe
-		int drawStart = -lineHeight / 2 + data->win->win_height / 2;
-		if(drawStart < 0)
-			drawStart = 0;
-		int drawEnd = lineHeight / 2 + data->win->win_height / 2;
-		if(drawEnd >= data->win->win_height)
-			drawEnd = data->win->win_height - 1;
-
-
-		//give x and y sides different color
-		if (lodev.side == 'H')
-			draw_line(data, x, drawStart, drawEnd, NAVY);
-		if (lodev.side == 'V')
-			draw_line(data, x, drawStart, drawEnd, MAROON);
+		calculate_ray_position_len_direction(data, x); //todo calculate ray position and direction
+		calculate_step_and_side_dist(data); //todo calculate step and initial sideDist
+		check_which_wall_was_hitted(data);
+		line_height = (int)(data->win->win_height / data->lodev->perp_wall_dist);
+		y_coordinates.draw_start = -line_height / 2 + data->win->win_height / 2;
+		if (y_coordinates.draw_start < 0)
+			y_coordinates.draw_start = 0;
+		y_coordinates.draw_end = line_height / 2 + data->win->win_height / 2;
+		if (y_coordinates.draw_end >= data->win->win_height)
+			y_coordinates.draw_end = data->win->win_height - 1;
+		draw_line(data, x, y_coordinates, get_wall_color(data->lodev));
+//todo draw_line рисует вертикальную линию по X. Последний аргумент - INT, обозначающий цвет (текстуру)
 		x++;
 	}
 }
