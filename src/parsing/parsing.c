@@ -65,54 +65,30 @@ void set_player_direction(t_plr *plr, char c)
 	}
 }
 
-//void set_player_direction(t_plr *plr, char c)
-//{
-//	if (c == 'N')
-//	{
-//		plr->dir_x = -1.0;
-//		plr->dir_y = 0;
-//		plr->plane_x = 0;
-//		plr->plane_y = 0.66;
-//		plr->angle = 1.5 * M_PI;
-//	}
-//	else if (c == 'S')
-//	{
-//		plr->dir_x = 0.998295;
-//		plr->dir_y = -0.058374;
-//		plr->plane_x = -0.038527;
-//		plr->plane_y = -0.658875;
-//		plr->angle = M_PI_2;
-//	}
-//	else if (c == 'W')
-//	{
-//		plr->dir_x = 0.012389;
-//		plr->dir_y = -0.999923;
-//		plr->plane_x = -0.659949;
-//		plr->plane_y = -0.008177;
-//		plr->angle = M_PI;
-//	}
-//	else if (c == 'E')
-//	{
-//		plr->dir_x = 0.029200;
-//		plr->dir_y = 0.999574;
-//		plr->plane_x = 0.659719;
-//		plr->plane_y = -0.019272;
-//		plr->angle = 0;
-//	}
-//}
+void	setup_texture(t_main *all, t_txr *txr, char *file)
+{
+	int	sz[2];
 
-//void	check_open_texture(t_main *all)
-//{
-//	if (!mlx_xpm_file_to_image(all->win->win_ptr, all->map->xpm[0], 600, 600))
-//		ft_error("can`t open texture\n");
-//	if (!mlx_xpm_file_to_image(all->win->win_ptr, all->map->xpm[1], 600, 600))
-//		ft_error("can`t open texture\n");
-//	if (!mlx_xpm_file_to_image(all->win->win_ptr, all->map->xpm[2], 600, 600))
-//		ft_error("can`t open texture\n");
-//	if (!mlx_xpm_file_to_image(all->win->win_ptr, all->map->xpm[3], 600, 600))
-//		ft_error("can`t open texture\n");
-//
-//}
+	txr->img = mlx_xpm_file_to_image(all->win->mlx_ptr, file, &sz[0], &sz[1]);
+	if (!txr->img)
+		ft_error("Not read xmp file\n");
+	if (sz[0] != 64 || sz[1] != 64)
+		ft_error("invalid xpm size\n");
+	txr->addr = mlx_get_data_addr(txr->img, &txr->bpp, &txr->size_line, &txr->endian);
+	txr->bpp = txr->bpp / 8;
+}
+
+void	open_texture(t_main *all)
+{
+	all->txrs->north = cb_malloc_x(sizeof(t_txr));
+	setup_texture(all, all->txrs->north, all->map->xpm[0]);
+	all->txrs->south = cb_malloc_x(sizeof(t_txr));
+	setup_texture(all, all->txrs->south, all->map->xpm[1]);
+	all->txrs->west = cb_malloc_x(sizeof(t_txr));
+	setup_texture(all, all->txrs->west, all->map->xpm[2]);
+	all->txrs->east = cb_malloc_x(sizeof(t_txr));
+	setup_texture(all, all->txrs->east, all->map->xpm[3]);
+}
 
 void	clean_map(t_map *m)
 {
@@ -177,6 +153,6 @@ int	parsing(int ac, char *file, t_main *all)
 	if (all->map->param_done == false)
 		ft_error("map not valid\n");
 	find_player(all->plr, all->map);
-
+	open_texture(all);
 	return (0);
 }

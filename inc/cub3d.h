@@ -42,6 +42,23 @@ typedef struct	s_plr
 	float		angle;
 }	t_plr;
 
+typedef struct s_txr
+{
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		size_line;
+	int		endian;
+}				t_txr;
+
+typedef struct	s_txrs
+{
+	t_txr	*north;
+	t_txr	*south;
+	t_txr	*west;
+	t_txr	*east;
+}	t_txrs;
+
 typedef struct	s_lst
 {
 	char			*val;
@@ -91,6 +108,7 @@ typedef struct	s_main
 	t_plr		*plr;
 	t_map		*map;
 	t_lodev		*lodev;
+	t_txrs		*txrs;
 	int			zoom;
 }	t_main;
 
