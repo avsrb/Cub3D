@@ -136,7 +136,7 @@ void	clean_map(t_map *m)
 	m->map = map_clean;
 }
 
-void	find_player(t_plr *plr, t_map *m, t_plr *p)
+void	find_player(t_plr *plr, t_map *m)
 {
 	int	y;
 	int	x;
@@ -150,8 +150,8 @@ void	find_player(t_plr *plr, t_map *m, t_plr *p)
 			if (m->map[y][x] == 'N' || m->map[y][x] == 'S'
 			|| m->map[y][x] == 'W' || m->map[y][x] == 'E')
 			{
-				p->y = (float)y + 0.1F; //todo Stan addiction
-				p->x = (float)x + 0.1F; //todo Stan addiction
+				plr->y = (float)y + 0.1F; //todo Stan addiction
+				plr->x = (float)x + 0.1F; //todo Stan addiction
 				set_player_direction(plr, m->map[y][x]);
 				return;
 			}
@@ -176,6 +176,7 @@ int	parsing(int ac, char *file, t_main *all)
 		ft_error("the player must be alone\n");
 	if (all->map->param_done == false)
 		ft_error("map not valid\n");
-	find_player(all->plr, all->map, all->plr); // todo ACHTUNG одна и та же струкура дважды аргумент?
+	find_player(all->plr, all->map);
+
 	return (0);
 }
