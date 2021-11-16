@@ -1,12 +1,23 @@
 #include "../../inc/cub3d.h"
 
+int	cb_handle_keyboard(int key, t_main *data)
+{
+	if (key == MAIN_PAD_ESC)
+		cb_terminate(data);
+	if (key == MAIN_PAD_W || key == MAIN_PAD_S)
+		cb_handle_ws_keys(key, data);
+	if (key == MAIN_PAD_A || key == MAIN_PAD_D)
+		cb_handle_ad_keys(key, data);
+	if (key == ARROW_RIGHT || key == ARROW_LEFT)
+		cb_handle_arrows(key, data);
+	return (0);
+}
+
 int	cb_terminate(t_main *data)
 {
-	(void)data;
-//	mlx_clear_window(data->win->mlx_ptr, data->win->win_ptr);//todo не знаю зачем это
+	mlx_clear_window(data->win->mlx_ptr, data->win->win_ptr);
+	mlx_destroy_image(data->win->mlx_ptr, data->win->img_ptr);
 //	mlx_destroy_window(data->win->mlx_ptr, data->win->win_ptr);//todo не знаю зачем это
-	if (data->win->win_ptr)
-		mlx_destroy_window(data->win->mlx_ptr, data->win->win_ptr);//todo редакци Тараса
 	exit(0);
 }
 

@@ -31,16 +31,75 @@ void	parsing_param(int fd, t_map *m)
 void set_player_direction(t_plr *plr, char c)
 {
 	if (c == 'N')
-		plr->dir = 1.5 * M_PI;
-	else if (c == 'E')
-		plr->dir = 0;
+	{
+		plr->dir_x = 0.012389;
+		plr->dir_y = -0.999923;
+		plr->plane_x = -0.659949;
+		plr->plane_y = -0.008177;
+		plr->angle = ft_degree_to_ratio(270);
+	}
 	else if (c == 'S')
-		plr->dir = M_PI_2;
+	{
+		plr->dir_x = 0.029200;
+		plr->dir_y = 0.999574;
+		
+		plr->plane_x = 0.659719;
+		plr->plane_y = -0.019272;
+		plr->angle = ft_degree_to_ratio(90);
+	}
 	else if (c == 'W')
-		plr->dir = M_PI;
-	plr->start = plr->dir - M_PI_4;
-	plr->end = plr->dir + M_PI_4;
+	{
+		plr->dir_x = -1.0;
+		plr->dir_y = 0;
+		plr->plane_x = 0;
+		plr->plane_y = 0.66;
+		plr->angle = ft_degree_to_ratio(180);
+	}
+	else if (c == 'E')
+	{
+		plr->dir_x = 0.998295;
+		plr->dir_y = -0.058374;
+		plr->plane_x = -0.038527;
+		plr->plane_y = -0.658875;
+		plr->angle = ft_degree_to_ratio(0);
+	}
 }
+
+//void set_player_direction(t_plr *plr, char c)
+//{
+//	if (c == 'N')
+//	{
+//		plr->dir_x = -1.0;
+//		plr->dir_y = 0;
+//		plr->plane_x = 0;
+//		plr->plane_y = 0.66;
+//		plr->angle = 1.5 * M_PI;
+//	}
+//	else if (c == 'S')
+//	{
+//		plr->dir_x = 0.998295;
+//		plr->dir_y = -0.058374;
+//		plr->plane_x = -0.038527;
+//		plr->plane_y = -0.658875;
+//		plr->angle = M_PI_2;
+//	}
+//	else if (c == 'W')
+//	{
+//		plr->dir_x = 0.012389;
+//		plr->dir_y = -0.999923;
+//		plr->plane_x = -0.659949;
+//		plr->plane_y = -0.008177;
+//		plr->angle = M_PI;
+//	}
+//	else if (c == 'E')
+//	{
+//		plr->dir_x = 0.029200;
+//		plr->dir_y = 0.999574;
+//		plr->plane_x = 0.659719;
+//		plr->plane_y = -0.019272;
+//		plr->angle = 0;
+//	}
+//}
 
 //void	check_open_texture(t_main *all)
 //{
@@ -54,7 +113,6 @@ void set_player_direction(t_plr *plr, char c)
 //		ft_error("can`t open texture\n");
 //
 //}
-
 
 void	clean_map(t_map *m)
 {
@@ -92,8 +150,8 @@ void	find_player(t_plr *plr, t_map *m, t_plr *p)
 			if (m->map[y][x] == 'N' || m->map[y][x] == 'S'
 			|| m->map[y][x] == 'W' || m->map[y][x] == 'E')
 			{
-				p->y = y;
-				p->x = x;
+				p->y = (float)y + 0.1F; //todo Stan addiction
+				p->x = (float)x + 0.1F; //todo Stan addiction
 				set_player_direction(plr, m->map[y][x]);
 				return;
 			}
@@ -118,6 +176,6 @@ int	parsing(int ac, char *file, t_main *all)
 		ft_error("the player must be alone\n");
 	if (all->map->param_done == false)
 		ft_error("map not valid\n");
-	find_player(all->plr, all->map, all->plr);
+	find_player(all->plr, all->map, all->plr); // todo ACHTUNG одна и та же струкура дважды аргумент?
 	return (0);
 }

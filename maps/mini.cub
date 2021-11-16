@@ -4,11 +4,11 @@ WE ./textures/wood.xpm
 EA ./textures/grey.xpm
 
 F 100,1,100
-C 10,10,10
+C 255,255,200
 
 
 1111
-1001
+1101
 10S1
 1001
 1111
