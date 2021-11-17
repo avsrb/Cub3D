@@ -1,5 +1,7 @@
 #include "./../inc/cub3d.h"
 
+//gcc ./src/main_bonus.c ./src/parsing/*.c ./src/utils/*.c ./src/rendering/*.c ./src/events/*.c ./src/libft/libft.a libmlx.dylib -o cub3D -g
+
 //void	cb_clear_all(t_main *data) // на случай если будем юзать malloc
 //{
 //	if (data->lodev)
@@ -8,8 +10,10 @@
 //		free(data->plr);
 //	if (data->map)
 //	{
-//		ft_free_array(&(data->map->map));
-//		ft_free_array(&(data->map->xpm));
+//		if (data->map->map)
+//			ft_free_array(&(data->map->map));
+//		if (data->map->xpm)
+//			ft_free_array(&(data->map->xpm));
 //		free(data->map);
 //	}
 //}

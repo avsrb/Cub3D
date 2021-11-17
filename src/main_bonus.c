@@ -12,6 +12,12 @@ void	cb_rendering(t_main *data)
 int	main(int argc, char **argv)
 {
 	t_main	data;
+
+	data.win = NULL;
+	data.map = NULL;
+	data.plr = NULL;
+	data.lodev = NULL;
+	
 	//t_map	map;
 	//t_win	win;
 	//t_plr	plr;
