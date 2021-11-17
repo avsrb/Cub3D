@@ -10,7 +10,8 @@
 # include "../inc/colors.h"
 # include "../inc/macos_keyboard.h"
 # include "../src/libft/inc/libft.h"
-# include "../src/minilibx_mms/mlx.h"
+# include "../src/minilibx_opengl/mlx.h"
+
 
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600

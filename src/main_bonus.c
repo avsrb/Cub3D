@@ -12,25 +12,18 @@ void	cb_rendering(t_main *data)
 int	main(int argc, char **argv)
 {
 	t_main	data;
+	t_map	map;
+	t_win	win;
+	t_plr	plr;
+	t_lodev	lodev;
 
-	data.win = NULL;
-	data.map = NULL;
-	data.plr = NULL;
-	data.lodev = NULL;
-	
-	//t_map	map;
-	//t_win	win;
-	//t_plr	plr;
-	//t_lodev	lodev;
-
-	//data.map = &map;
-	//data.win = &win;
-	//data.plr = &plr;
-	//data.lodev = &lodev;
+	data.map = &map;
+	data.win = &win;
+	data.plr = &plr;
+	data.lodev = &lodev;
 	cb_init_main_struct(&data);
 	parsing(argc, argv[1], &data);
 	cb_rendering(&data);
 	cb_handle_events(&data);
-//	mlx_loop_hook(data.win->mlx_ptr, cb_rendering, &data);//todo с ней отрисовка мерцает
 	mlx_loop(data.win->mlx_ptr);
 }
