@@ -19,8 +19,12 @@ void	cb_rendering(t_main *data)
 	cb_render_floor_ceiling(data);
 	cb_render_cub(data);
 	cb_render_mini_map(data);
-	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr,
-		data->win->img_ptr, 0, 0);
+	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr, data->txrs->north->img, 0, 0);
+	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr, data->txrs->east->img, 64, 0);
+	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr, data->txrs->west->img, 128, 0);
+	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr, data->txrs->south->img, 192, 0);
+//	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr,
+//		data->win->img_ptr, 0, 0);
 }
 
 int	main(int argc, char **argv)
