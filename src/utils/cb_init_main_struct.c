@@ -81,5 +81,6 @@ void	cb_init_main_struct(t_main *data)
 	data->map = cb_malloc_x(sizeof(t_map));
 	init_map(data->map);
 	data->lodev = cb_malloc_x(sizeof(t_lodev));
+	data->txrs = cb_malloc_x(sizeof(t_txrs));
 	init_lodev_stuct(data->lodev);
 }
