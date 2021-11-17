@@ -1,23 +1,10 @@
 #include "./../inc/cub3d.h"
 
-//void	cb_clear_all(t_main *data) // на случай если будем юзать malloc
-//{
-//	if (data->lodev)
-//		free(data->lodev);
-//	if (data->plr)
-//		free(data->plr);
-//	if (data->map)
-//	{
-//		ft_free_array(&(data->map->map));
-//		ft_free_array(&(data->map->xpm));
-//		free(data->map);
-//	}
-//}
-
 void	cb_rendering(t_main *data)
 {
 	cb_render_floor_ceiling(data);
 	cb_render_cub(data);
+	cb_render_mini_map(data);
 	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr,
 		data->win->img_ptr, 0, 0);
 }
