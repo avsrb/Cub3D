@@ -75,7 +75,7 @@ void	setup_texture(t_main *all, t_txr *txr, char *file)
 	if (sz[0] != 64 || sz[1] != 64)
 		ft_error("invalid xpm size\n");
 	txr->addr = mlx_get_data_addr(txr->img, &txr->bpp, &txr->size_line, &txr->endian);
-	txr->bpp = txr->bpp / 8;
+//	txr->bpp = txr->bpp / 8;
 }
 
 void	open_texture(t_main *all)
