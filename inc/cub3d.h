@@ -43,6 +43,23 @@ typedef struct	s_plr
 	float		angle;
 }	t_plr;
 
+typedef struct s_txr
+{
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		size_line;
+	int		endian;
+}				t_txr;
+
+typedef struct	s_txrs
+{
+	t_txr	*north;
+	t_txr	*south;
+	t_txr	*west;
+	t_txr	*east;
+}	t_txrs;
+
 typedef struct	s_lst
 {
 	char			*val;
@@ -92,6 +109,7 @@ typedef struct	s_main
 	t_plr		*plr;
 	t_map		*map;
 	t_lodev		*lodev;
+	t_txrs		*txrs;
 	int			zoom;
 }	t_main;
 
@@ -126,7 +144,6 @@ t_lst	*ft_lstnew(char *content);
 void	ft_error(char *str);
 int		cb_strchr(const char *str, int c);
 int		parsing(int ac, char *file, t_main *all);
-void	init(t_map *m);
 char	*spacecutter(char *str);
 int		check_wall(char **map, int y, int x);
 int		check_double_player(t_map *m);
@@ -134,6 +151,7 @@ void	check_map(t_map *m);
 void	check_simbol(t_lst *map_l);
 int		check_file(int ac, char *file);
 void	get_tex_and_color(char *str, t_map *m);
+void	find_player(t_plr *plr, t_map *m);
 
 // make_map
 void	make_map(t_map *data);
