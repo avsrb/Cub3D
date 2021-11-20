@@ -33,7 +33,7 @@ HEADERS			=	-I./inc/ -I.src/minilibx_opengl/ -I.src/libft/inc/
 
 CC				=	gcc
 
-FRAMEWORKS		=	-lmlx -framework OpenGL -framework AppKit
+FRAMEWORKS		=	-framework OpenGL -framework AppKit
 
 RM				=	rm -rfv
 

@@ -6,7 +6,6 @@ set(CMAKE_C_STANDARD 99)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/libft/)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/minilibx_mms/)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/inc)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/minisrc/minilibx_mms)
 
 
 FILE(GLOB SRC
@@ -18,8 +17,9 @@ FILE(GLOB SRC
 
 
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -Wall")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L ${CMAKE_CURRENT_SOURCE_DIR}/minilibx_opengl/ -framework OpenGL -framework AppKit")
 add_executable(Cub3D ${SRC})
 
 target_link_libraries (Cub3D ${CMAKE_CURRENT_SOURCE_DIR}/src/libft/libft.a)
-target_link_libraries (Cub3D ${CMAKE_CURRENT_SOURCE_DIR}/src/minilibx_mms/libmlx.dylib)
+target_link_libraries (Cub3D ${CMAKE_CURRENT_SOURCE_DIR}/src/minilibx_opengl/libmlx.a)
 

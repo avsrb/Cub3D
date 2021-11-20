@@ -1,11 +1,38 @@
 #include "../../inc/cub3d.h"
 
+
+int	select_color(t_main *data, double tex_posy, char direct)
+{
+	int	tex_posx;
+	
+	tex_posx = 0;
+	if (direct == 'h')
+		tex_posx = ((int)(data->lodev->ray_dir_x
+						  - ((int)(data->lodev->ray_dir_x / 64) * 64))) / 2;
+	else if (direct == 'v')
+		tex_posx = ((int)(data->lodev->ray_dir_y
+						  - ((int)(data->lodev->ray_dir_y / 64) * 64))) / 2;
+	return (*(int *)(data->txrs->east->addr
+					 + (int)tex_posy * data->txrs->north->size_line
+					 + tex_posx * (data->txrs->east->bpp / 8)));
+}
+
 static void	draw_line(t_main *data, int x, t_points y_coordinates, int color)
 {
+	double	tex_posy;
+	char	direct;
+	double	scale;
+	double height;
+	
+	tex_posy = 0;
+	direct = 'h';
+	height = (int)(data->win->win_height / data->lodev->perp_wall_dist);
+	scale = 64 / height;
 	while (y_coordinates.draw_start < y_coordinates.draw_end)
 	{
-		cb_mlx_pixel_put(data->win, x, y_coordinates.draw_start, color);
+		cb_mlx_pixel_put(data->win, x, y_coordinates.draw_start, select_color(data, tex_posy, direct));
 		y_coordinates.draw_start++;
+		tex_posy += scale;
 	}
 }
 
