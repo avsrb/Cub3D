@@ -3,25 +3,25 @@
 static void	draw_line(t_main *data, int x)
 {
 	int	color;
-	int	texY;
+	int	tex_y;
 
 	while (data->lodev->draw_start < data->lodev->draw_end)
 	{
-		texY = (int) data->lodev->texPos & (64 - 1);
+		tex_y = (int) data->lodev->texPos & (64 - 1);
 		data->lodev->texPos += data->lodev->step;
 		if (data->lodev->side == 'H')
 		{
 			if (data->lodev->step_y == -1)
-				color = data->txrs->west->matrix[data->lodev->texX][texY];
+				color = data->txrs->west->matrix[data->lodev->texX][tex_y];
 			else
-				color = data->txrs->east->matrix[data->lodev->texX][texY];
+				color = data->txrs->east->matrix[data->lodev->texX][tex_y];
 		}
 		else
 		{
 			if (data->lodev->step_x == -1)
-				color = data->txrs->north->matrix[data->lodev->texX][texY];
+				color = data->txrs->north->matrix[data->lodev->texX][tex_y];
 			else
-				color = data->txrs->south->matrix[data->lodev->texX][texY];
+				color = data->txrs->south->matrix[data->lodev->texX][tex_y];
 		}
 		cb_mlx_pixel_put(data->win, x, data->lodev->draw_start, color);
 		data->lodev->draw_start++;
@@ -30,14 +30,14 @@ static void	draw_line(t_main *data, int x)
 
 static void	calculate_ray_position_len_direction(t_main *data, int x_line)
 {
-	data->lodev->camera_x = 2 * (float)x_line / data->win->win_width - 1;//todo x-coordinate in camera space
+	data->lodev->camera_x = 2 * (float)x_line / data->win->win_width - 1;
 	data->lodev->ray_dir_x = data->plr->dir_x
 		- data->plr->plane_x * data->lodev->camera_x;
 	data->lodev->ray_dir_y = data->plr->dir_y
 		- data->plr->plane_y * data->lodev->camera_x;
-	data->lodev->map_x = (int)data->plr->x; // todo //which box of the map we're in
+	data->lodev->map_x = (int)data->plr->x;
 	data->lodev->map_y = (int)data->plr->y;
-	data->lodev->delta_dist_x = fabsf(1 / data->lodev->ray_dir_x); //todo length of ray from current position to next x or y-side
+	data->lodev->delta_dist_x = fabsf(1 / data->lodev->ray_dir_x);
 	data->lodev->delta_dist_y = fabsf(1 / data->lodev->ray_dir_y);
 }
 
@@ -89,7 +89,7 @@ static void	check_which_wall_was_hitted(t_main *data)
 		if (data->map->map[data->lodev->map_y][data->lodev->map_x] == '1')
 			data->lodev->flag_hit = 1;
 	}
-	if (data->lodev->side == 'V') // == 0
+	if (data->lodev->side == 'V')
 		data->lodev->perp_wall_dist = data->lodev->side_dist_x
 			- data->lodev->delta_dist_x;
 	if (data->lodev->side == 'H')
@@ -99,21 +99,27 @@ static void	check_which_wall_was_hitted(t_main *data)
 
 void	calculate_lowest_and_highest_pixel(t_main *data)
 {
-	data->lodev->draw_start = -data->lodev->line_height / 2 + data->win->win_height / 2;
-	if (data->lodev->draw_start < 0)
-		data->lodev->draw_start = 0;
-	data->lodev->draw_end = data->lodev->line_height / 2 + data->win->win_height / 2;
-	if (data->lodev->draw_end >= data->win->win_height)
-		data->lodev->draw_end = data->win->win_height - 1;
+	t_lodev		*l;
+
+	l = data->lodev;
+	l->draw_start = -l->line_height / 2 + data->win->win_height / 2;
+	if (l->draw_start < 0)
+		l->draw_start = 0;
+	l->draw_end = l->line_height / 2 + data->win->win_height / 2;
+	if (l->draw_end >= data->win->win_height)
+		l->draw_end = data->win->win_height - 1;
 }
 
-void	calculate_value_of_wallX(t_main *data)
+void	calculate_value_of_wall_x(t_main *data)
 {
-	if (data->lodev->side == 'V')
-		data->lodev->wallX = data->plr->y + data->lodev->perp_wall_dist * data->lodev->ray_dir_y;
+	t_lodev		*l;
+
+	l = data->lodev;
+	if (l->side == 'V')
+		l->wallX = data->plr->y + l->perp_wall_dist * l->ray_dir_y;
 	else
-		data->lodev->wallX = data->plr->x + data->lodev->perp_wall_dist * data->lodev->ray_dir_x;
-	data->lodev->wallX -= floor((data->lodev->wallX));
+		l->wallX = data->plr->x + l->perp_wall_dist * l->ray_dir_x;
+	l->wallX -= floor((l->wallX));
 }
 
 void	cb_render_cub(t_main *data)
@@ -128,7 +134,7 @@ void	cb_render_cub(t_main *data)
 		check_which_wall_was_hitted(data);
 		data->lodev->line_height = (int)(data->win->win_height / data->lodev->perp_wall_dist);
 		calculate_lowest_and_highest_pixel(data);
-		calculate_value_of_wallX(data);
+		calculate_value_of_wall_x(data);
 		data->lodev->texX = (int)(data->lodev->wallX * (double)(64));
 		if (data->lodev->side == 0 && data->lodev->ray_dir_x > 0)
 			data->lodev->texX = 64 - data->lodev->texX - 1;

@@ -4,6 +4,7 @@ static void	turn_right(t_main *data)
 {
 	float	prev_dir_x;
 	float	prev_plane_x;
+
 	data->plr->angle += ROTATION_STEP;
 	prev_dir_x = data->plr->dir_x;
 	prev_plane_x = data->plr->plane_x;
@@ -85,7 +86,7 @@ void	cb_handle_ad_keys(int key, t_main *data)
 			[(int)(data->plr->x + data->plr->dir_y * STEP)] != '1')
 			data->plr->x += data->plr->dir_y * STEP;
 		if (data->map->map[(int)(data->plr->y - data->plr->dir_x * STEP)]
-			[(int)data->plr->x] != '1')	
+			[(int)data->plr->x] != '1')
 			data->plr->y -= data->plr->dir_x * STEP;
 		cb_rendering(data);
 	}
@@ -102,5 +103,3 @@ void	cb_handle_ad_keys(int key, t_main *data)
 	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr,
 		data->win->img_ptr, 0, 0);
 }
-
-

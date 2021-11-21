@@ -9,7 +9,7 @@ int	check_file(int ac, char *file)
 		ft_error("use './cub maps/org.cub'");
 	if (ft_strncmp(file + (ft_strlen(file) - 4), ".cub", 4) \
 	|| ft_strlen(file) < 4)
-	ft_error("use map with '.cub'");
+		ft_error("use map with '.cub'");
 	fd = open(file, O_RDONLY);
 	if (fd < 0 || read(fd, NULL, 0) < 0)
 	{
