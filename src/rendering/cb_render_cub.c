@@ -23,14 +23,30 @@ void generate_some_textures(void)
 		}
 }
 
-static void	draw_line(t_main *data, int x, t_points y_coordinates, int *color)
+static void	draw_line(t_main *data, int x, t_points y_coordinates, int colorsss)
 {
-	int	i;
+	int	color;
+	int	texY;
 
-	i = 0;
 	while (y_coordinates.draw_start < y_coordinates.draw_end)
 	{
-		cb_mlx_pixel_put(data->win, x, y_coordinates.draw_start, color[i++]);
+		texY = (int) data->lodev->texPos & (64 - 1);
+		data->lodev->texPos += data->lodev->step;
+		if (data->lodev->side == 'H')
+		{
+			if (data->lodev->step_y == -1)
+				color = data->txrs->west->matrix[data->lodev->texX][texY];
+			else
+				color = data->txrs->east->matrix[data->lodev->texX][texY];
+		}
+		else
+		{
+			if (data->lodev->step_x == -1)
+				color = data->txrs->north->matrix[data->lodev->texX][texY];
+			else
+				color = data->txrs->south->matrix[data->lodev->texX][texY];
+		}
+		cb_mlx_pixel_put(data->win, x, y_coordinates.draw_start, color);
 		y_coordinates.draw_start++;
 	}
 }
@@ -96,7 +112,7 @@ static void	check_which_wall_was_hitted(t_main *data)
 		if (data->map->map[data->lodev->map_y][data->lodev->map_x] == '1')
 			data->lodev->flag_hit = 1;
 	}
-	if (data->lodev->side == 'V')
+	if (data->lodev->side == 'V') // == 0
 		data->lodev->perp_wall_dist = data->lodev->side_dist_x
 			- data->lodev->delta_dist_x;
 	if (data->lodev->side == 'H')
@@ -141,65 +157,58 @@ void	cb_render_cub(t_main *data)
 		calculate_ray_position_len_direction(data, x); //todo calculate ray position and direction
 		calculate_step_and_side_dist(data); //todo calculate step and initial sideDist
 		check_which_wall_was_hitted(data);
-		line_height = (int)(data->win->win_height / data->lodev->perp_wall_dist);
-		y_coordinates.draw_start = -line_height / 2 + data->win->win_height / 2;
-		if (y_coordinates.draw_start < 0)
-			y_coordinates.draw_start = 0;
-		y_coordinates.draw_end = line_height / 2 + data->win->win_height / 2;
-		if (y_coordinates.draw_end >= data->win->win_height)
-			y_coordinates.draw_end = data->win->win_height - 1;
+		data->lodev->line_height = (int)(data->win->win_height / data->lodev->perp_wall_dist);
+		data->lodev->draw_start = -data->lodev->line_height / 2 + data->win->win_height / 2;
+		if (data->lodev->draw_start < 0)
+			data->lodev->draw_start = 0;
+		data->lodev->draw_end = data->lodev->line_height / 2 + data->win->win_height / 2;
+		if (data->lodev->draw_end >= data->win->win_height)
+			data->lodev->draw_end = data->win->win_height - 1;
 
 		char		tex_num = data->map->map[data->lodev->map_y][data->lodev->map_x] - 1; // расчеты текстурирования
 
 		// вычисляем значение wallX
 		double wallX; // где именно стена была поражена
-		if (data->lodev->side == 0)
-			wallX = data->plr->y + data->lodev->perp_wall_dist * data->lodev->ray_dir_y;
+		if (data->lodev->side == 'V')
+			data->lodev->wallX = data->plr->y + data->lodev->perp_wall_dist * data->lodev->ray_dir_y;
 		else
-			wallX = data->plr->x + data->lodev->perp_wall_dist * data->lodev->ray_dir_x;
-		wallX -= floor((wallX));
+			data->lodev->wallX = data->plr->x + data->lodev->perp_wall_dist * data->lodev->ray_dir_x;
+		data->lodev->wallX -= floor((data->lodev->wallX));
 		// координата x текстуры
-		int texX = (int)(wallX * (double)(64));
+		data->lodev->texX = (int)(data->lodev->wallX * (double)(64));
 		if (data->lodev->side == 0 && data->lodev->ray_dir_x > 0)
-			texX = 64 - texX - 1;
+			data->lodev->texX = 64 - data->lodev->texX - 1;
 		if (data->lodev->side == 1 && data->lodev->ray_dir_y < 0)
-			texX = 64 - texX - 1;
+			data->lodev->texX = 64 - data->lodev->texX - 1;
 
 		//Теперь, когда мы знаем координату x текстуры, мы знаем, что эта координата останется прежней,
 		// потому что мы остаемся в той же вертикальной полосе экрана. Теперь нам нужен цикл в направлении y,
 		// чтобы дать каждому пикселю вертикальной полосы правильную координату y текстуры, называемую texY.
 
 		// Насколько увеличить координату текстуры на пиксель экрана
-		double step = 1.0 * 64 / line_height;
+		data->lodev->step = 1.0 * 64 / data->lodev->line_height;
 		// Начальная координата текстуры
-		double texPos = (y_coordinates.draw_start - data->win->win_height / 2 + line_height / 2) * step;
-		for(int y = y_coordinates.draw_start; y < y_coordinates.draw_end; y++)
+		data->lodev->texPos = (data->lodev->draw_start - data->win->win_height / 2 + data->lodev->line_height / 2) * data->lodev->step;
+		for(int y = data->lodev->draw_start; y < data->lodev->draw_end; y++)
 		{
 			// Приведем координату текстуры к целому числу и замаскируем с помощью (texHeight - 1) в случае переполнения
-			int texY = (int)texPos & (64 - 1);
-			texPos += step;
-			color = texture[tex_num][64 * texY + texX];
+			int texY = (int)data->lodev->texPos & (64 - 1);
+			data->lodev->texPos += data->lodev->step;
+			color = texture[tex_num][64 * texY + data->lodev->texX];
 			//make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
 			if(data->lodev->side == 1)
 				color = (color >> 1) & 8355711;
 			buffer[y][x] = color;
 		}
-		int	y;
-		y = 0;
-		while (y_coordinates.draw_start < y_coordinates.draw_end)
-		{
-//			while (x < WIN_WIDTH)
-//			{
-//				x = 0;
-				cb_mlx_pixel_put(data->win, x, y_coordinates.draw_start, buffer[y]);
-//				x++;
-//			}
-			y_coordinates.draw_start++;
-		}
-
-//		версия стаса
-//		draw_line(data, x, y_coordinates, get_wall_color(data->lodev));
-//todo draw_line рисует вертикальную линию по X. Последний аргумент - INT, обозначающий цвет (текстуру)
+//		while (data->lodev->draw_start < data->lodev->draw_end)
+//		{
+//			cb_mlx_pixel_put(data->win, x, data->lodev->draw_start, 8355711);
+//			data->lodev->draw_start++;
+//		}
+		y_coordinates.draw_start = data->lodev->draw_start;
+		y_coordinates.draw_end = data->lodev->draw_end;
+		draw_line(data, x, y_coordinates, 0);
+//		todo draw_line рисует вертикальную линию по X. Последний аргумент - INT, обозначающий цвет (текстуру)
 		x++;
 	}
 }

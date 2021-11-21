@@ -50,6 +50,7 @@ typedef struct s_txr
 	int		bpp;
 	int		size_line;
 	int		endian;
+	int 	**matrix;
 }				t_txr;
 
 typedef struct	s_txrs
@@ -95,6 +96,13 @@ typedef struct	s_lodev
 	float 		delta_dist_x;
 	float		delta_dist_y;
 	float		perp_wall_dist;
+	int		draw_start;
+	int		draw_end;
+	int		line_height;
+	double	wallX;
+	int		texX;
+	double	step;
+	double	texPos;
 }	t_lodev;
 
 typedef struct	s_points

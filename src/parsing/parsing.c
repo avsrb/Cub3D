@@ -65,16 +65,38 @@ void set_player_direction(t_plr *plr, char c)
 	}
 }
 
+unsigned int	color_pixel_texture(t_txr *img, int i, int j)
+{
+	char			*addr;
+	unsigned int	color;
+
+	addr = img->addr + (j * img->size_line + i * (img->bpp / 8));
+	color = *(unsigned int *)addr;
+	return (color);
+}
+
 void	setup_texture(t_main *all, t_txr *txr, char *file)
 {
 	int	sz[2];
+	int	i;
+	int	j;
 
+	i = -1;
 	txr->img = mlx_xpm_file_to_image(all->win->mlx_ptr, file, &sz[0], &sz[1]);
 	if (!txr->img)
 		ft_error("Not read xmp file\n");
 	if (sz[0] != 64 || sz[1] != 64)
 		ft_error("invalid xpm size\n");
 	txr->addr = mlx_get_data_addr(txr->img, &txr->bpp, &txr->size_line, &txr->endian);
+	txr->matrix = cb_malloc_x(sizeof(int *) * sz[0]);
+	while (++i < sz[0])
+	{
+		j = -1;
+		txr->matrix[i] = malloc(sizeof(int) * sz[1]);
+		while (++j < sz[1])
+			txr->matrix[i][j] = color_pixel_texture(txr, i, j);
+	}
+
 //	txr->bpp = txr->bpp / 8;
 }
 
