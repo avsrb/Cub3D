@@ -15,6 +15,20 @@ static int	counter_comas(char *str)
 	return (comas);
 }
 
+static int	cb_isdigit_str(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!(str[i] >= '0' && str[i] <= '9'))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 static void	free_all(char **arr)
 {
 	int	i;
@@ -43,7 +57,11 @@ int	get_color(char *str)
 		ft_error("not valid color");
 	arr = ft_split(not_space, ',');
 	while (++i < 3)
+	{
+		if (cb_isdigit_str(arr[i]))
+			ft_error("not valid color code");
 		color[i] = ft_atoi(arr[i]);
+	}
 	if (color[0] > 255 || color[1] > 255 || color[2] > 255)
 		ft_error("not valid color code");
 	color[0] = create_trgb(0, color[0], color[1], color[2]);
