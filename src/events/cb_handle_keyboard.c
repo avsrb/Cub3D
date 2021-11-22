@@ -48,8 +48,8 @@ void	cb_handle_arrows(int key, t_main *data)
 		turn_right(data);
 		cb_rendering(data);
 	}
-	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr,
-		data->win->img_ptr, 0, 0);
+//	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr,
+//		data->win->img_ptr, 0, 0);
 }
 
 void	cb_handle_ws_keys(int key, t_main *data)
@@ -74,8 +74,8 @@ void	cb_handle_ws_keys(int key, t_main *data)
 			data->plr->y -= data->plr->dir_y * STEP;
 		cb_rendering(data);
 	}
-	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr,
-		data->win->img_ptr, 0, 0);
+//	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr,
+//		data->win->img_ptr, 0, 0);
 }
 
 void	cb_handle_ad_keys(int key, t_main *data)
@@ -100,6 +100,6 @@ void	cb_handle_ad_keys(int key, t_main *data)
 			data->plr->y += data->plr->dir_x * STEP;
 		cb_rendering(data);
 	}
-	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr,
-		data->win->img_ptr, 0, 0);
+//	mlx_put_image_to_window(data->win->mlx_ptr, data->win->win_ptr,
+//		data->win->img_ptr, 0, 0);
 }
