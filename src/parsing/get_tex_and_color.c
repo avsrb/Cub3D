@@ -15,20 +15,6 @@ static int	counter_comas(char *str)
 	return (comas);
 }
 
-static int	cb_isdigit_str(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!(str[i] >= '0' && str[i] <= '9'))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 static void	free_all(char **arr)
 {
 	int	i;

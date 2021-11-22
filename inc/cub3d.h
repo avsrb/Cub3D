@@ -164,5 +164,6 @@ void		make_map(t_map *data);
 int			create_trgb(int t, int r, int g, int b);
 int			cb_strchr(const char *str, int c);
 uint32_t	color_pixel_texture(t_txr *img, int i, int j);
+int			cb_isdigit_str(char *str);
 
 #endif

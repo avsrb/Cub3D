@@ -49,3 +49,17 @@ void	init_player(t_main *data)
 	data->plr->dir_y = 0.0F;
 	data->plr->angle = 0.0F;
 }
+
+int	cb_isdigit_str(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!(str[i] >= '0' && str[i] <= '9'))
+			return (1);
+		i++;
+	}
+	return (0);
+}
