@@ -5,7 +5,7 @@ static void	draw_line(t_main *data, int x)
 	int	color;
 	int	tex_y;
 
-	while (data->lodev->draw_start < data->lodev->draw_end + 1)
+	while (data->lodev->draw_start <= data->lodev->draw_end)
 	{
 		tex_y = (int) data->lodev->tex_pos & (64 - 1);
 		data->lodev->tex_pos += data->lodev->step;
