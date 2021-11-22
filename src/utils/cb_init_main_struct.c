@@ -1,26 +1,26 @@
 #include "../../inc/cub3d.h"
 
-static void	init_mlx(t_win *win)
-{
-	win->win_width = WIN_WIDTH;
-	win->win_height = WIN_HEIGHT;
-	win->mlx_ptr = mlx_init();
-	if (win->mlx_ptr == NULL)
-	{
-		ft_putendl_fd(strerror(errno), STDERR_FILENO);
-		exit(EXIT_FAILURE);
-	}
-	win->win_ptr = mlx_new_window(win->mlx_ptr, win->win_width,
-			win->win_height, "cub3D");
-	if (win->win_ptr == NULL)
-	{
-		ft_putendl_fd(strerror(errno), STDERR_FILENO);
-		exit(EXIT_FAILURE);
-	}
-	win->img_ptr = mlx_new_image(win->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
-	win->addr = mlx_get_data_addr(win->img_ptr, &win->bpp, &win->line_length,
-			&win->endian);
-}
+//static void	init_mlx(t_win *win)
+//{
+//	win->win_width = WIN_WIDTH;
+//	win->win_height = WIN_HEIGHT;
+//	win->mlx_ptr = mlx_init();
+//	if (win->mlx_ptr == NULL)
+//	{
+//		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+//		exit(EXIT_FAILURE);
+//	}
+//	win->win_ptr = mlx_new_window(win->mlx_ptr, win->win_width,
+//			win->win_height, "cub3D");
+//	if (win->win_ptr == NULL)
+//	{
+//		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+//		exit(EXIT_FAILURE);
+//	}
+//	win->img_ptr = mlx_new_image(win->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
+//	win->addr = mlx_get_data_addr(win->img_ptr, &win->bpp, &win->line_length,
+//			&win->endian);
+//}
 
 static void	init_player(t_main *data)
 {
@@ -74,9 +74,9 @@ static void	init_lodev_stuct(t_lodev *lodev)
 void	cb_init_main_struct(t_main *data)
 {
 	data->zoom = 8;
-	init_mlx(data->win);
 	init_player(data);
 	init_map(data->map);
 	data->txrs = cb_malloc_x(sizeof(t_txrs));
 	init_lodev_stuct(data->lodev);
+	//init_mlx(data->win);
 }
