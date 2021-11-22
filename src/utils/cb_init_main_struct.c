@@ -11,7 +11,7 @@ static void	cb_init_mlx(t_win *win)
 		exit(EXIT_FAILURE);
 	}
 	win->win_ptr = mlx_new_window(win->mlx_ptr, WIN_WIDTH, \
-								  WIN_HEIGHT, "cub3D");
+								WIN_HEIGHT, "cub3D");
 	if (win->win_ptr == NULL)
 	{
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);

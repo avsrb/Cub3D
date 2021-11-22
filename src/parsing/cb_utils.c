@@ -22,7 +22,7 @@ int	create_trgb(int t, int r, int g, int b)
 void	init_map(t_map *m)
 {
 	int	i;
-	
+
 	i = -1;
 	m->param_done = false;
 	m->map_done = false;

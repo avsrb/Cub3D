@@ -88,8 +88,8 @@ void	calculate_value_of_wall_x(t_main *data)
 
 	l = data->lodev;
 	if (l->side == 'V')
-		l->wallX = data->plr->y + l->perp_wall_dist * l->ray_dir_y;
+		l->wall_x = data->plr->y + l->perp_wall_dist * l->ray_dir_y;
 	else
-		l->wallX = data->plr->x + l->perp_wall_dist * l->ray_dir_x;
-	l->wallX -= floor((l->wallX));
+		l->wall_x = data->plr->x + l->perp_wall_dist * l->ray_dir_x;
+	l->wall_x -= floor((l->wall_x));
 }

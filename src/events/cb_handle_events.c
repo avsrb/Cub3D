@@ -23,6 +23,5 @@ int	cb_handle_events(t_main *data)
 {
 	mlx_hook(data->win->win_ptr, 2, 0, cb_handle_keyboard, data);
 	mlx_hook(data->win->win_ptr, 17, 0, cb_terminate, data);
-//	mlx_loop_hook()
 	return (0);
 }
