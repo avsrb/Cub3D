@@ -21,8 +21,8 @@ int	main(int argc, char **argv)
 	data.win = &win;
 	data.plr = &plr;
 	data.lodev = &lodev;
-	cb_init_main_struct(&data);
 	parsing(argc, argv[1], &data);
+	cb_init_main_struct(&data);
 	cb_rendering(&data);
 	cb_handle_events(&data);
 	mlx_loop(data.win->mlx_ptr);
