@@ -45,7 +45,7 @@ void	fill_matrix(t_map *map, t_lst **map_l)
 		map->map[y] = calloc(map->width, sizeof(char));
 		if (y != 0 && y != (map->height - 1))
 		{
-			ft_strlcpy(map->map[y] + 1, lst->val, map->width);
+			ft_strlcpy(map->map[y] + 1, lst->val, map->width - 1);
 			lst = lst->next;
 		}
 		y++;
