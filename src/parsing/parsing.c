@@ -38,7 +38,7 @@ void	clean_map(t_map *m)
 	m->height -= 2;
 	y = -1;
 	i = 0;
-	map_clean = cb_malloc_x(sizeof(char *) * m->height + 1);
+	map_clean = cb_malloc_x(sizeof(char *) * (m->height + 1));
 	while (++y < m->height + 2)
 	{
 		if (y != 0 && y != (m->height + 1))
@@ -55,6 +55,8 @@ int	parsing(int ac, char *file, t_main *all)
 	int	fd;
 
 	fd = check_file(ac, file);
+	init_map(all->map);
+	init_player(all);
 	parsing_param(fd, all->map);
 	close(fd);
 	check_simbol(all->map->map_l);
@@ -66,6 +68,5 @@ int	parsing(int ac, char *file, t_main *all)
 	if (all->map->param_done == false)
 		ft_error("map not valid\n");
 	find_player(all->plr, all->map);
-	open_texture(all);
 	return (0);
 }

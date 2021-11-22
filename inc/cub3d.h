@@ -123,10 +123,12 @@ typedef struct	s_main
 
 //utils
 void	*cb_malloc_x(size_t size);
+void	init_player(t_main *data);
 void	*cb_return_null(char *message);
 float	ft_degree_to_ratio(float degree);
 void	cb_init_main_struct(t_main *data);
 int		cb_return_nbr(int return_value, char *message);
+void	init_map(t_map *m);
 
 //rendering
 void	cb_rendering(t_main *data);
