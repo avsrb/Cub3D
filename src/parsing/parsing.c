@@ -8,7 +8,7 @@ void	parsing_param(int fd, t_map *m)
 	line = NULL;
 	while (true)
 	{
-		res = gnl(fd, &line);
+		res = get_next_line(fd, &line);
 		if (res < 0)
 			ft_error(NULL);
 		if (!ft_strlen(line) && m->map_l && !m->map_done)
@@ -28,95 +28,11 @@ void	parsing_param(int fd, t_map *m)
 	}
 }
 
-void set_player_direction(t_plr *plr, char c)
-{
-	if (c == 'N')
-	{
-		plr->dir_x = 0.012389;
-		plr->dir_y = -0.999923;
-		plr->plane_x = -0.659949;
-		plr->plane_y = -0.008177;
-		plr->angle = ft_degree_to_ratio(270);
-	}
-	else if (c == 'S')
-	{
-		plr->dir_x = 0.029200;
-		plr->dir_y = 0.999574;
-		
-		plr->plane_x = 0.659719;
-		plr->plane_y = -0.019272;
-		plr->angle = ft_degree_to_ratio(90);
-	}
-	else if (c == 'W')
-	{
-		plr->dir_x = -1.0;
-		plr->dir_y = 0;
-		plr->plane_x = 0;
-		plr->plane_y = 0.66;
-		plr->angle = ft_degree_to_ratio(180);
-	}
-	else if (c == 'E')
-	{
-		plr->dir_x = 0.998295;
-		plr->dir_y = -0.058374;
-		plr->plane_x = -0.038527;
-		plr->plane_y = -0.658875;
-		plr->angle = ft_degree_to_ratio(0);
-	}
-}
-
-unsigned int	color_pixel_texture(t_txr *img, int i, int j)
-{
-	char			*addr;
-	unsigned int	color;
-
-	addr = img->addr + (j * img->size_line + i * (img->bpp / 8));
-	color = *(unsigned int *)addr;
-	return (color);
-}
-
-void	setup_texture(t_main *all, t_txr *txr, char *file)
-{
-	int	sz[2];
-	int	i;
-	int	j;
-
-	i = -1;
-	txr->img = mlx_xpm_file_to_image(all->win->mlx_ptr, file, &sz[0], &sz[1]);
-	if (!txr->img)
-		ft_error("Not read xmp file\n");
-	if (sz[0] != 64 || sz[1] != 64)
-		ft_error("invalid xpm size\n");
-	txr->addr = mlx_get_data_addr(txr->img, &txr->bpp, &txr->size_line, &txr->endian);
-	txr->matrix = cb_malloc_x(sizeof(int *) * sz[0]);
-	while (++i < sz[0])
-	{
-		j = -1;
-		txr->matrix[i] = malloc(sizeof(int) * sz[1]);
-		while (++j < sz[1])
-			txr->matrix[i][j] = color_pixel_texture(txr, i, j);
-	}
-
-//	txr->bpp = txr->bpp / 8;
-}
-
-void	open_texture(t_main *all)
-{
-	all->txrs->north = cb_malloc_x(sizeof(t_txr));
-	setup_texture(all, all->txrs->north, all->map->xpm[0]);
-	all->txrs->south = cb_malloc_x(sizeof(t_txr));
-	setup_texture(all, all->txrs->south, all->map->xpm[1]);
-	all->txrs->west = cb_malloc_x(sizeof(t_txr));
-	setup_texture(all, all->txrs->west, all->map->xpm[2]);
-	all->txrs->east = cb_malloc_x(sizeof(t_txr));
-	setup_texture(all, all->txrs->east, all->map->xpm[3]);
-}
-
 void	clean_map(t_map *m)
 {
 	int		y;
-	int 	i;
-	char **map_clean;
+	int		i;
+	char	**map_clean;
 
 	m->width -= 2;
 	m->height -= 2;
@@ -132,31 +48,6 @@ void	clean_map(t_map *m)
 	map_clean[i] = NULL;
 	free(m->map);
 	m->map = map_clean;
-}
-
-void	find_player(t_plr *plr, t_map *m)
-{
-	int	y;
-	int	x;
-
-	y = 0;
-	while (m->map[y])
-	{
-		x = 0;
-		while (m->map[y][x])
-		{
-			if (m->map[y][x] == 'N' || m->map[y][x] == 'S'
-			|| m->map[y][x] == 'W' || m->map[y][x] == 'E')
-			{
-				plr->y = (float)y + 0.1F; //todo Stan addiction
-				plr->x = (float)x + 0.1F; //todo Stan addiction
-				set_player_direction(plr, m->map[y][x]);
-				return;
-			}
-			x++;
-		}
-		y++;
-	}
 }
 
 int	parsing(int ac, char *file, t_main *all)

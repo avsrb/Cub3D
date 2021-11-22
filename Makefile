@@ -2,28 +2,50 @@ NAME			=	cub3D
 
 NAME_BONUS		=	cub3D_bonus
 
-SRCS			=	./src/main.c \
-					./src/parsing/cb_check.c					./src/parsing/cb_utils.c \
-					./src/parsing/ft_error.c					./src/parsing/ft_lst.c \
-					./src/parsing/get_tex_and_color.c			./src/parsing/gnl.c \
-					./src/parsing/make_map.c					./src/parsing/parsing.c \
-					./src/utils/cb_init_main_struct.c			./src/utils/cb_malloc_x.c \
-					./src/utils/cb_return_error.c				./src/utils/ft_degree_to_ratio.c \
-					./src/events/cb_handle_events.c				./src/events/cb_handle_keyboard.c \
-					./src/rendering/cb_mlx_pixel_put.c			./src/rendering/cb_render_cub.c \
-					./src/rendering/cb_render_floor_ceiling.c \
+SRCS			=	./src/main.c\
+					./src/events/cb_handle_events.c\
+					./src/events/cb_handle_keyboard.c\
+					./src/parsing/cb_check.c\
+					./src/parsing/cb_player.c\
+					./src/parsing/cb_setup_texture.c\
+					./src/parsing/cb_utils.c\
+					./src/parsing/ft_error.c\
+					./src/parsing/ft_lst.c\
+					./src/parsing/get_tex_and_color.c\
+					./src/parsing/make_map.c\
+					./src/parsing/parsing.c\
+					./src/rendering/cb_calculate.c\
+					./src/rendering/cb_mlx_pixel_put.c\
+					./src/rendering/cb_render_cub.c\
+					./src/rendering/cb_render_floor_ceiling.c\
+					./src/rendering/cb_render_mini_map.c\
+					./src/utils/cb_init_main_struct.c\
+					./src/utils/cb_malloc_x.c\
+					./src/utils/cb_return_error.c\
+					./src/utils/ft_degree_to_ratio.c\
+
 
 SRCS_BONUS		=	./src/main_bonus.c \
-					./src/parsing/cb_check.c					./src/parsing/cb_utils.c \
-					./src/parsing/ft_error.c					./src/parsing/ft_lst.c \
-					./src/parsing/get_tex_and_color.c			./src/parsing/gnl.c \
-					./src/parsing/make_map.c					./src/parsing/parsing.c \
-					./src/utils/cb_init_main_struct.c			./src/utils/cb_malloc_x.c \
-					./src/utils/cb_return_error.c				./src/utils/ft_degree_to_ratio.c \
-					./src/events/cb_handle_events.c				./src/events/cb_handle_keyboard.c \
-					./src/rendering/cb_mlx_pixel_put.c			./src/rendering/cb_render_cub.c \
-					./src/rendering/cb_render_floor_ceiling.c \
-					./src/rendering/cb_render_mini_map.c \
+					./src/events/cb_handle_events.c\
+					./src/events/cb_handle_keyboard.c\
+					./src/parsing/cb_check.c\
+					./src/parsing/cb_player.c\
+					./src/parsing/cb_setup_texture.c\
+					./src/parsing/cb_utils.c\
+					./src/parsing/ft_error.c\
+					./src/parsing/ft_lst.c\
+					./src/parsing/get_tex_and_color.c\
+					./src/parsing/make_map.c\
+					./src/parsing/parsing.c\
+					./src/rendering/cb_calculate.c\
+					./src/rendering/cb_mlx_pixel_put.c\
+					./src/rendering/cb_render_cub.c\
+					./src/rendering/cb_render_floor_ceiling.c\
+					./src/rendering/cb_render_mini_map.c\
+					./src/utils/cb_init_main_struct.c\
+					./src/utils/cb_malloc_x.c\
+					./src/utils/cb_return_error.c\
+					./src/utils/ft_degree_to_ratio.c\
 
 OBJS			=	$(SRCS:.c=.o)
 

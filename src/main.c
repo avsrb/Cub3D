@@ -1,24 +1,5 @@
 #include "./../inc/cub3d.h"
 
-//todo DYNAMIC gcc ./src/main_bonus.c ./src/parsing/*.c ./src/utils/*.c ./src/rendering/*.c ./src/events/*.c ./src/libft/libft.a libmlx.dylib -o cub3D -g
-//todo gcc ./src/main.c ./src/parsing/*.c ./src/utils/*.c ./src/rendering/*.c ./src/events/*.c ./src/libft/libft.a ./src/minilibx_opengl/libmlx.a -o cub3D -lmlx -framework OpenGL -framework AppKit -g
-
-//void	cb_clear_all(t_main *data) // todo на случай если будем юзать malloc
-//{
-//	if (data->lodev)
-//		free(data->lodev);
-//	if (data->plr)
-//		free(data->plr);
-//	if (data->map)
-//	{
-//		if (data->map->map)
-//			ft_free_array(&(data->map->map));
-//		if (data->map->xpm)
-//			ft_free_array(&(data->map->xpm));
-//		free(data->map);
-//	}
-//}
-
 void	cb_rendering(t_main *data)
 {
 	cb_render_floor_ceiling(data);
